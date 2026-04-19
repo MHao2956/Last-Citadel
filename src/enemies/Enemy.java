@@ -4,7 +4,7 @@ import java.awt.Rectangle;
 public class Enemy {
     
     private float x,y;
-    private Rectangle bounds;
+    private Rectangle bounds; //latter on add hitbox
     private int health;
     private int ID;
     private int enemyType;
@@ -17,6 +17,15 @@ public class Enemy {
         bounds = new Rectangle((int) x, (int) y, 32, 32 );
 
     }
+
+    public void move(float x, float y){
+        this.x += x;
+        this.y+= y;
+    }
+
+  
+
+
         public float getX(){
             return x;
         }
