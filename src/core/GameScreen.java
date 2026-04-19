@@ -1,21 +1,18 @@
-package map;
+package core;
 
-import java.awt.Color;
 import javax.swing.JPanel;
+import java.awt.Color;
 import java.awt.Graphics;
 
 public class GameScreen extends JPanel {
     public GameScreen(){
 
     }
-
+    @Override
     public void paintComponent(Graphics g){
         super.paintComponent(g);
-
-        g.setColor(Color.RED);
-        g.fillRect(50, 50, 100, 100);
-        g.fillRect(150, 50, 100, 100);
-        g.fillRect(100, 150, 100, 200);
-        
+        g.setColor(Color.BLUE);
+        g.drawRect(50, 50, 50, 50);
+        g.fillRect(50, 50, 50 , 50);
     }
 }
