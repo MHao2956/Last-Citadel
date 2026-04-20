@@ -48,41 +48,99 @@ public class EnemyManager {
         // e pos
         // e dir
         // tile at new possible pos
-        int newX = (int)(e.getX() + getSpeedX(e.getLastDir()));
-        int newY = (int)(e.getY() + getSpeedY(e.getLastDir()));
+        int newX = (int)(e.getX() + getSpeedAndWidth(e.getLastDir()));
+        int newY = (int)(e.getY() + getSpeedAndHeight(e.getLastDir()));
 
         if(getTileType(newX,newY) == ROAD_TILE){
             //keep moving in same direction
             e.move(speed, e.getLastDir());
+        }else if(isAtEnd(e)){
+            //reached the end
         }else {
             //find new direction
+            setNewDirectionAndMove(e);
         }
         return false;
     }
+
+    private void setNewDirectionAndMove(Enemy e){
+        int dir = e.getLastDir();
+
+        //move into the curent tile 100%
+        int xCord = (int)e.getX() / 32;
+        int yCore = (int)e.getY() / 32;
+
+        fixEnemyOffsetTile(e, dir, xCord, yCore);
+
+        if(dir == LEFT || dir == RIGHT){
+            int newY = (int)(e.getY() + getSpeedAndHeight(UP)); 
+        
+            if(getTileType((int) e.getX(), newY) ==  ROAD_TILE)
+                e.move(speed, UP);
+            else
+                e.move(speed, DOWN);
+            }else {
+                int newX = (int)(e.getX() + getSpeedAndWidth(RIGHT));
+                if(getTileType(newX, (int)e.getY()) == ROAD_TILE)
+                    e.move(speed, RIGHT);
+                    else
+                        e.move(speed, LEFT);
+                
+            }
+        }
+
+
+        private void fixEnemyOffsetTile(Enemy e, int dir, int xCord, int yCore){
+            switch (dir) {
+               // case LEFT:
+                 //   if(xCord > 0)
+                   //     xCord--;
+                   // break;
+              //  case UP:
+                   // if(yCore > 0)
+                     //   yCore--;
+                 //   break;
+                case RIGHT:
+                    if(xCord < 19)
+                        xCord++;
+                    break;
+                case DOWN:
+                    if(yCore < 19)
+                        yCore++;
+                    break;
+            }
+            e.setPos( xCord * 32, yCore * 32);
+        }
+
+
+        private boolean isAtEnd(Enemy e){
+            return false;
+        }
+    
 
     private int getTileType(int x, int y){
        return  playing.getTileType(x,y);
     }
 
 
-      private float getSpeedY(int dir){
+      private float getSpeedAndHeight(int dir){
           //to do auto - generated method sub
         if(dir == UP){
             return -speed;
         }else if(dir == DOWN){
-            return speed;
+            return speed + 32;
         }
         return 0;
     }
 
 
 
-    private float getSpeedX(int dir){
+    private float getSpeedAndWidth(int dir){
         //to do auto - generated method sub
         if(dir == LEFT){
             return -speed;
         }else if(dir == RIGHT){
-            return speed;
+            return speed + 32;
         }
         return 0;
     }
