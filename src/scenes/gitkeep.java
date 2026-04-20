@@ -1,4 +1,4 @@
-package ui;
+package scenes;
 
 public class gitkeep {
     
