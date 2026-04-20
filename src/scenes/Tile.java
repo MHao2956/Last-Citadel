@@ -1,4 +1,4 @@
-package map;
+package scenes;
 
 import java.awt.image.BufferedImage;
 
