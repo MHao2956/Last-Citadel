@@ -20,20 +20,29 @@ public class GameScreen extends JPanel {
     }
 
     private void loadSprite() {
-        
+        for (int y = 0; y < 3; y++){
+            for (int x = 0; x < 10; x++){
+                sprite.add(img.getSubimage(x * 32, y * 32, 32, 32));
+
+            }
+        }
     }
 
     @Override
     public void paintComponent(Graphics g){
         super.paintComponent(g);
-        g.drawImage(img.getSubimage(0, 32, 32, 32), 0, 0, null);
 
-//        for (int y = 0; y < 20; y++){
-//            for (int x = 0; x < 20; x++){
-//                g.setColor(getRndColor());
-//                g.fillRect(x * 32, y * 32 , 32, 32);
-//            }
-//        }
+        //g.drawImage(sprite.get(10), 0, 0, null);
+        //g.drawImage(img.getSubimage(0, 32, 32, 32), 0, 0, null);
+
+        for (int y = 0; y < 20; y++){
+            for (int x = 0; x < 20; x++){
+                g.drawImage(sprite.get(getRndNumber()), x * 32, y * 32, null);
+            }
+        }
+    }
+    private int getRndNumber(){
+        return random.nextInt(30);
     }
 
     public Color getRndColor(){
