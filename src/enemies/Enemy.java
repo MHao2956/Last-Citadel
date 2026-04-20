@@ -1,5 +1,7 @@
 package enemies;
+
 import java.awt.Rectangle;
+import static helpz.Constants.Diretion.*; // dau * la lay het
 
 public class Enemy {
     
@@ -8,6 +10,7 @@ public class Enemy {
     private int health;
     private int ID;
     private int enemyType;
+    private int lastDir;
 
 
     public Enemy(float x, float y, int ID, int enemyType){
@@ -15,12 +18,24 @@ public class Enemy {
         this.y = y;
         this.ID = ID;
         bounds = new Rectangle((int) x, (int) y, 32, 32 );
-
+        lastDir = RIGHT;
     }
 
-    public void move(float x, float y){
-        this.x += x;
-        this.y+= y;
+    public void move(float speed, int dir){
+        switch (dir) {
+            case LEFT:
+                this.x -= speed;
+                break;
+            case UP:
+                this.y -= speed;
+                break;
+            case RIGHT:
+                this.x +=  speed;
+                break;
+            case DOWN:
+                this.y += speed;
+                break;
+        }
     }
 
   
@@ -43,6 +58,9 @@ public class Enemy {
         }
         public Rectangle getBounds(){
             return bounds;
+        }
+        public int getLastDir(){
+            return lastDir;
         }
     }
 

@@ -7,12 +7,17 @@ import java.util.ArrayList;
 import helpz.LoadSave;
 import enemies.Enemy;
 import scenes.Playing;
+import static helpz.Constants.Diretion.*;
+import static helpz.Constants.Tiles.*;
+
+
 
 public class EnemyManager {
 
     private BufferedImage[] enemyImgs;
     private Playing playing;
     private ArrayList<Enemy> enemies = new ArrayList<>();
+    private float speed = 0.5f;
     
 
     public EnemyManager(Playing playing){
@@ -32,8 +37,54 @@ public class EnemyManager {
 
     public void update(){
         for (Enemy e : enemies){
-        e.move(0.5f, 0);
+        //is next tile road(pos, dir)
+        if(isNextTileRoad(e)){
+            //move enemy
+           }
         }
+    }
+
+    public boolean isNextTileRoad(Enemy e){
+        // e pos
+        // e dir
+        // tile at new possible pos
+        int newX = (int)(e.getX() + getSpeedX(e.getLastDir()));
+        int newY = (int)(e.getY() + getSpeedY(e.getLastDir()));
+
+        if(getTileType(newX,newY) == ROAD_TILE){
+            //keep moving in same direction
+            e.move(speed, e.getLastDir());
+        }else {
+            //find new direction
+        }
+        return false;
+    }
+
+    private int getTileType(int x, int y){
+       return  playing.getTileType(x,y);
+    }
+
+
+      private float getSpeedY(int dir){
+          //to do auto - generated method sub
+        if(dir == UP){
+            return -speed;
+        }else if(dir == DOWN){
+            return speed;
+        }
+        return 0;
+    }
+
+
+
+    private float getSpeedX(int dir){
+        //to do auto - generated method sub
+        if(dir == LEFT){
+            return -speed;
+        }else if(dir == RIGHT){
+            return speed;
+        }
+        return 0;
     }
 
     public void addEnemy(int x, int y){
