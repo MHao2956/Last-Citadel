@@ -11,12 +11,17 @@ public class GameScreen extends JPanel {
     private Random random;
     private BufferedImage img;
     private ArrayList<BufferedImage> sprite = new ArrayList<>();
+    private long lastTime;
+    private int frames;
+
 
     public GameScreen(BufferedImage img){
         this.img = img;
         loadSprite();
 
         random = new Random();
+
+
     }
 
     private void loadSprite() {
@@ -32,14 +37,25 @@ public class GameScreen extends JPanel {
     public void paintComponent(Graphics g){
         super.paintComponent(g);
 
-        //g.drawImage(sprite.get(10), 0, 0, null);
-        //g.drawImage(img.getSubimage(0, 32, 32, 32), 0, 0, null);
-
         for (int y = 0; y < 20; y++){
             for (int x = 0; x < 20; x++){
                 g.drawImage(sprite.get(getRndNumber()), x * 32, y * 32, null);
             }
         }
+
+
+
+        callFPS();
+    }
+
+    private void callFPS(){
+        frames++;
+        if(System.currentTimeMillis() - lastTime >= 1000){
+            System.out.println("FPS: " + frames);
+            frames = 0;
+            lastTime = System.currentTimeMillis();
+        }
+
     }
     private int getRndNumber(){
         return random.nextInt(30);
