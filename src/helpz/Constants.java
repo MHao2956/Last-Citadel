@@ -1,6 +1,5 @@
 package helpz;
 
-import enemies.ENEMY1;
 
 public class Constants {
 
