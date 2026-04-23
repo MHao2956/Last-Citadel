@@ -2,7 +2,9 @@ package managers;
 
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-import scenes.Tile;
+
+import helpz.LoadSave;
+import objects.Tile;
 
 public class TileManager {
     public Tile GRASS, WATER, ROAD;

@@ -10,7 +10,7 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import scenes.Playing;
-import scenes.Tile;
+import objects.Tile;
 
 public class BottomBar {
     private int x, y, width, height;
