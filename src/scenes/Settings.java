@@ -3,10 +3,10 @@ package scenes;
 import java.awt.Color;
 import java.awt.Graphics;
 
-import core.Game;
+import main.Game;
 
-public class Setting extends GameScene implements SceneMethods {
-    public Setting(Game game){
+public class Settings extends GameScene implements SceneMethods {
+    public Settings(Game game){
         super(game);
     }
 
@@ -33,6 +33,11 @@ public class Setting extends GameScene implements SceneMethods {
 
     @Override
     public void mouseRelease(int x, int y){
+        
+    }
+
+    @Override
+    public void mouseDragged(int x, int y){
         
     }
 }
