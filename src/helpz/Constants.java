@@ -1,5 +1,7 @@
 package helpz;
 
+import enemies.ENEMY1;
+
 public class Constants {
 
     public static class Diretion{
@@ -7,6 +9,15 @@ public class Constants {
         public static final int UP= 1;
         public static final int RIGHT = 2;
         public static final int DOWN = 3;
+    }
+
+
+    public static class Enemies{
+        public static final int ENEMY1 = 0;
+        public static final int ENEMY2 = 1;
+        public static final int ENEMY3 = 2;
+        public static final int ENEMY4 = 3;
+
     }
 
     public static class Tiles{

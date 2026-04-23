@@ -2,8 +2,8 @@ package enemies;
 
 import java.awt.Rectangle;
 import static helpz.Constants.Diretion.*; // dau * la lay het
-
-public class Enemy {
+//asbstract class because can not create an enenemy from enemy class, craeate from enemy1,2,3, ko tao enemy trong super class
+public abstract class Enemy {
     
     private float x,y;
     private Rectangle bounds; //latter on add hitbox
@@ -18,7 +18,7 @@ public class Enemy {
         this.y = y;
         this.ID = ID;
         bounds = new Rectangle((int) x, (int) y, 32, 32 );
-        lastDir = RIGHT;
+        lastDir = -1; // tell the enemyManager is -1 is the fist update so i need to find a direction that i can go no matter where i am
     }
 
     public void move(float speed, int dir){
