@@ -5,6 +5,7 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import helpz.LoadSave;
+import objects.PathPoint;
 import enemies.ENEMY1;
 import enemies.ENEMY2;
 import enemies.ENEMY3;
@@ -23,15 +24,18 @@ public class EnemyManager {
     private Playing playing;
     private ArrayList<Enemy> enemies = new ArrayList<>();
     private float speed = 0.5f;
+    private PathPoint start, end;
     
 
-    public EnemyManager(Playing playing){
+    public EnemyManager(Playing playing, PathPoint start, PathPoint end){
         this.playing = playing;
+        this.start = start;
+        this.end = end;
         enemyImgs = new BufferedImage[4];
-        addEnemy(0 * 32, 19 * 32, ENEMY1);// so o muon spam enemy * 32
-        addEnemy(0 * 32, 19 * 32, ENEMY2);
-        addEnemy(0 * 32, 19 * 32, ENEMY3);
-        addEnemy(0 * 32, 19 * 32, ENEMY4);
+        addEnemy(ENEMY1);// so o muon spam enemy * 32
+        addEnemy(ENEMY2);
+        addEnemy(ENEMY3);
+        addEnemy(ENEMY4);
          
         loadEnemyImgs();
     }
@@ -64,7 +68,7 @@ public class EnemyManager {
             //keep moving in same direction
             e.move(speed, e.getLastDir());
         }else if(isAtEnd(e)){
-            //reached the end
+            System.out.println("Lives lost!");
         }else {
             //find new direction
             setNewDirectionAndMove(e);
@@ -79,6 +83,9 @@ public class EnemyManager {
         int yCore = (int)e.getY() / 32;
 
         fixEnemyOffsetTile(e, dir, xCord, yCore);
+
+        if(isAtEnd(e))
+        return;
 
         if(dir == LEFT || dir == RIGHT){
             int newY = (int)(e.getY() + getSpeedAndHeight(UP)); 
@@ -122,7 +129,10 @@ public class EnemyManager {
 
 
         private boolean isAtEnd(Enemy e){
-            return false;
+            if(e.getX() == end.getxCord() * 32)
+                if(e.getY() == end.getyCord() * 32)
+                    return true;
+                return false;
         }
     
 
@@ -153,7 +163,11 @@ public class EnemyManager {
         return 0;
     }
 
-    public void addEnemy(int x, int y, int enemyType){
+    public void addEnemy( int enemyType){
+
+        int x = start.getxCord() * 32;
+        int y = start.getyCord() * 32;
+
         switch(enemyType){
             case ENEMY1:
                 enemies.add(new ENEMY1(x, y, 0));
