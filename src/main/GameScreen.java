@@ -1,6 +1,10 @@
 package main;
 
 import javax.swing.JPanel;
+
+import inputs.KeyboardListener;
+import inputs.MyMouseListener;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -15,48 +19,46 @@ public class GameScreen extends JPanel {
     private Dimension size;
 
     private ArrayList<BufferedImage> sprite = new ArrayList<>();
+    private KeyboardListener keyboardListener;
 
-    public GameScreen(BufferedImage img){
+    public GameScreen(Game game){
         this.img = img;
 
         setPanelSize();
 
-        loadSprite();
+    }
 
-        random = new Random();
+    public void initInputs(){
+        myMouseListener = new MyMouseListener(game);
+        keyboardListener = new KeyboardListener();
 
+        addMouseListener(myMouseListener);
+        addMouseMotionListener(myMouseListener);
+        addKeyListener(keyboardListener);
 
+        requestFocus();
     }
 
     private void setPanelSize() {
-        size = new Dimension(640,640);
+        size = new Dimension(640,740);
         setMinimumSize(size);
         setPreferredSize(size);
         setMinimumSize(size);
     }
 
-    private void loadSprite() {
-        for (int y = 0; y < 3; y++){
-            for (int x = 0; x < 10; x++){
-                sprite.add(img.getSubimage(x * 32, y * 32, 32, 32));
+    // private void loadSprite() {
+    //     for (int y = 0; y < 3; y++){
+    //         for (int x = 0; x < 10; x++){
+    //             sprite.add(img.getSubimage(x * 32, y * 32, 32, 32));
 
-            }
-        }
-    }
+    //         }
+    //     }
+    // }
 
-    @Override
     public void paintComponent(Graphics g){
         super.paintComponent(g);
 
-        for (int y = 0; y < 20; y++){
-            for (int x = 0; x < 20; x++){
-                g.drawImage(sprite.get(getRndNumber()), x * 32, y * 32, null);
-            }
-        }
-
-
-
-
+        game.getRender().render(g);
     }
 
 

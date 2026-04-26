@@ -32,7 +32,7 @@ public class Settings extends GameScene implements SceneMethods {
     }
 
     @Override
-    public void mouseRelease(int x, int y){
+    public void mouseReleased(int x, int y){
         
     }
 

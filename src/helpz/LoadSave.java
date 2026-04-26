@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import javax.imageio.ImageIO;
@@ -65,19 +66,44 @@ public class LoadSave {
         }
     }
 
-    public static void ReadFromFile(){
-        File txtFile = new File("res/text.txt");
+    public static void SaveLevel(String name, int[][] idArr){
+        File levelFile = new File("res/" + name + ".txt");
+
+        if(levelFile.exists()){
+            WriteToFile(levelFile, Utilz.TwoDto1DintArr(idArr));
+        } else {
+            System.out.println("File" + name + "does not exists! ");
+            return;
+        }
+    }
+
+    private static ArrayList<Integer> ReadFromFile(File file){
+        ArrayList<Integer> list = new ArrayList<>();
+
         try {
-        Scanner sc = new Scanner(txtFile);
+        Scanner sc = new Scanner(file);
         while (sc.hasNextLine()) {
-            System.out.println(sc.nextLine());
+            list.add(Integer.parseInt(sc.nextLine()));
         }
         sc.close();
 
         } catch(FileNotFoundException e){
             e.printStackTrace();
         }
+
+        return list;
     }
 
+    public static int[][] GetLevelData(String name){
+        File lvlFile = new File("res/"+ name +".txt");
 
+        if(lvlFile.exists()){
+            ArrayList<Integer> list = ReadFromFile(lvlFile);
+            return Utilz.ArrayListTo2Dint(list, 20, 20);
+        } else {
+            System.out.println("File" + name + "does not exists! ");
+            return null;
+        }
+        
+    }
 }
