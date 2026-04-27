@@ -16,9 +16,12 @@ public class GameScreen extends JPanel {
 
     private ArrayList<BufferedImage> sprite = new ArrayList<>();
 
+    private Render render;
+
     public GameScreen(BufferedImage img){
         this.img = img;
 
+        render = new Render(this);
         setPanelSize();
 
         loadSprite();
