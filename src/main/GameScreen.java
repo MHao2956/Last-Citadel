@@ -13,16 +13,15 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class GameScreen extends JPanel {
-    private Random random;
-    private BufferedImage img;
-
+    
+    private Game game;
     private Dimension size;
 
-    private ArrayList<BufferedImage> sprite = new ArrayList<>();
+    private MyMouseListener myMouseListener;
     private KeyboardListener keyboardListener;
 
     public GameScreen(Game game){
-        this.img = img;
+        this.game = game;
 
         setPanelSize();
 
@@ -30,7 +29,7 @@ public class GameScreen extends JPanel {
 
     public void initInputs(){
         myMouseListener = new MyMouseListener(game);
-        keyboardListener = new KeyboardListener();
+        keyboardListener = new KeyboardListener(game);
 
         addMouseListener(myMouseListener);
         addMouseMotionListener(myMouseListener);
@@ -41,19 +40,11 @@ public class GameScreen extends JPanel {
 
     private void setPanelSize() {
         size = new Dimension(640,740);
+
         setMinimumSize(size);
         setPreferredSize(size);
         setMinimumSize(size);
     }
-
-    // private void loadSprite() {
-    //     for (int y = 0; y < 3; y++){
-    //         for (int x = 0; x < 10; x++){
-    //             sprite.add(img.getSubimage(x * 32, y * 32, 32, 32));
-
-    //         }
-    //     }
-    // }
 
     public void paintComponent(Graphics g){
         super.paintComponent(g);

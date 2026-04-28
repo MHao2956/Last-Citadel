@@ -4,33 +4,30 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 import static main.GameStates.*;
+
+import main.Game;
 import main.GameStates;
-import scenes.Playing;
 
 public class KeyboardListener implements KeyListener {
+    private Game game;
+
+    public KeyboardListener(Game game){
+        this.game = game;
+    }
+
     @Override
-    public void keyTyped(KeyEvent e) {
+    public void keyTyped(KeyEvent e){
 
     }
 
     @Override
-    public void keyPressed(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_A) {
-            GameStates.gameStates = MENU;
-        }
-        else if (e.getKeyCode() == KeyEvent.VK_S) {
-
-            GameStates.gameStates = PLAYING;
-        }
-        else if (e.getKeyCode() == KeyEvent.VK_D) {
-
-            GameStates.gameStates = SETTINGS;
-        }
-
+    public void keyPressed(KeyEvent e){
+        if(GameStates.gameState == EDIT)
+            game.getEditor().keyPressed(e);
     }
 
     @Override
-    public void keyReleased(KeyEvent e) {
+    public void keyReleased(KeyEvent e){
 
     }
 }
