@@ -27,7 +27,7 @@ public class TileManager {
     }
 
     private BufferedImage[] getImgs(int firstX, int firstY, int secondX, int secondY){
-        return new BufferedImage[]{getSprite(firstX, firstY), getSprite(secondX, secondY)}
+        return new BufferedImage[]{getSprite(firstX, firstY), getSprite(secondX, secondY)};
     }
 
     private void loadAtlas(){
