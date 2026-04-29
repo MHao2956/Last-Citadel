@@ -1,10 +1,9 @@
 package scenes;
+
 import main.Game;
 
-import java.awt.*;
-
-public abstract class GameScene {
-    private final Game game;
+public class GameScene {
+    protected Game game;
     public GameScene(Game game){
         this.game = game;
     }
@@ -12,6 +11,4 @@ public abstract class GameScene {
     public Game getGame() {
         return game;
     }
-
-    public abstract void render(Graphics g);
 }

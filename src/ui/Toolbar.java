@@ -53,10 +53,8 @@ public class Toolbar extends Bar{
     }
 
     private void initMapButton(MyButton b, ArrayList<Tile> list, int x, int y, int xOff, int w, int h, int id){
-
         b = new MyButton("", x + xOff*id, y, w, h, id);
         map.put(b, list);
-
     }
 
     private void saveLevel(){

@@ -83,27 +83,4 @@ public class Playing extends GameScene implements SceneMethods {
     public void mouseDragged(int x, int y){
 
     }
-
-
-
-    private void changeTile(int x, int y){
-        if(selectedTile != null){
-
-            int tileX = x/32;
-            int tileY = y/32;
-
-            if(lastTileX == tileX && lastTileY == tileY && lastTileId == selectedTile.getId())
-                return;
-
-            lastTileX = tileX;
-            lastTileY = tileY;
-            lastTileId = selectedTile.getId();
-
-            lvl[tileY][tileX] = selectedTile.getId();
-        }
-    }
-
-
-
-
 }
