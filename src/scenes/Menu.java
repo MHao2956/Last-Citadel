@@ -1,13 +1,7 @@
 package scenes;
 
 import java.awt.Graphics;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Random;
 
-import javax.imageio.ImageIO;
 import main.Game;
 import ui.MyButton;
 import static main.GameStates.*;
@@ -52,7 +46,7 @@ public class Menu extends GameScene implements SceneMethods {
         } else if(bEdit.getBounds().contains(x, y)){
             SetGameState(EDIT);
         } else if (bSettings.getBounds().contains(x, y)){
-            SetGameState(SETTING);
+            SetGameState(SETTINGS);
         } else if (bQuit.getBounds().contains(x, y)){
             System.exit(0);
         }
@@ -91,7 +85,7 @@ public class Menu extends GameScene implements SceneMethods {
     }
 
     @Override
-    public void mouseRelease(int x, int y){
+    public void mouseReleased(int x, int y){
         ressetButton();
     }
 

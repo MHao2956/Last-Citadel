@@ -1,26 +1,19 @@
 package main;
 
-import inputs.KeyboardListener;
-import inputs.MyMouseListener;
 import managers.TileManager;
 import scenes.Editing;
 import scenes.Playing;
 import scenes.Settings;
 
-import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
 import helpz.LoadSave;
 
-import java.awt.Menu;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.io.InputStream;
+import scenes.Menu;
 
 public class Game extends JFrame implements Runnable {
 
     private GameScreen gameScreen;
-    private BufferedImage img;
     private Thread gameThread;
 
     private final double FPS_SET = 120.0;
@@ -33,8 +26,6 @@ public class Game extends JFrame implements Runnable {
     private Editing editing;
 
     private TileManager tileManager;
-    private MyMouseListener myMouseListener;
-    private KeyboardListener keyboardListener;
 
     public Game(){
 
