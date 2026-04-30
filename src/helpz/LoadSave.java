@@ -12,6 +12,18 @@ import java.util.Scanner;
 import javax.imageio.ImageIO;
 
 public class LoadSave {
+
+    public static String homePath = System.getProperty("user.home");
+	public static String saveFolder = "TDTutorial";
+	public static String levelFile = "level.txt";
+	public static String filePath = homePath + File.separator + saveFolder + File.separator + levelFile;
+	private static File lvlFile = new File(filePath);
+
+	public static void CreateFolder() {
+		File folder = new File(homePath + File.separator + saveFolder);
+		if (!folder.exists())
+			folder.mkdir();
+	}
     public static BufferedImage getSpriteAtlas(){
         
         BufferedImage img = null;
@@ -24,16 +36,6 @@ public class LoadSave {
         }
 
         return img;
-    }
-
-    //txt file
-    public static void CreateFile(){
-        File txtFile = new File("res/testTextFile.txt");
-        try {
-            txtFile.createNewFile();
-        } catch(IOException e) {
-            e.printStackTrace();
-        }
     }
 
     public static void CreateLevel(String name, int[] idArr){

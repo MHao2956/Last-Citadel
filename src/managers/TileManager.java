@@ -38,8 +38,6 @@ public class TileManager {
         roadsC.add(ROAD_L_TO_T = new Tile(ImgFix.getRotImg(getSprite(7, 0), 180), id++, "Road_Left_To_Top"));
         roadsC.add(ROAD_T_TO_R = new Tile(ImgFix.getRotImg(getSprite(7, 0), 270), id++, "Road_Top_To_Right"));
         
-
-        
         corners.add(BL_WATER_CORNER = new Tile(ImgFix.getBuildRotImg(getAniSprites(0, 0), getSprite(5, 0), 0), id++, "BL_Corner"));
         corners.add(TL_WATER_CORNER = new Tile(ImgFix.getBuildRotImg(getAniSprites(0, 0), getSprite(5, 0), 90), id++, "TL_Corner"));
         corners.add(TR_WATER_CORNER = new Tile(ImgFix.getBuildRotImg(getAniSprites(0, 0), getSprite(5, 0), 180), id++, "TR_Corner"));
@@ -60,10 +58,6 @@ public class TileManager {
         tiles.addAll(corners);
         tiles.addAll(beaches);
         tiles.addAll(islands);
-    }
-
-    private BufferedImage[] getImgs(int firstX, int firstY, int secondX, int secondY){
-        return new BufferedImage[]{getSprite(firstX, firstY), getSprite(secondX, secondY)};
     }
 
     private void loadAtlas(){
