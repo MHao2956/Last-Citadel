@@ -29,9 +29,10 @@ public class EnemyManager {
 
     public EnemyManager(Playing playing, PathPoint start, PathPoint end){
         this.playing = playing;
+        enemyImgs = new BufferedImage[4];
         this.start = start;
         this.end = end;
-        enemyImgs = new BufferedImage[4];
+        
         addEnemy(ENEMY1);// so o muon spam enemy * 32
         addEnemy(ENEMY2);
         addEnemy(ENEMY3);
@@ -107,14 +108,6 @@ public class EnemyManager {
 
         private void fixEnemyOffsetTile(Enemy e, int dir, int xCord, int yCore){
             switch (dir) {
-               // case LEFT:
-                 //   if(xCord > 0)
-                   //     xCord--;
-                   // break;
-              //  case UP:
-                   // if(yCore > 0)
-                     //   yCore--;
-                 //   break;
                 case RIGHT:
                     if(xCord < 19)
                         xCord++;
@@ -136,9 +129,9 @@ public class EnemyManager {
         }
     
 
-    private int getTileType(int x, int y){
-       return  playing.getTileType(x,y);
-    }
+    private int getTileType(int x, int y) {
+		return playing.getTileType(x, y);
+	}
 
 
       private float getSpeedAndHeight(int dir){
