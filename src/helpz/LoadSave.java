@@ -14,26 +14,26 @@ import javax.imageio.ImageIO;
 public class LoadSave {
 
     public static String homePath = System.getProperty("user.home");
-	public static String saveFolder = "TDTutorial";
-	public static String levelFile = "level.txt";
-	public static String filePath = homePath + File.separator + saveFolder + File.separator + levelFile;
-	private static File lvlFile = new File(filePath);
+	//public static String saveFolder = "TDTutorial";
+	//public static String levelFile = "level.txt";
+	//public static String filePath = homePath + File.separator + saveFolder + File.separator + levelFile;
+	//private static File lvlFile = new File(filePath);
 
-	public static void CreateFolder() {
-		File folder = new File(homePath + File.separator + saveFolder);
-		if (!folder.exists())
-			folder.mkdir();
-	}
+	// public static void CreateFolder() {
+	// 	File folder = new File(homePath + File.separator + saveFolder);
+	// 	if (!folder.exists())
+	// 		folder.mkdir();
+	// }
     public static BufferedImage getSpriteAtlas() {
-    BufferedImage img = null;
+        BufferedImage img = null;
 
-    try {
-        img = ImageIO.read(new File("res/spriteatlas.png"));
-    } catch (IOException e) {
-        e.printStackTrace();
-    }
+        try {
+            img = ImageIO.read(new File("res/spriteatlas.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-    return img;
+        return img;
 }
     public static void CreateLevel(String name, int[] idArr){
         File newLevel = new File("res/" + name + ".txt");
@@ -76,11 +76,11 @@ public class LoadSave {
         }
     }
 
-    private static ArrayList<Integer> ReadFromFile(){
+    private static ArrayList<Integer> ReadFromFile(File f){
         ArrayList<Integer> list = new ArrayList<>();
 
         try {
-            Scanner sc = new Scanner(lvlFile);
+            Scanner sc = new Scanner(f);
             while (sc.hasNextLine()) {
                 list.add(Integer.parseInt(sc.nextLine()));
             }
@@ -93,16 +93,16 @@ public class LoadSave {
         return list;
     }
 
-    public static int[][] GetLevelData(String name){
-        File lvlFile = new File("res/"+ name +".txt");
+    // public static int[][] GetLevelData(String name){
+    //     File levelFile = new File("res/" + name + ".txt");
 
-        if(lvlFile.exists()){
-            ArrayList<Integer> list = ReadFromFile();
-            return Utilz.ArrayListTo2Dint(list, 20, 20);
-        } else {
-            System.out.println("File" + name + "does not exists! ");
-            return null;
-        }
+    //     if(lvlFile.exists()){
+    //         ArrayList<Integer> list = ReadFromFile(levelFile);
+    //         return Utilz.ArrayListTo2Dint(list, 20, 20);
+    //     } else {
+    //         System.out.println("File" + lvlFile + "does not exists! ");
+    //         return null;
+    //     }
         
-    }
+    // }
 }
