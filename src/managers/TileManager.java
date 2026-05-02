@@ -28,7 +28,7 @@ public class TileManager {
 
         int id = 0;
         tiles.add(GRASS = new Tile(getSprite(9, 0), id++, "Grass")); //lay cord cua grass(X, Y)
-        tiles.add(WATER = new Tile(getAniSprite(0, 0), id++, "Water")); //lay cord cua WATER(X, Y)
+        tiles.add(WATER = new Tile(getAniSprites(0, 0), id++, "Water")); //lay cord cua WATER(X, Y)
         
         roadsS.add(ROAD_LR = new Tile(getSprite(8, 0), id++, "Road")); //lay cord cua ROAD(X, Y)
         roadsS.add(ROAD_TB = new Tile(ImgFix.getRotImg(getSprite(8, 0), 90), id++, "TB_Road"));

@@ -29,6 +29,8 @@ public class Game extends JFrame implements Runnable {
 
     public Game(){
 
+        LoadSave.CreateFolder();
+
         initClasses();
         createDefaultLevel();
 
@@ -65,7 +67,20 @@ public class Game extends JFrame implements Runnable {
     }
 
     private void updateGame() {
-        //System.out.println("Game Updated!");
+        // switch (GameStates.gameState) {
+		// case EDIT:
+		// 	editing.update();
+		// 	break;
+		// case MENU:
+		// 	break;
+		// case PLAYING:
+		// 	playing.update();
+		// 	break;
+		// case SETTINGS:
+		// 	break;
+		// default:
+		// 	break;
+		// }
     }
 
     public static void main(String[] args){

@@ -76,15 +76,15 @@ public class LoadSave {
         }
     }
 
-    private static ArrayList<Integer> ReadFromFile(File file){
+    private static ArrayList<Integer> ReadFromFile(){
         ArrayList<Integer> list = new ArrayList<>();
 
         try {
-        Scanner sc = new Scanner(file);
-        while (sc.hasNextLine()) {
-            list.add(Integer.parseInt(sc.nextLine()));
-        }
-        sc.close();
+            Scanner sc = new Scanner(lvlFile);
+            while (sc.hasNextLine()) {
+                list.add(Integer.parseInt(sc.nextLine()));
+            }
+            sc.close();
 
         } catch(FileNotFoundException e){
             e.printStackTrace();
@@ -97,7 +97,7 @@ public class LoadSave {
         File lvlFile = new File("res/"+ name +".txt");
 
         if(lvlFile.exists()){
-            ArrayList<Integer> list = ReadFromFile(lvlFile);
+            ArrayList<Integer> list = ReadFromFile();
             return Utilz.ArrayListTo2Dint(list, 20, 20);
         } else {
             System.out.println("File" + name + "does not exists! ");

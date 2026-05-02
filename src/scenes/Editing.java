@@ -25,12 +25,16 @@ public class Editing extends GameScene implements SceneMethods{
     public Editing(Game game){
         super(game);
         loadDefaultLevel();
-        toolbar = new Toolbar(0, 640, 640, 100, this);       
+        toolbar = new Toolbar(0, 640, 640, 160, this);       
     }
 
     private void loadDefaultLevel(){
         lvl = LoadSave.GetLevelData("new_level");
     }
+
+    public void update() {
+		updateTick();
+	}
 
     @Override
     public void render(Graphics g){
@@ -41,15 +45,15 @@ public class Editing extends GameScene implements SceneMethods{
         drawSelectedTile(g);
     }
 
-    private void updateTick(){
-        tick++;
-        if(tick >= ANIMATION_SPEED){
-            tick = 0;
-            animationIndex++;
-            if(animationIndex >= 4)
-                animationIndex = 0;
-        }
-    }
+    // private void updateTick(){
+    //     tick++;
+    //     if(tick >= ANIMATION_SPEED){
+    //         tick = 0;
+    //         animationIndex++;
+    //         if(animationIndex >= 4)
+    //             animationIndex = 0;
+    //     }
+    // }
 
     private void drawLevel(Graphics g){
         for(int y = 0; y < lvl.length; y++){
@@ -63,17 +67,17 @@ public class Editing extends GameScene implements SceneMethods{
         }
     }
 
-    private boolean isAnimation(int spriteID){
-        return game.getTileManager().isSpriteAnimation(spriteID);
-    }
+    // private boolean isAnimation(int spriteID){
+    //     return game.getTileManager().isSpriteAnimation(spriteID);
+    // }
 
-    private BufferedImage getSprite(int spriteID){
-        return game.getTileManager().getSprite(spriteID);
-    }
+    // private BufferedImage getSprite(int spriteID){
+    //     return game.getTileManager().getSprite(spriteID);
+    // }
 
-    private BufferedImage getSprite(int spriteID, int animationIndex){
-        return game.getTileManager().getAniSprite(spriteID, animationIndex);
-    }
+    // private BufferedImage getSprite(int spriteID, int animationIndex){
+    //     return game.getTileManager().getAniSprite(spriteID, animationIndex);
+    // }
 
     private void drawSelectedTile(Graphics g){
         if(selectedTile != null && drawSelect){
@@ -131,7 +135,8 @@ public class Editing extends GameScene implements SceneMethods{
 
     @Override
     public void mousePressed(int x, int y){
-        if(y >= 640) toolbar.mousePressed(x, y);
+        if(y >= 640) 
+            toolbar.mousePressed(x, y);
     }
 
     @Override
