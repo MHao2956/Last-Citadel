@@ -24,20 +24,17 @@ public class LoadSave {
 		if (!folder.exists())
 			folder.mkdir();
 	}
-    public static BufferedImage getSpriteAtlas(){
-        
-        BufferedImage img = null;
-        InputStream is = LoadSave.class.getClassLoader().getResourceAsStream("spriteatlas.png"); //"spriteatlas.png" la ten file source materials
+    public static BufferedImage getSpriteAtlas() {
+    BufferedImage img = null;
 
-        try{
-            img = ImageIO.read(is);
-        } catch (IOException e){
-            e.printStackTrace();
-        }
-
-        return img;
+    try {
+        img = ImageIO.read(new File("res/spriteatlas.png"));
+    } catch (IOException e) {
+        e.printStackTrace();
     }
 
+    return img;
+}
     public static void CreateLevel(String name, int[] idArr){
         File newLevel = new File("res/" + name + ".txt");
         if(newLevel.exists()){

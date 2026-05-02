@@ -45,7 +45,7 @@ public class Game extends JFrame implements Runnable {
         for(int i = 0; i < arr.length ; i++)
             arr[i] = 0;
 
-        LoadSave.CreateLevel("New level", arr);
+        LoadSave.CreateLevel("new_level", arr);
     }
 
     private void initClasses(){

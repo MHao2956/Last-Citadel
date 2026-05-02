@@ -23,7 +23,7 @@ public class Playing extends GameScene implements SceneMethods {
     }
 
     private void loadDefaultLevel(){
-        lvl = LoadSave.GetLevelData("new level");
+        lvl = LoadSave.GetLevelData("new_level");
     }
 
     public void setLevel(int[][] lvl){

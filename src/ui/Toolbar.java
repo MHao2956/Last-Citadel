@@ -31,31 +31,36 @@ public class Toolbar extends Bar{
         initButtons();
     }
 
-    private void initButtons(){
-        bMenu = new MyButton("Menu", 2, 642, 100, 30);
-        bSave = new MyButton("Save", 2, 674, 100, 30);
+    private void initButtons() {
 
-        int w = 50;
-        int h = 50;
-        int xStart = 110;
-        int yStart = 650;
-        int xOffset = (int)(w*1.1f);
-        int i = 0;
+		bMenu = new MyButton("Menu", 2, 642, 100, 30);
+		bSave = new MyButton("Save", 2, 674, 100, 30);
 
-        bGrass = new MyButton("Grass", xStart, yStart, w, h, i++);
-        bWater = new MyButton("Water", xStart + xOffset, yStart, w, h, i++);
+		int w = 50;
+		int h = 50;
+		int xStart = 110;
+		int yStart = 650;
+		int xOffset = (int) (w * 1.1f);
+		int i = 0;
 
-        initMapButton(bRoadS, editing.getGame().getTileManager().getRoadsS(), xStart, yStart, xOffset, w, h, i++);
-        initMapButton(bRoadC, editing.getGame().getTileManager().getRoadsC(), xStart, yStart, xOffset, w, h, i++);
-        initMapButton(bWaterC, editing.getGame().getTileManager().getCorners(), xStart, yStart, xOffset, w, h, i++);
-        initMapButton(bWaterC, editing.getGame().getTileManager().getBeaches(), xStart, yStart, xOffset, w, h, i++);
-        initMapButton(bWaterI, editing.getGame().getTileManager().getIslands(), xStart, yStart, xOffset, w, h, i++);
-    }
+		bGrass = new MyButton("Grass", xStart, yStart, w, h, i++);
+		bWater = new MyButton("Water", xStart + xOffset, yStart, w, h, i++);
 
-    private void initMapButton(MyButton b, ArrayList<Tile> list, int x, int y, int xOff, int w, int h, int id){
-        b = new MyButton("", x + xOff*id, y, w, h, id);
-        map.put(b, list);
-    }
+		initMapButton(bRoadS, editing.getGame().getTileManager().getRoadsS(), xStart, yStart, xOffset, w, h, i++);
+		initMapButton(bRoadC, editing.getGame().getTileManager().getRoadsC(), xStart, yStart, xOffset, w, h, i++);
+		initMapButton(bWaterC, editing.getGame().getTileManager().getCorners(), xStart, yStart, xOffset, w, h, i++);
+		initMapButton(bWaterB, editing.getGame().getTileManager().getBeaches(), xStart, yStart, xOffset, w, h, i++);
+		initMapButton(bWaterI, editing.getGame().getTileManager().getIslands(), xStart, yStart, xOffset, w, h, i++);
+
+		// bPathStart = new MyButton("PathStart", xStart, yStart + xOffset, w, h, i++);
+		// bPathEnd = new MyButton("PathEnd", xStart + xOffset, yStart + xOffset, w, h, i++);
+
+	}
+
+	private void initMapButton(MyButton b, ArrayList<Tile> list, int x, int y, int xOff, int w, int h, int id) {
+		b = new MyButton("", x + xOff * id, y, w, h, id);
+		map.put(b, list);
+	}
 
     private void saveLevel(){
         editing.saveLevel();
@@ -67,7 +72,7 @@ public class Toolbar extends Bar{
         if(currentIndex >= map.get(currentButton).size())
             currentIndex = 0;
         selectedTile = map.get(currentButton).get(currentIndex);
-        editing.setSlectedTile(selectedTile);
+        editing.setSelectedTile(selectedTile);
     }
 
     public void draw(Graphics g){
@@ -142,12 +147,12 @@ public class Toolbar extends Bar{
             saveLevel();
         else if(bWater.getBounds().contains(x, y)){
             selectedTile = editing.getGame().getTileManager().getTile(bWater.getId());
-            editing.setSlectedTile(selectedTile);
+            editing.setSelectedTile(selectedTile);
             return;
         }
         else if(bGrass.getBounds().contains(x, y)){
             selectedTile = editing.getGame().getTileManager().getTile(bGrass.getId());
-            editing.setSlectedTile(selectedTile);
+            editing.setSelectedTile(selectedTile);
             return;
         }
         else {
@@ -155,7 +160,7 @@ public class Toolbar extends Bar{
             for(MyButton b : map.keySet()){
                 if(b.getBounds().contains(x, y)){
                     selectedTile = map.get(b).get(0);
-                    editing.setSlectedTile(selectedTile);
+                    editing.setSelectedTile(selectedTile);
                     currentButton = b;
                     currentIndex = 0;
                     return;
