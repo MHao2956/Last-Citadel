@@ -8,7 +8,9 @@ public class GameScene {
     protected Game game;
     protected int animationIndex;
 
+
 	protected int ANIMATION_SPEED = 25;
+
 
     protected int tick;
 

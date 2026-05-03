@@ -38,17 +38,19 @@ public class Editing extends GameScene implements SceneMethods{
 
     private void loadDefaultLevel(){
 
+
         lvl = LoadSave.GetLevelData("new_level.txt");
+
         ArrayList<PathPoint> points = LoadSave.GetLevelPathPoints("new_level");
         start = points.get(0);
         end = points.get(1);
     }
 
-
-
     public void update() {
 		updateTick();
 	}
+
+   
 
     @Override
     public void render(Graphics g){
@@ -71,15 +73,6 @@ public class Editing extends GameScene implements SceneMethods{
         }
     }
 
-    // private void updateTick(){
-    //     tick++;
-    //     if(tick >= ANIMATION_SPEED){
-    //         tick = 0;
-    //         animationIndex++;
-    //         if(animationIndex >= 4)
-    //             animationIndex = 0;
-    //     }
-    // }
 
 
     private void drawLevel(Graphics g){
@@ -97,18 +90,6 @@ public class Editing extends GameScene implements SceneMethods{
     }
 
 
-    // private boolean isAnimation(int spriteID){
-    //     return game.getTileManager().isSpriteAnimation(spriteID);
-    // }
-
-    // private BufferedImage getSprite(int spriteID){
-    //     return game.getTileManager().getSprite(spriteID);
-    // }
-
-    // private BufferedImage getSprite(int spriteID, int animationIndex){
-    //     return game.getTileManager().getAniSprite(spriteID, animationIndex);
-    // }
-
 
  
     private void drawSelectedTile(Graphics g){
@@ -120,7 +101,9 @@ public class Editing extends GameScene implements SceneMethods{
     public void saveLevel(){
 
 
+
         LoadSave.SaveLevel("new_level.txt", lvl, start, end);
+
 
         game.getPlaying().setLevel(lvl);
     }

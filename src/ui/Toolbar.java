@@ -54,6 +54,7 @@ public class Toolbar extends Bar{
 
 
 
+
 		bGrass = new MyButton("Grass", xStart, yStart, w, h, i++);
 		bWater = new MyButton("Water", xStart + xOffset, yStart, w, h, i++);
 
@@ -68,6 +69,7 @@ public class Toolbar extends Bar{
 		 bPathEnd = new MyButton("PathEnd", xStart + xOffset, yStart + xOffset, w, h, i++);
 
 	}
+
 
 	private void initMapButton(MyButton b, ArrayList<Tile> list, int x, int y, int xOff, int w, int h, int id) {
 		b = new MyButton("", x + xOff * id, y, w, h, id);
@@ -168,8 +170,10 @@ public class Toolbar extends Bar{
         }
         else if(bPathEnd.getBounds().contains(x, y)){
             selectedTile = new Tile(pathEnd, -2, -2);
+
             editing.setSelectedTile(selectedTile);
         }else {
+
 
 
             for(MyButton b : map.keySet()){

@@ -32,8 +32,10 @@ public class Playing extends GameScene implements SceneMethods {
 
     private void loadDefaultLevel(){
 
+
         lvl = LoadSave.GetLevelData("new_level");
          ArrayList<PathPoint> points = LoadSave.GetLevelPathPoints("new_level");
+
         start = points.get(0);
         end = points.get(1);
     }
@@ -67,9 +69,11 @@ public class Playing extends GameScene implements SceneMethods {
                 } else
                     g.drawImage(getSprite(id), x*32, y*32, null);
 
+
             }
         }
     }
+
 
     public int getTileType(int x, int y){
         int xCord = x / 32;
@@ -84,10 +88,6 @@ public class Playing extends GameScene implements SceneMethods {
         int id = lvl[y / 32][x / 32];
         return game.getTileManager().getTile(id).getTileType();
     }
-
-    // private BufferedImage getSprite(int spriteID){
-    //     return game.getTileManager().getSprite(spriteID);
-    // }
 
 
     @Override
