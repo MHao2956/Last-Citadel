@@ -51,7 +51,7 @@ public class ImgFix {
                 g2d.rotate(Math.toRadians(rotAngle), w/2, h/2);
             g2d.drawImage(imgs[i],0, 0, null);
             if(rotAtIndex == i)
-                g2d.rotate(Math.toRadians(rotAngle), w/2, h/2);
+                g2d.rotate(Math.toRadians(-rotAngle), w/2, h/2);
         }
         g2d.dispose();
         return newImg;

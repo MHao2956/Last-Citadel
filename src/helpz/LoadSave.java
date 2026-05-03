@@ -26,14 +26,13 @@ public class LoadSave {
 		if (!folder.exists())
 			folder.mkdir();
 	}
-    public static BufferedImage getSpriteAtlas(){
-        
-        BufferedImage img = null;
-        InputStream is = LoadSave.class.getClassLoader().getResourceAsStream("spriteatlas.png"); //"spriteatlas.png" la ten file source materials
 
-        try{
-            img = ImageIO.read(is);
-        } catch (IOException e){
+    public static BufferedImage getSpriteAtlas() {
+        BufferedImage img = null;
+
+        try {
+            img = ImageIO.read(new File("res/spriteatlas.png"));
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
@@ -86,15 +85,15 @@ public class LoadSave {
         }
     }
 
-    private static ArrayList<Integer> ReadFromFile(File file){
+    private static ArrayList<Integer> ReadFromFile(File f){
         ArrayList<Integer> list = new ArrayList<>();
 
         try {
-        Scanner sc = new Scanner(file);
-        while (sc.hasNextLine()) {
-            list.add(Integer.parseInt(sc.nextLine()));
-        }
-        sc.close();
+            Scanner sc = new Scanner(f);
+            while (sc.hasNextLine()) {
+                list.add(Integer.parseInt(sc.nextLine()));
+            }
+            sc.close();
 
         } catch(FileNotFoundException e){
             e.printStackTrace();
@@ -119,13 +118,13 @@ public class LoadSave {
     }
 
     public static int[][] GetLevelData(String name){
-        File lvlFile = new File("res/"+ name +".txt");
+        File levelFile = new File("res/" + name + ".txt");
 
-        if(lvlFile.exists()){
-            ArrayList<Integer> list = ReadFromFile(lvlFile);
+        if(levelFile.exists()){
+            ArrayList<Integer> list = ReadFromFile(levelFile);
             return Utilz.ArrayListTo2Dint(list, 20, 20);
         } else {
-            System.out.println("File" + name + "does not exists! ");
+            System.out.println("File" + lvlFile + "does not exists! ");
             return null;
         }
         

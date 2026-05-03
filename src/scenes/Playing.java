@@ -20,17 +20,19 @@ public class Playing extends GameScene implements SceneMethods {
 
     public Playing(Game game) {
         super(game);
-
         loadDefaultLevel();
         
+
         actionBar = new ActionBar(0, 640, 640, 160, this); 
 
         enemyManager = new EnemyManager(this, start, end);
 
+
     }
 
     private void loadDefaultLevel(){
-        lvl = LoadSave.GetLevelData("new level");
+
+        lvl = LoadSave.GetLevelData("new_level");
          ArrayList<PathPoint> points = LoadSave.GetLevelPathPoints("new_level");
         start = points.get(0);
         end = points.get(1);
@@ -51,9 +53,12 @@ public class Playing extends GameScene implements SceneMethods {
         drawLevel(g);
         actionBar.draw(g);
         enemyManager.draw(g);
+
     }
 
     private void drawLevel(Graphics g){
+
+        if (lvl == null) return;
         for(int y = 0; y < lvl.length; y++){
             for(int x = 0; x < lvl[y].length; x++){
                 int id = lvl[y][x];
@@ -61,6 +66,7 @@ public class Playing extends GameScene implements SceneMethods {
                     g.drawImage(getSprite(id, animationIndex), x*32, y*32, null);
                 } else
                     g.drawImage(getSprite(id), x*32, y*32, null);
+
             }
         }
     }
@@ -79,6 +85,11 @@ public class Playing extends GameScene implements SceneMethods {
         return game.getTileManager().getTile(id).getTileType();
     }
 
+    // private BufferedImage getSprite(int spriteID){
+    //     return game.getTileManager().getSprite(spriteID);
+    // }
+
+
     @Override
     public void mouseClicked(int x, int y){
         if(y >= 640)
@@ -86,6 +97,7 @@ public class Playing extends GameScene implements SceneMethods {
         // else
         //     enemyManager.addEnemy(x,y);      
     }
+
 
     @Override
     public void mouseMoved(int x, int y){
@@ -103,7 +115,7 @@ public class Playing extends GameScene implements SceneMethods {
             actionBar.mousePressed(x, y);
         }       
     }
-        @Override
+    @Override
     public void mouseReleased(int x, int y){
         actionBar.mouseReleased(x, y);
      
@@ -113,4 +125,6 @@ public class Playing extends GameScene implements SceneMethods {
     public void mouseDragged(int x, int y){
 
     }
+
+    
 }

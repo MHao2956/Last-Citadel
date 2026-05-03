@@ -9,7 +9,7 @@ public class MyButton {
     public int x, y, width, height, id;
     private String text;
     private Rectangle bounds;
-    private Boolean mouseOver, mousePressed;
+    private boolean mouseOver, mousePressed;
 
     //for normal buttons
     public MyButton(String text, int x, int y, int width, int height){
@@ -49,14 +49,12 @@ public class MyButton {
     }
 
     private void drawBorder(Graphics g){
+        g.setColor(Color.BLACK);
+        g.drawRect(x, y, width, height);
+        
         if(mousePressed){
-            g.setColor(Color.BLACK);
-            g.drawRect(x, y, width, height);
             g.drawRect(x + 1, y + 1, width - 2, height - 2);
             g.drawRect(x + 2, y + 2, width - 4, height - 4);
-        } else{
-            g.setColor(Color.BLACK);
-            g.drawRect(x, y, width, height);
         }
     }
 
@@ -74,10 +72,14 @@ public class MyButton {
         g.drawString(text, x - w/2 + width/2, y + h/2 + height/2);
     }
 
-    public void ressetBooleans(){
+    public void resetBooleans(){
         this.mouseOver = false;
         this.mousePressed = false;
     }
+
+    public void setText(String text) {
+		this.text = text;
+	}
 
     public void setMousePressed(boolean mousePressed){
         this.mousePressed = mousePressed;
@@ -91,7 +93,7 @@ public class MyButton {
         return mouseOver;
     }
 
-    public boolean isMousePress(){
+    public boolean isMousePressed(){
         return mousePressed;
     }
 
