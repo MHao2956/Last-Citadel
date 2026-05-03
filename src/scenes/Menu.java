@@ -86,10 +86,10 @@ public class Menu extends GameScene implements SceneMethods {
     }
 
     private void ressetButton(){
-        bPlaying.ressetBooleans();
-        bSettings.ressetBooleans();
-        bQuit.ressetBooleans();
-        bEdit.ressetBooleans();
+        bPlaying.resetBooleans();
+        bSettings.resetBooleans();
+        bQuit.resetBooleans();
+        bEdit.resetBooleans();
     }
 
     @Override

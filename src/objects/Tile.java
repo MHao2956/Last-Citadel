@@ -22,7 +22,9 @@ public class Tile {
     }
 
     public BufferedImage getSprite(int animationIndex){
-        return sprite[animationIndex];
+        if(isAnimation())
+            return sprite[animationIndex];
+        return sprite[0];
     }
 
     public BufferedImage getSprite(){

@@ -2,7 +2,6 @@ package scenes;
 
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
-import java.awt.image.BufferedImage;
 
 import helpz.LoadSave;
 import main.Game;
@@ -17,10 +16,6 @@ public class Editing extends GameScene implements SceneMethods{
     private int lastTileX, lastTileY, lastTileId;
     private boolean drawSelect;
     private Toolbar toolbar;
-    private int ANIMATION_SPEED = 25;
-
-    private int animationIndex;
-    private int tick;
 
     public Editing(Game game){
         super(game);
@@ -29,7 +24,14 @@ public class Editing extends GameScene implements SceneMethods{
     }
 
     private void loadDefaultLevel(){
-        lvl = LoadSave.GetLevelData("new_level");
+        lvl = LoadSave.GetLevelData("new_level.txt");
+
+        if(lvl == null){
+        lvl = new int[20][20];
+        for(int y=0; y<20; y++)
+            for(int x=0; x<20; x++)
+                lvl[y][x] = 0; 
+    }
     }
 
     public void update() {
@@ -38,7 +40,7 @@ public class Editing extends GameScene implements SceneMethods{
 
     @Override
     public void render(Graphics g){
-        updateTick();
+        // updateTick();
 
         drawLevel(g);
         toolbar.draw(g);
@@ -56,6 +58,8 @@ public class Editing extends GameScene implements SceneMethods{
     // }
 
     private void drawLevel(Graphics g){
+
+        if (lvl == null) return;
         for(int y = 0; y < lvl.length; y++){
             for(int x = 0; x < lvl[y].length; x++){
                 int id = lvl[y][x];
@@ -86,7 +90,7 @@ public class Editing extends GameScene implements SceneMethods{
     }
 
     public void saveLevel(){
-        LoadSave.SaveLevel("new_level", lvl);
+        LoadSave.SaveLevel("new_level.txt", lvl);
         game.getPlaying().setLevel(lvl);
     }
 
@@ -96,7 +100,7 @@ public class Editing extends GameScene implements SceneMethods{
     }
 
     private void changeTile(int x, int y){
-        if(selectedTile != null){
+        if(selectedTile != null && lvl != null){
 
             int tileX = x/32;
             int tileY = y/32;

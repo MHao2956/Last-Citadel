@@ -22,7 +22,15 @@ public class Playing extends GameScene implements SceneMethods {
     }
 
     private void loadDefaultLevel(){
-        lvl = LoadSave.GetLevelData("new_level");
+        lvl = LoadSave.GetLevelData("new_level.txt");
+
+        if (lvl == null) {
+            lvl = new int[20][20];
+        }
+    }
+
+    public void update() {
+        updateTick();
     }
 
     public void setLevel(int[][] lvl){
@@ -37,11 +45,13 @@ public class Playing extends GameScene implements SceneMethods {
     }
 
     private void drawLevel(Graphics g){
+
+        if (lvl == null) return;
         for(int y = 0; y < lvl.length; y++){
             for(int x = 0; x < lvl[y].length; x++){
                 int id = lvl[y][x];
                 if (isAnimation(id)) {
-                    g.drawImage(getSprite(id), x*32, y*32, null);
+                    g.drawImage(getSprite(id, animationIndex), x*32, y*32, null);
                 } else
                     g.drawImage(getSprite(id), x * 32, y * 32, null);
             }

@@ -14,16 +14,17 @@ import javax.imageio.ImageIO;
 public class LoadSave {
 
     public static String homePath = System.getProperty("user.home");
-	//public static String saveFolder = "TDTutorial";
-	//public static String levelFile = "level.txt";
-	//public static String filePath = homePath + File.separator + saveFolder + File.separator + levelFile;
-	//private static File lvlFile = new File(filePath);
+	public static String saveFolder = "TDTutorial";
+	public static String levelFile = "level.txt";
+	public static String filePath = homePath + File.separator + saveFolder + File.separator + levelFile;
+	private static File lvlFile = new File(filePath);
 
-	// public static void CreateFolder() {
-	// 	File folder = new File(homePath + File.separator + saveFolder);
-	// 	if (!folder.exists())
-	// 		folder.mkdir();
-	// }
+	public static void CreateFolder() {
+		File folder = new File(homePath + File.separator + saveFolder);
+		if (!folder.exists())
+			folder.mkdir();
+	}
+
     public static BufferedImage getSpriteAtlas() {
         BufferedImage img = null;
 
@@ -34,7 +35,8 @@ public class LoadSave {
         }
 
         return img;
-}
+    }
+
     public static void CreateLevel(String name, int[] idArr){
         File newLevel = new File("res/" + name + ".txt");
         if(newLevel.exists()){
@@ -93,16 +95,16 @@ public class LoadSave {
         return list;
     }
 
-    // public static int[][] GetLevelData(String name){
-    //     File levelFile = new File("res/" + name + ".txt");
+    public static int[][] GetLevelData(String name){
+        File levelFile = new File("res/" + name + ".txt");
 
-    //     if(lvlFile.exists()){
-    //         ArrayList<Integer> list = ReadFromFile(levelFile);
-    //         return Utilz.ArrayListTo2Dint(list, 20, 20);
-    //     } else {
-    //         System.out.println("File" + lvlFile + "does not exists! ");
-    //         return null;
-    //     }
+        if(levelFile.exists()){
+            ArrayList<Integer> list = ReadFromFile(levelFile);
+            return Utilz.ArrayListTo2Dint(list, 20, 20);
+        } else {
+            System.out.println("File" + lvlFile + "does not exists! ");
+            return null;
+        }
         
-    // }
+    }
 }
