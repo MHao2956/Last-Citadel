@@ -39,7 +39,7 @@ public class Editing extends GameScene implements SceneMethods{
     private void loadDefaultLevel(){
 
 
-        lvl = LoadSave.GetLevelData("new_level.txt");
+        lvl = LoadSave.GetLevelData("new_level");
 
         if(lvl == null)
         lvl = new int[20][20];
@@ -108,10 +108,10 @@ public class Editing extends GameScene implements SceneMethods{
 
 
 
-        LoadSave.SaveLevel("new_level.txt", lvl, start, end);
+        LoadSave.SaveLevel("new_level", lvl, start, end);
 
 
-        game.getPlaying().setLevel(lvl);
+        game.getPlaying().setLevel(lvl, start, end);
     }
 
     public void setSelectedTile(Tile tile){

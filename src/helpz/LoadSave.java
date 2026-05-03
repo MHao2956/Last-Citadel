@@ -65,7 +65,7 @@ public class LoadSave {
             pw.println(start.getxCord());
             pw.println(start.getyCord());
             pw.println(end.getxCord());
-            pw.println(start.getyCord());
+            pw.println(end.getyCord());
 
             pw.close();
 

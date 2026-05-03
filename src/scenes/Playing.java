@@ -40,10 +40,12 @@ public class Playing extends GameScene implements SceneMethods {
         end = points.get(1);
     }
 
-    public void setLevel(int[][] lvl){
-        this.lvl = lvl;
-    }
-
+    public void setLevel(int[][] lvl, PathPoint start, PathPoint end){
+    this.lvl = lvl;
+    this.start = start;
+    this.end = end;
+    enemyManager = new EnemyManager(this, start, end);
+}
     public void update(){
         updateTick();
         enemyManager.update();

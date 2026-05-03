@@ -17,6 +17,7 @@ public abstract class Enemy {
         this.x = x;
         this.y = y;
         this.ID = ID;
+        this.enemyType = enemyType;
         bounds = new Rectangle((int) x, (int) y, 32, 32 );
         lastDir = -1; // tell the enemyManager is -1 is the fist update so i need to find a direction that i can go no matter where i am
     }
