@@ -4,8 +4,10 @@ import static helpz.Constants.Tiles.ROAD_TILE;
 
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
+
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+
 
 import helpz.LoadSave;
 import main.Game;
@@ -23,8 +25,10 @@ public class Editing extends GameScene implements SceneMethods{
     private int lastTileX, lastTileY, lastTileId;
     private boolean drawSelect;
     private Toolbar toolbar;
+
     private PathPoint start, end;
    
+
 
     public Editing(Game game){
         super(game);
@@ -33,6 +37,7 @@ public class Editing extends GameScene implements SceneMethods{
     }
 
     private void loadDefaultLevel(){
+
         lvl = LoadSave.GetLevelData("new_level");
         ArrayList<PathPoint> points = LoadSave.GetLevelPathPoints("new_level");
         start = points.get(0);
@@ -41,17 +46,30 @@ public class Editing extends GameScene implements SceneMethods{
 
     public void update(){
         updateTick();
+
+        lvl = LoadSave.GetLevelData("new_level.txt");
+
+        if(lvl == null){
+        lvl = new int[20][20];
+        for(int y=0; y<20; y++)
+            for(int x=0; x<20; x++)
+                lvl[y][x] = 0; 
+
     }
+    }
+
+   
 
     @Override
     public void render(Graphics g){
-        updateTick();
+        // updateTick();
 
         drawLevel(g);
         toolbar.draw(g);
         drawSelectedTile(g);
         drawPathPoints(g);
     }
+
 
     private void drawPathPoints(Graphics g){
         if(start != null){
@@ -63,7 +81,10 @@ public class Editing extends GameScene implements SceneMethods{
         }
     }
 
+
     private void drawLevel(Graphics g){
+
+        if (lvl == null) return;
         for(int y = 0; y < lvl.length; y++){
             for(int x = 0; x < lvl[y].length; x++){
                 int id = lvl[y][x];
@@ -75,7 +96,7 @@ public class Editing extends GameScene implements SceneMethods{
         }
     }
 
- 
+
 
  
     private void drawSelectedTile(Graphics g){
@@ -86,17 +107,19 @@ public class Editing extends GameScene implements SceneMethods{
 
     public void saveLevel(){
 
+
         LoadSave.SaveLevel("new level", lvl, start, end);
+
         game.getPlaying().setLevel(lvl);
     }
 
-    public void setSlectedTile(Tile tile){
+    public void setSelectedTile(Tile tile){
         this.selectedTile = tile;
         drawSelect = true;
     }
 
     private void changeTile(int x, int y){
-        if(selectedTile != null){
+        if(selectedTile != null && lvl != null){
 
             int tileX = x/32;
             int tileY = y/32;
@@ -147,7 +170,8 @@ public class Editing extends GameScene implements SceneMethods{
 
     @Override
     public void mousePressed(int x, int y){
-        if(y >= 640) toolbar.mousePressed(x, y);
+        if(y >= 640) 
+            toolbar.mousePressed(x, y);
     }
 
     @Override

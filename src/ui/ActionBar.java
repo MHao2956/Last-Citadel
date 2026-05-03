@@ -52,7 +52,7 @@ public class ActionBar extends Bar{
     }
 
     public void mouseReleased(int x, int y){
-        bMenu.ressetBooleans();
+        bMenu.resetBooleans();
     }
 
 }
