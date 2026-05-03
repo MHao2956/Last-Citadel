@@ -41,6 +41,12 @@ public class Editing extends GameScene implements SceneMethods{
 
         lvl = LoadSave.GetLevelData("new_level.txt");
 
+        if(lvl == null)
+        lvl = new int[20][20];
+        for(int y=0; y<20; y++)
+            for(int x=0; x<20; x++)
+                lvl[y][x] = 0;
+
         ArrayList<PathPoint> points = LoadSave.GetLevelPathPoints("new_level");
         start = points.get(0);
         end = points.get(1);
