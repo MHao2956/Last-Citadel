@@ -31,7 +31,8 @@ public class LoadSave {
         BufferedImage img = null;
 
         try {
-            img = ImageIO.read(new File("res/spriteatlas.png"));
+            InputStream is = LoadSave.class.getClassLoader().getResourceAsStream("spriteatlas.png");
+            img = ImageIO.read(is);
         } catch (IOException e) {
             e.printStackTrace();
         }

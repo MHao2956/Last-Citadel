@@ -103,8 +103,7 @@ public class Toolbar extends Bar{
         drawPathButton(g, bPathStart, pathStart);
         drawPathButton(g, bPathEnd, pathEnd);
 
-        bPathStart.draw(g);
-        bPathEnd.draw(g);
+        
 
         drawNormalButton(g, bGrass);
         drawNormalButton(g, bWater);
