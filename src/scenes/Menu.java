@@ -1,58 +1,99 @@
 package scenes;
 
-import javax.imageio.ImageIO;
 import java.awt.Graphics;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Random;
-import main.Game;
 
-public class Menu extends GameScene implements SceneMethod{
-    private BufferedImage img;
-    private ArrayList<BufferedImage> sprite = new ArrayList<>();
-    private Random random;
-    public Menu(Game game) {
+import main.Game;
+import ui.MyButton;
+import static main.GameStates.*;
+
+public class Menu extends GameScene implements SceneMethods { 
+    private MyButton bPlaying, bEdit, bSettings, bQuit;
+
+    public Menu(Game game){
         super(game);
-        random = new Random();
-        importImg();
-        loadSprite();
+        initButtons();
+    }
+
+    private void initButtons(){
+        int w = 150;
+        int h = w/3;
+        int x = 640/2 - w/2;
+        int y = 150;
+        int yOffset = 100;
+
+        bPlaying = new MyButton("Play", x, y, w, h);
+        bEdit = new MyButton("Edit", x, y + yOffset, w, h);
+        bSettings = new MyButton("Settings", x, y + yOffset*2, w, h);
+        bQuit = new MyButton("Quit", x, y + yOffset*3, w, h);
     }
 
     @Override
     public void render(Graphics g){
-        for (int y = 0; y < 20; y++){
-            for (int x = 0; x < 20; x++){
-                g.drawImage(sprite.get(getRndNumber()), x * 32, y * 32, null);
-            }
-        }
+        drawButtons(g);
     }
 
-    private void importImg() {
-        InputStream is = getClass().getResourceAsStream("/spriteatlas.png");
-
-        try {
-            img = ImageIO.read(is);
-        }
-        catch (IOException e){
-            e.printStackTrace();
-        }
+    private void drawButtons(Graphics g){
+        bPlaying.draw(g);
+        bEdit.draw(g);
+        bSettings.draw(g);
+        bQuit.draw(g);
     }
 
-    private void loadSprite() {
-        for (int y = 0; y < 3; y++){
-            for (int x = 0; x < 10; x++){
-                sprite.add(img.getSubimage(x * 32, y * 32, 32, 32));
-
-            }
-        }
+    @Override
+    public void mouseClicked(int x, int y){
+        if(bPlaying.getBounds().contains(x, y))
+            SetGameState(PLAYING);
+        else if(bEdit.getBounds().contains(x, y))
+            SetGameState(EDIT);
+        else if (bSettings.getBounds().contains(x, y))
+            SetGameState(SETTINGS);
+        else if (bQuit.getBounds().contains(x, y))
+            System.exit(0);
     }
 
-    private int getRndNumber(){
-        return random.nextInt(30);
+    @Override 
+    public void mouseMoved(int x, int y){
+        bPlaying.setMouseOver(false);
+        bEdit.setMouseOver(false);
+        bSettings.setMouseOver(false);
+        bQuit.setMouseOver(false);
+        
+        if(bPlaying.getBounds().contains(x, y))
+            bPlaying.setMouseOver(true);
+        else if(bEdit.getBounds().contains(x, y))
+            bEdit.setMouseOver(true);
+        else if(bSettings.getBounds().contains(x, y))
+            bSettings.setMouseOver(true);
+        else if(bQuit.getBounds().contains(x, y))
+            bQuit.setMouseOver(true);
     }
 
+    @Override
+    public void mousePressed(int x, int y){
+        if(bPlaying.getBounds().contains(x, y))
+            bPlaying.setMousePressed(true);
+        else if(bEdit.getBounds().contains(x, y))
+            bEdit.setMousePressed(true);
+        else if(bSettings.getBounds().contains(x, y))
+            bSettings.setMousePressed(true);
+        else if(bQuit.getBounds().contains(x, y))
+            bQuit.setMousePressed(true);
+    }
 
+    @Override
+    public void mouseReleased(int x, int y){
+        ressetButton();
+    }
 
+    private void ressetButton(){
+        bPlaying.resetBooleans();
+        bSettings.resetBooleans();
+        bQuit.resetBooleans();
+        bEdit.resetBooleans();
+    }
+
+    @Override
+    public void mouseDragged(int x, int y){
+        
+    }
 }
