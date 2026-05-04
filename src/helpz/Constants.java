@@ -26,4 +26,9 @@ public class Constants {
 
     }
 
+    public static class Towers{
+        public static final int GREEN_TOWER =0;
+        public static final int BLUE_TOWER =1;
+        public static final int RED_TOWER =2;
+    }
 }
