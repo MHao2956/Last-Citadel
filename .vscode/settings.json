@@ -1,6 +1,9 @@
 {
 
 
-  "java.project.sourcePaths": ["src", "res"]
+  "java.project.sourcePaths": [
+    "src",
+    "res"
+  ]
 
 }
