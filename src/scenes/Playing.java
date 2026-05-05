@@ -2,10 +2,12 @@ package scenes;
 
 import java.awt.*;
 import main.Game;
-
+import managers.WaveManager;
 public class Playing extends GameScene implements SceneMethods{
+    private WaveManager waveManager;
     public Playing(Game game) {
         super(game);
+        waveManager = new WaveManager(this);
     }
 
     @Override
@@ -37,5 +39,11 @@ public class Playing extends GameScene implements SceneMethods{
     @Override
     public void mouseDragged(int x, int y) {
 
+    }
+    public WaveManager getWaveManager() {
+        return waveManager;
+    }
+
+    public void update() {
     }
 }
