@@ -16,7 +16,19 @@ public class Constants {
         public static final int ENEMY2 = 1;
         public static final int ENEMY3 = 2;
         public static final int ENEMY4 = 3;
-
+        public static float GetSpeed(int enemyType) {
+    switch (enemyType) {
+        case ENEMY1:
+            return 0.6f;
+        case ENEMY2:
+            return 0.7f;
+        case ENEMY3:
+            return 0.4f;
+        case ENEMY4:
+            return 0.5f;
+    }
+    return 0;
+}
     }
 
     public static class Tiles{
