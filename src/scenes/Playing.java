@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import helpz.LoadSave;
 import main.Game;
 import managers.EnemyManager;
+import managers.WaveManager;
 import objects.PathPoint;
 import ui.ActionBar;
 
@@ -16,6 +17,7 @@ public class Playing extends GameScene implements SceneMethods {
     private ActionBar actionBar;
     private int mouseX, mouseY;
     private EnemyManager enemyManager;
+    private WaveManager waveManager;
     private PathPoint start, end;
 
     public Playing(Game game) {
@@ -27,7 +29,7 @@ public class Playing extends GameScene implements SceneMethods {
 
         enemyManager = new EnemyManager(this, start, end);
 
-
+        waveManager = new WaveManager(this);
     }
 
     private void loadDefaultLevel(){
@@ -47,9 +49,12 @@ public class Playing extends GameScene implements SceneMethods {
     enemyManager = new EnemyManager(this, start, end);
 }
     public void update(){
+
         updateTick();
         enemyManager.update();
     }
+
+
 
     @Override
     public void render(Graphics g){
@@ -128,6 +133,10 @@ public class Playing extends GameScene implements SceneMethods {
 
     }
 
-    
-    
+
+    public WaveManager getWaveManager() {
+        return waveManager;
+    }
+
+
 }
