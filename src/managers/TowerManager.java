@@ -13,6 +13,7 @@ public class TowerManager {
     private Playing playing;
     private BufferedImage[] towerImgs;
     private ArrayList<Tower> towers = new ArrayList<>(); 
+    private int towerAmount = 0;
     public TowerManager(Playing playing) {
         this.playing = playing;
         loadTowerImgs();
@@ -24,10 +25,17 @@ public class TowerManager {
             towerImgs[i] = atlas.getSubimage((4 + i) * 32, 32, 32, 32);
         }
     }
+    public void addTower(Tower selectedTower,int xPosition,int yPosition){
+        towers.add(new Tower(xPosition,yPosition,towerAmount++,selectedTower.getTowerType()));}
+
+    
     public void draw(Graphics g) {
         for (Tower t : towers) {
             g.drawImage(towerImgs[t.getTowerType()], t.getX(), t.getY(),null);
         }
+    }
+    public BufferedImage[] getTowerImgs() {
+        return towerImgs;
     }
     public void update() {
     }
