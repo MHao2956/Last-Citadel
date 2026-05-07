@@ -53,9 +53,6 @@ public class EnemyManager {
 
         updateWaveManager();
 
-        if(isTimeForNewEnemy()){
-            spawnEnemy();
-        }
 
         for (Enemy e : enemies){
         //is next tile road(pos, dir)
@@ -67,19 +64,7 @@ public class EnemyManager {
         playing.getWaveManager().update();
     }
 
-    private void spawnEnemy() {
-        addEnemy(playing.getWaveManager().getNextEnemy());
-    }
 
-    private boolean isTimeForNewEnemy() {
-        if(playing.getWaveManager().isTimeForNewEnemy()){
-            if(playing.getWaveManager().isThereMoreEnemiesInWave()){
-                return true;
-            }
-        }
-
-        return false;
-    }
 
     public void updateEnemyMove(Enemy e){
         if(e.getLastDir() == -1)
@@ -94,6 +79,7 @@ public class EnemyManager {
             //keep moving in same direction
             e.move(speed, e.getLastDir());
         }else if(isAtEnd(e)){
+            e.kill();
             System.out.println("Lives lost!");
         }else {
             //find new direction
@@ -111,7 +97,7 @@ public class EnemyManager {
         fixEnemyOffsetTile(e, dir, xCord, yCore);
 
         if(isAtEnd(e))
-        return;
+            return;
 
         if(dir == LEFT || dir == RIGHT){
             int newY = (int)(e.getY() + getSpeedAndHeight(UP)); 
@@ -150,7 +136,8 @@ public class EnemyManager {
             if(e.getX() == end.getxCord() * 32)
                 if(e.getY() == end.getyCord() * 32)
                     return true;
-                return false;
+
+            return false;
         }
     
 
@@ -179,6 +166,10 @@ public class EnemyManager {
             return speed + 32;
         }
         return 0;
+    }
+
+    public void spawnEnemy(int nextEnemy) {
+        addEnemy(nextEnemy);
     }
 
     public void addEnemy( int enemyType){
@@ -212,8 +203,6 @@ public class EnemyManager {
     private void drawEnemy(Enemy e, Graphics g){
         g.drawImage(enemyImgs[e.getEnemyType()],(int)e.getX() ,(int)e.getY(), null);
     }
-
-
 
 
 

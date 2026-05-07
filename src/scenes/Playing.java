@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
+import enemies.Enemy;
 import helpz.LoadSave;
 import main.Game;
 import managers.EnemyManager;
@@ -49,12 +50,59 @@ public class Playing extends GameScene implements SceneMethods {
     enemyManager = new EnemyManager(this, start, end);
 }
     public void update(){
-
         updateTick();
+        waveManager.update();
+        if(isAllEnemiesDead()){
+            if(isThereMoreWaves()){
+                waveManager.startWaveTimer();
+                //check timer
+                if(isWaveTimerOver()){
+                    
+                }
+
+                //Increase wave index
+            }
+        }
+        if(isTimeForNewEnemy()){
+            spawnEnemy();
+        }
+
         enemyManager.update();
     }
 
+    private boolean isWaveTimerOver() {
+    }
 
+    private boolean isThereMoreWaves() {
+        return waveManager.isThereMoreWaves();
+    }
+
+    private boolean isAllEnemiesDead() {
+
+        if(waveManager.isThereMoreEnemiesInWave()){
+            return false;
+        }
+
+        for(Enemy e : enemyManager.getEnemies())
+            if(e.isAlive())
+                return false;
+
+        return true;
+    }
+
+    private void spawnEnemy() {
+        enemyManager.spawnEnemy(waveManager.getNextEnemy());
+    }
+
+    private boolean isTimeForNewEnemy() {
+        if(waveManager.isTimeForNewEnemy()){
+            if(waveManager.isThereMoreEnemiesInWave()){
+                return true;
+            }
+        }
+
+        return false;
+    }
 
     @Override
     public void render(Graphics g){

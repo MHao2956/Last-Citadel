@@ -22,6 +22,11 @@ public abstract class Enemy {
         lastDir = -1; // tell the enemyManager is -1 is the fist update so i need to find a direction that i can go no matter where i am
     }
 
+    public void kill(){
+        // Is for killing enemy, when it reaches the end
+        alive = false;
+        health = 0;
+    }
     public void move(float speed, int dir){
         lastDir = dir;
         switch (dir) {
