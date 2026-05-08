@@ -5,12 +5,13 @@ import static helpz.Constants.Diretion.*; // dau * la lay het
 //asbstract class because can not create an enenemy from enemy class, craeate from enemy1,2,3, ko tao enemy trong super class
 public abstract class Enemy {
     
-    private float x,y;
-    private Rectangle bounds; //latter on add hitbox
-    private int health;
-    private int ID;
-    private int enemyType;
-    private int lastDir;
+    protected float x,y;
+    protected Rectangle bounds; //latter on add hitbox
+    protected int health;
+    protected int maxHealth;
+    protected int ID;
+    protected int enemyType;
+    protected int lastDir;
 
 
     public Enemy(float x, float y, int ID, int enemyType){
@@ -20,9 +21,11 @@ public abstract class Enemy {
         this.enemyType = enemyType;
         bounds = new Rectangle((int) x, (int) y, 32, 32 );
         lastDir = -1; // tell the enemyManager is -1 is the fist update so i need to find a direction that i can go no matter where i am
+        setStartHealth();
     }
     public void setStartHealth(){
         health=helpz.Constants.Enemies.GetStartHealth(enemyType);
+        maxHealth = health;
     }
 
     public void move(float speed, int dir){
@@ -49,7 +52,8 @@ public abstract class Enemy {
         this.y = y;
     }
 
-  
+    public float getHealthBarFloat(){
+        return health/ (float) maxHealth;}
 
 
         public float getX(){

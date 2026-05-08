@@ -58,7 +58,12 @@ public class ActionBar extends Bar{
             g.drawString("" + Towers.GetName(displayedTower.getTowerType()), 410, 675);
             g.drawString("ID: " + displayedTower.getId(), 410, 690);
             drawDisplayedTowerBorder(g);
+            drawDisplayedTowerRange(g);
         }
+    }
+    public void drawDisplayedTowerRange(Graphics g){
+        g.setColor(Color.white);
+        g.drawOval(displayedTower.getX() + 16 - (int)displayedTower.getRange()/2, displayedTower.getY() + 16 - (int)displayedTower.getRange()/2, (int)displayedTower.getRange(), (int)displayedTower.getRange());
     }
     public void drawDisplayedTowerBorder(Graphics g){
         g.setColor(Color.CYAN);

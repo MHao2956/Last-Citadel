@@ -16,6 +16,7 @@ import static helpz.Constants.Diretion.*;
 import static helpz.Constants.Enemies.*;
 import static helpz.Constants.Tiles.*;
 import static helpz.Constants.Enemies.GetSpeed;
+import java.awt.Color;
 
 
 public class EnemyManager {
@@ -24,6 +25,7 @@ public class EnemyManager {
     private Playing playing;
     private ArrayList<Enemy> enemies = new ArrayList<>();
     private PathPoint start, end;
+    private int HPBarWidth = 20;
     
 
     public EnemyManager(Playing playing, PathPoint start, PathPoint end){
@@ -175,9 +177,16 @@ public class EnemyManager {
     public void draw(Graphics g){ 
         for (Enemy e : enemies){
         drawEnemy(e, g);
+        drawHealthBar(e, g);
         }
     }
-
+    private void drawHealthBar(Enemy e, Graphics g){
+        g.setColor(Color.RED);
+        g.fillRect((int)e.getX()+16 -(getNewHPBarWidth(e)/2),(int)e.getY()-10, getNewHPBarWidth(e), 3);
+    }
+    private int getNewHPBarWidth(Enemy e){
+        return (int)(HPBarWidth * e.getHealthBarFloat());
+    }
     private void drawEnemy(Enemy e, Graphics g){
         g.drawImage(enemyImgs[e.getEnemyType()],(int)e.getX() ,(int)e.getY(), null);
     }
