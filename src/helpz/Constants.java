@@ -29,6 +29,19 @@ public class Constants {
     }
     return 0;
 }
+        public static int GetStartHealth(int enemyType){
+            switch(enemyType){
+                case ENEMY1:
+                    return 150;
+                case ENEMY2:
+                    return 100;
+                case ENEMY3:
+                    return 250;
+                case ENEMY4:
+                    return 200;
+            }
+            return 0;
+        }
     }
 
     public static class Tiles{
@@ -52,6 +65,40 @@ public class Constants {
                     return "Red Tower";
             }
             return "";
-        }       
+        }  
+        public static float GetStartDamage(int towerType){
+            switch(towerType){
+                case GREEN_TOWER:
+                    return 10;
+                case BLUE_TOWER:
+                    return 15;
+                case RED_TOWER:
+                    return 20;
+            }
+            return 0;
+        }
+        public static float GetStartRange(int towerType){
+            switch(towerType){
+                case GREEN_TOWER:
+                    return 100;
+                case BLUE_TOWER:
+                    return 100;
+                case RED_TOWER:
+                    return 100;
+            }
+            return 0;
+        }
+        public static float GetStartCooldown(int towerType){
+            switch(towerType){
+                case GREEN_TOWER:
+                    return 10;
+                case BLUE_TOWER:
+                    return 10;
+                case RED_TOWER:
+                    return 10;
+            }
+            return 0;
+        }
     }
 }
+
