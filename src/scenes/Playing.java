@@ -21,6 +21,8 @@ public class Playing extends GameScene implements SceneMethods {
     private WaveManager waveManager;
     private PathPoint start, end;
 
+    private boolean gamePaused;
+
     public Playing(Game game) {
         super(game);
         loadDefaultLevel();
@@ -50,26 +52,30 @@ public class Playing extends GameScene implements SceneMethods {
     enemyManager = new EnemyManager(this, start, end);
 }
     public void update(){
-        updateTick();
-        waveManager.update();
-        if(isAllEnemiesDead()){
-            if(isThereMoreWaves()){
-                waveManager.startWaveTimer();
-                //check timer
-                if(isWaveTimerOver()){
-                    waveManager.increaseWaveIndex();
-                    enemyManager.getEnemies().clear();
-                    waveManager.resetEnemyIndex();
+
+        if(!gamePaused){
+            updateTick();
+            waveManager.update();
+            if(isAllEnemiesDead()){
+                if(isThereMoreWaves()){
+                    waveManager.startWaveTimer();
+                    //check timer
+                    if(isWaveTimerOver()){
+                        waveManager.increaseWaveIndex();
+                        enemyManager.getEnemies().clear();
+                        waveManager.resetEnemyIndex();
+                    }
+
+                    //Increase wave index
                 }
-
-                //Increase wave index
             }
-        }
-        if(isTimeForNewEnemy()){
-            spawnEnemy();
+            if(isTimeForNewEnemy()){
+                spawnEnemy();
+            }
+
+            enemyManager.update();
         }
 
-        enemyManager.update();
     }
 
     private boolean isWaveTimerOver() {
@@ -163,6 +169,9 @@ public class Playing extends GameScene implements SceneMethods {
         //     enemyManager.addEnemy(x,y);      
     }
 
+    public void setGamePaused(boolean gamePaused) {
+        this.gamePaused = gamePaused;
+    }
 
     @Override
     public void mouseMoved(int x, int y){
@@ -196,6 +205,8 @@ public class Playing extends GameScene implements SceneMethods {
         return waveManager;
     }
 
-
+    public boolean isGamePaused(){
+        return gamePaused;
+    }
 
 }

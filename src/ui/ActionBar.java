@@ -11,7 +11,7 @@ import scenes.Playing;
 public class ActionBar extends Bar{
     
     private Playing playing;
-    private MyButton bMenu;
+    private MyButton bMenu, bPause;
 
     private DecimalFormat formatter;
 
@@ -25,10 +25,12 @@ public class ActionBar extends Bar{
     
     private void initButtons(){
         bMenu = new MyButton("Menu", 2, 642, 100, 30);
+        bPause = new MyButton("Pause", 2, 682, 100, 30);
     }
 
     private void drawButtons(Graphics g){
         bMenu.draw(g);
+        bPause.draw(g);
     }
 
     public void draw(Graphics g){
@@ -39,6 +41,12 @@ public class ActionBar extends Bar{
         
         //Wave info
         drawWaveInfo(g);
+
+        //Game paused text
+        if(playing.isGamePaused()){
+            g.setColor(Color.black);
+            g.drawString("Game is Paused!", 110, 790);
+        }
     }
 
     private void drawWaveInfo(Graphics g) {
@@ -70,24 +78,43 @@ public class ActionBar extends Bar{
 
     }
 
+    private void togglePause() {
+
+        if(playing.isGamePaused())
+            bPause.setText("Unpause");
+        else
+            bPause.setText("Pause");
+        playing.setGamePaused(!playing.isGamePaused());
+    }
+
     public void mouseClicked(int x, int y){
         if(bMenu.getBounds().contains(x, y))
             SetGameState(MENU);
+        else if (bPause.getBounds().contains(x, y))
+            togglePause();
     }
 
+
+
     public void mouseMoved(int x, int y){
-        bMenu.setMouseOver(false);           
+        bMenu.setMouseOver(false);
+        bPause.setMouseOver(false);
         if(bMenu.getBounds().contains(x, y))
             bMenu.setMouseOver(true);
+        else if(bPause.getBounds().contains(x, y))
+            bPause.setMouseOver(true);
     }
 
     public void mousePressed(int x, int y){
         if(bMenu.getBounds().contains(x, y))
             bMenu.setMousePressed(true);
+        else if(bPause.getBounds().contains(x, y))
+            bPause.setMousePressed(true);
     }
 
     public void mouseReleased(int x, int y){
         bMenu.resetBooleans();
+        bPause.resetBooleans();
     }
 
 }
