@@ -57,7 +57,9 @@ public class Playing extends GameScene implements SceneMethods {
                 waveManager.startWaveTimer();
                 //check timer
                 if(isWaveTimerOver()){
-                    
+                    waveManager.increaseWaveIndex();
+                    enemyManager.getEnemies().clear();
+                    waveManager.resetEnemyIndex();
                 }
 
                 //Increase wave index
@@ -71,6 +73,7 @@ public class Playing extends GameScene implements SceneMethods {
     }
 
     private boolean isWaveTimerOver() {
+        return waveManager.isWaveTimeOver();
     }
 
     private boolean isThereMoreWaves() {
@@ -110,6 +113,13 @@ public class Playing extends GameScene implements SceneMethods {
         drawLevel(g);
         actionBar.draw(g);
         enemyManager.draw(g);
+
+
+        drawWaveInfos(g);
+
+    }
+
+    private void drawWaveInfos(Graphics g) {
 
     }
 
@@ -185,6 +195,7 @@ public class Playing extends GameScene implements SceneMethods {
     public WaveManager getWaveManager() {
         return waveManager;
     }
+
 
 
 }
