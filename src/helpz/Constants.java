@@ -42,5 +42,16 @@ public class Constants {
         public static final int GREEN_TOWER =0;
         public static final int BLUE_TOWER =1;
         public static final int RED_TOWER =2;
+        public static String GetName(int towerType){
+            switch(towerType){
+                case GREEN_TOWER:
+                    return "Green Tower";
+                case BLUE_TOWER:
+                    return "Blue Tower";
+                case RED_TOWER:
+                    return "Red Tower";
+            }
+            return "";
+        }       
     }
 }

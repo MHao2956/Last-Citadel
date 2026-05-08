@@ -7,13 +7,14 @@ import java.awt.Color;
 import java.awt.Graphics;
 import objects.Tower;
 import scenes.Playing;
-
+import static helpz.Constants.Towers;
 public class ActionBar extends Bar{
     
     private Playing playing;
     private MyButton bMenu;
     private MyButton[] towerButtons ;
     private Tower selectedTower; ;
+    private Tower displayedTower;
     public ActionBar(int x, int y, int width, int height, Playing playing){
         super(x, y, width, height);
         this.playing = playing;
@@ -48,6 +49,18 @@ public class ActionBar extends Bar{
         g.fillRect(x, y, width, height);
 
         drawButtons(g);
+        drawDisplayedTower(g);
+    }
+    private void drawDisplayedTower(Graphics g){
+        if(displayedTower!=null){
+            g.drawImage(playing.getTowerManager().getTowerImgs()[displayedTower.getTowerType()],350,650,50,50,null);
+            g.setColor(Color.BLACK);
+            g.drawString("" + Towers.GetName(displayedTower.getTowerType()), 410, 675);
+            g.drawString("ID: " + displayedTower.getId(), 410, 690);
+        }
+    }
+    public void displayTower(Tower t){
+        displayedTower=t;
     }
         
     public void mouseClicked(int x, int y){

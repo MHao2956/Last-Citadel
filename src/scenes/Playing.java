@@ -11,7 +11,7 @@ import managers.TowerManager;
 import objects.PathPoint;
 import ui.ActionBar;
 import objects.Tower;
-
+import java.awt.event.KeyEvent;
 import static helpz.Constants.Tiles.GRASS_TILE;
 
 public class Playing extends GameScene implements SceneMethods {
@@ -113,18 +113,27 @@ public class Playing extends GameScene implements SceneMethods {
         else {
             if(selectedTower != null){
                 if(isTileGrass(mouseX, mouseY)){
+                if(getTowerAt(mouseX, mouseY) == null){
                 towerManager.addTower(selectedTower, mouseX, mouseY);
-                selectedTower = null;
+                selectedTower = null;}
             }
+        }else {Tower t=getTowerAt(mouseX, mouseY);
+         actionBar.displayTower(t);
         }
         
         }}
+        private Tower getTowerAt(int x,int y){
+            return towerManager.getTowerAt(x, y);
+        }
     private boolean isTileGrass(int x,int y){
         int id= lvl[y/32][x/32];
         int tileType=game.getTileManager().getTile(id).getTileType();
         return tileType == GRASS_TILE;
     }
-
+    public void keyPressed(KeyEvent e){
+        if(e.getKeyCode() ==KeyEvent.VK_SPACE)
+            selectedTower =null;
+    }
     @Override
     public void mouseMoved(int x, int y){
         if(y >= 640)
@@ -134,6 +143,7 @@ public class Playing extends GameScene implements SceneMethods {
             mouseY = (y/32)*32;
         }
     }
+
 
     @Override
     public void mousePressed(int x, int y){
