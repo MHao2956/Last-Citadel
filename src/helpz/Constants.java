@@ -4,17 +4,17 @@ package helpz;
 public class Constants {
 
     public static class Projectile{
-        public static final int ICE = 0;
-        public static final int FIRE = 1;
+        public static final int FIRE = 0;
+        public static final int ICE = 1;
         public static final int ROCKET = 2;
         public static float GetSpeed(int type){
             switch(type){
-                case ICE:
-                    return 4f;
                 case FIRE:
-                    return 3f;
+                    return 8f;
                 case ROCKET:
-                    return 1f;
+                    return 4f;
+                case ICE:
+                    return 6f;
             }
             return 0f;
         }
@@ -68,9 +68,11 @@ public class Constants {
     }
 
     public static class Towers{
-        public static final int ICE_TOWER =0;
+
+        public static final int ROCKET_TOWER =0;
         public static final int FIRE_TOWER =1;
-        public static final int ROCKET_TOWER =2;
+        public static final int ICE_TOWER =2;
+
         public static String GetName(int towerType){
             switch(towerType){
                 case ICE_TOWER:
