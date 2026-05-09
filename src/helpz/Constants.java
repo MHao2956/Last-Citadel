@@ -3,6 +3,22 @@ package helpz;
 
 public class Constants {
 
+    public static class Projectile{
+        public static final int ICE = 0;
+        public static final int FIRE = 1;
+        public static final int ROCKET = 2;
+        public static float GetSpeed(int type){
+            switch(type){
+                case ICE:
+                    return 4f;
+                case FIRE:
+                    return 3f;
+                case ROCKET:
+                    return 1f;
+            }
+            return 0f;
+        }
+    }
     public static class Diretion{
         public static final int LEFT = 0;
         public static final int UP= 1;
@@ -52,49 +68,49 @@ public class Constants {
     }
 
     public static class Towers{
-        public static final int GREEN_TOWER =0;
-        public static final int BLUE_TOWER =1;
-        public static final int RED_TOWER =2;
+        public static final int ICE_TOWER =0;
+        public static final int FIRE_TOWER =1;
+        public static final int ROCKET_TOWER =2;
         public static String GetName(int towerType){
             switch(towerType){
-                case GREEN_TOWER:
-                    return "Green Tower";
-                case BLUE_TOWER:
-                    return "Blue Tower";
-                case RED_TOWER:
-                    return "Red Tower";
+                case ICE_TOWER:
+                    return "ICE Tower";
+                case FIRE_TOWER:
+                    return "FIRE Tower";
+                case ROCKET_TOWER:
+                    return "ROCKET Tower";
             }
             return "";
         }  
-        public static float GetStartDamage(int towerType){
+        public static int GetStartDamage(int towerType){
             switch(towerType){
-                case GREEN_TOWER:
+                case ICE_TOWER:
                     return 10;
-                case BLUE_TOWER:
+                case FIRE_TOWER:
                     return 15;
-                case RED_TOWER:
+                case ROCKET_TOWER:
                     return 20;
             }
             return 0;
         }
         public static float GetStartRange(int towerType){
             switch(towerType){
-                case GREEN_TOWER:
+                case ICE_TOWER:
                     return 100;
-                case BLUE_TOWER:
+                case FIRE_TOWER:
                     return 100;
-                case RED_TOWER:
+                case ROCKET_TOWER:
                     return 100;
             }
             return 0;
         }
         public static float GetStartCooldown(int towerType){
             switch(towerType){
-                case GREEN_TOWER:
+                case ICE_TOWER:
                     return 10;
-                case BLUE_TOWER:
+                case FIRE_TOWER:
                     return 10;
-                case RED_TOWER:
+                case ROCKET_TOWER:
                     return 10;
             }
             return 0;

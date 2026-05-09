@@ -12,8 +12,11 @@ import managers.TowerManager;
 import objects.PathPoint;
 import ui.ActionBar;
 import objects.Tower;
+import enemies.Enemy;
+
 import java.awt.event.KeyEvent;
 import static helpz.Constants.Tiles.GRASS_TILE;
+import managers.ProjectileManager;
 
 public class Playing extends GameScene implements SceneMethods {
 
@@ -22,6 +25,7 @@ public class Playing extends GameScene implements SceneMethods {
     private int mouseX, mouseY;
     private EnemyManager enemyManager;
     private TowerManager towerManager;
+    private ProjectileManager projManager;
     private PathPoint start, end;
     private Tower selectedTower;
     public Playing(Game game) {
@@ -33,7 +37,7 @@ public class Playing extends GameScene implements SceneMethods {
 
         enemyManager = new EnemyManager(this, start, end);
         towerManager = new TowerManager(this);
-
+        projManager = new ProjectileManager(this);
 
     }
 
@@ -57,6 +61,7 @@ public class Playing extends GameScene implements SceneMethods {
         updateTick();
         enemyManager.update();
         towerManager.update();
+        projManager.update();
     }
     public void setSelectedTower(Tower selectedTower){
         this.selectedTower = selectedTower;
@@ -69,6 +74,7 @@ public class Playing extends GameScene implements SceneMethods {
         actionBar.draw(g);
         enemyManager.draw(g);
         towerManager.draw(g);
+        projManager.draw(g);
         drawSelectedTower(g);
         drawHighlight(g);
     }
@@ -171,5 +177,10 @@ public class Playing extends GameScene implements SceneMethods {
     public TowerManager getTowerManager() {
         return towerManager;
     }
-    
+    public EnemyManager getEnemyManager() {
+        return enemyManager;
+    }
+    public void shootEnemy(Tower t, Enemy e){
+        projManager.newProjectile(t, e);
+    }
 }

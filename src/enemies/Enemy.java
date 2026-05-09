@@ -12,7 +12,7 @@ public abstract class Enemy {
     protected int ID;
     protected int enemyType;
     protected int lastDir;
-
+    protected boolean alive = true;
 
     public Enemy(float x, float y, int ID, int enemyType){
         this.x = x;
@@ -27,7 +27,12 @@ public abstract class Enemy {
         health=helpz.Constants.Enemies.GetStartHealth(enemyType);
         maxHealth = health;
     }
-
+    public void hurt(int damage){
+       this.health -= damage;
+       if(health <= 0){
+           alive = false;
+       }
+    }
     public void move(float speed, int dir){
         lastDir = dir;
         switch (dir) {
@@ -44,6 +49,11 @@ public abstract class Enemy {
                 this.y += speed;
                 break;
         }
+        updateHitbox();
+    }
+    private void updateHitbox() {
+        bounds.x = (int) x;
+        bounds.y = (int) y;
     }
 
     public void setPos(int x, int y){
@@ -76,6 +86,9 @@ public abstract class Enemy {
         }
         public int getLastDir(){
             return lastDir;
+        }
+        public boolean isAlive(){
+            return alive;
         }
     }
 

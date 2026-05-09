@@ -15,7 +15,7 @@ import scenes.Playing;
 import static helpz.Constants.Diretion.*;
 import static helpz.Constants.Enemies.*;
 import static helpz.Constants.Tiles.*;
-import static helpz.Constants.Enemies.GetSpeed;
+
 import java.awt.Color;
 
 
@@ -52,9 +52,9 @@ public class EnemyManager {
 
     public void update(){
         for (Enemy e : enemies){
-        //is next tile road(pos, dir)
-        updateEnemyMove(e);
-        }
+       if(e.isAlive())
+         updateEnemyMove(e);
+        }   
     }
 
     public void updateEnemyMove(Enemy e){
@@ -176,9 +176,10 @@ public class EnemyManager {
 
     public void draw(Graphics g){ 
         for (Enemy e : enemies){
+        if(e.isAlive()){
         drawEnemy(e, g);
         drawHealthBar(e, g);
-        }
+         } }
     }
     private void drawHealthBar(Enemy e, Graphics g){
         g.setColor(Color.RED);
@@ -190,7 +191,9 @@ public class EnemyManager {
     private void drawEnemy(Enemy e, Graphics g){
         g.drawImage(enemyImgs[e.getEnemyType()],(int)e.getX() ,(int)e.getY(), null);
     }
-
+    public ArrayList<Enemy> getEnemies() {
+        return enemies;
+    }
 
 
 

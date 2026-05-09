@@ -1,7 +1,7 @@
 package objects;
 public class Tower {
-    private int x, y, id, towerType;
-    private float damage, range, cooldown;
+    private int x, y, id, towerType,cdTick,damage;
+    private float range, cooldown;
     public Tower(int x, int y, int id, int towerType) {
         this.x = x;
         this.y = y;
@@ -10,6 +10,15 @@ public class Tower {
         setDefaultDamage();
         setDefaultRange();
         setDefaultCooldown();
+    }
+    public void update(){
+        cdTick++;
+    }
+    public boolean isCooldownOver(){
+        return cdTick >= cooldown;
+    }
+    public void resetCooldown(){
+        cdTick = 0;
     }
     private void setDefaultDamage() {
       damage= helpz.Constants.Towers.GetStartDamage(towerType);
@@ -44,7 +53,7 @@ public class Tower {
     public void setTowerType(int towerType) {
         this.towerType = towerType;
     }
-    public float getDamage() {
+    public int getDamage() {
         return damage;
     }
     public float getRange() {

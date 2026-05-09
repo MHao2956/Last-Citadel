@@ -53,8 +53,12 @@ public class ActionBar extends Bar{
     }
     private void drawDisplayedTower(Graphics g){
         if(displayedTower!=null){
+            g.setColor(Color.GRAY);
+            g.fillRect(350, 650, 200, 100);
             g.drawImage(playing.getTowerManager().getTowerImgs()[displayedTower.getTowerType()],350,650,50,50,null);
             g.setColor(Color.BLACK);
+            g.drawRect(350, 650, 50, 50);
+            g.drawRect(350, 650, 200, 100);
             g.drawString("" + Towers.GetName(displayedTower.getTowerType()), 410, 675);
             g.drawString("ID: " + displayedTower.getId(), 410, 690);
             drawDisplayedTowerBorder(g);
@@ -63,7 +67,7 @@ public class ActionBar extends Bar{
     }
     public void drawDisplayedTowerRange(Graphics g){
         g.setColor(Color.white);
-        g.drawOval(displayedTower.getX() + 16 - (int)displayedTower.getRange()/2, displayedTower.getY() + 16 - (int)displayedTower.getRange()/2, (int)displayedTower.getRange(), (int)displayedTower.getRange());
+        g.drawOval(displayedTower.getX() + 16 - ((int)displayedTower.getRange()*2)/2, displayedTower.getY() + 16 - ((int)displayedTower.getRange()*2)/2, (int)displayedTower.getRange()*2, (int)displayedTower.getRange()*2);
     }
     public void drawDisplayedTowerBorder(Graphics g){
         g.setColor(Color.CYAN);
