@@ -1,5 +1,5 @@
 package objects;
-public class Tower {
+public class Tower{
     private int x, y, id, towerType,cdTick,damage;
     private float range, cooldown;
     public Tower(int x, int y, int id, int towerType) {
