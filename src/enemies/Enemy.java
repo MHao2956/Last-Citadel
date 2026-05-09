@@ -13,6 +13,8 @@ public abstract class Enemy {
     protected int enemyType;
     protected int lastDir;
     protected boolean alive = true;
+    protected int slowTickLimit = 120;
+    protected int slowTick = slowTickLimit;
 
     public Enemy(float x, float y, int ID, int enemyType){
         this.x = x;
@@ -29,12 +31,22 @@ public abstract class Enemy {
     }
     public void hurt(int damage){
        this.health -= damage;
-       if(health <= 0){
+       if(health <= 0)
            alive = false;
-       }
     }
+
+    public void slow(){
+        slowTick = 0;
+    }
+
     public void move(float speed, int dir){
         lastDir = dir;
+
+        if(slowTick < slowTickLimit){
+            slowTick++;
+            speed *= 0.5f;
+        }
+
         switch (dir) {
             case LEFT:
                 this.x -= speed;
@@ -89,6 +101,9 @@ public abstract class Enemy {
         }
         public boolean isAlive(){
             return alive;
+        }
+        public boolean isSlowed(){
+            return slowTick < slowTickLimit;
         }
     }
 

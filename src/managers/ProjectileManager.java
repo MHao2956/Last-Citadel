@@ -111,6 +111,9 @@ public class ProjectileManager {
             if(e.isAlive())
             if(e.getBounds().contains(p.getPos())){
                 e.hurt(p.getDmg());
+                if(p.getProjectileType() == ICE)
+                    e.slow();
+
                 return true;
             }
         }
