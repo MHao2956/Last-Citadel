@@ -38,7 +38,7 @@ public class Projectile {
     public void setActive(boolean active){
         this.active = active;
     }
-    public int getDamage(){
+    public int getDmg(){
         return damage;
     }
     public float getRotation(){

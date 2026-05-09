@@ -76,6 +76,7 @@ public class ProjectileManager {
                     p.setActive(false);
                     if(p.getProjectileType() == ROCKET){
                        explosions.add(new Explosion(p.getPos()));
+                       explodeOnEnemies(p);
                         
                 } 
             }else{
@@ -84,12 +85,32 @@ public class ProjectileManager {
         }
     }
         for(Explosion e : explosions)
+            if(e.getIndex() < 7)
             e.update();
     }
+
+    private void explodeOnEnemies(Projectile p){
+        for(Enemy e:playing.getEnemyManager().getEnemies()){
+            if(e.isAlive()){
+            float radius = 40.0f;
+
+            float xDist = Math.abs(p.getPos().x - e.getX());
+            float yDist = Math.abs(p.getPos().y - e.getY());
+
+            float realDist  =  (float) Math.hypot(xDist, yDist);
+
+            if(realDist <= radius)
+                e.hurt(p.getDmg());
+            }
+           
+        }
+    }
+
     private boolean isProjHittingEnemy(Projectile p) {
         for(Enemy e:playing.getEnemyManager().getEnemies()){
+            if(e.isAlive())
             if(e.getBounds().contains(p.getPos())){
-                e.hurt(p.getDamage());
+                e.hurt(p.getDmg());
                 return true;
             }
         }

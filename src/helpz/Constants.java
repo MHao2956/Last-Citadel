@@ -48,13 +48,13 @@ public class Constants {
         public static int GetStartHealth(int enemyType){
             switch(enemyType){
                 case ENEMY1:
-                    return 150;
+                    return 85;
                 case ENEMY2:
                     return 100;
                 case ENEMY3:
-                    return 250;
+                    return 125;
                 case ENEMY4:
-                    return 200;
+                    return 400;
             }
             return 0;
         }
@@ -84,36 +84,36 @@ public class Constants {
             }
             return "";
         }  
-        public static int GetStartDamage(int towerType){
+        public static int GetStartDmg(int towerType){
             switch(towerType){
                 case ICE_TOWER:
-                    return 10;
+                    return 0;
                 case FIRE_TOWER:
+                    return 5;
+                case ROCKET_TOWER:
                     return 15;
-                case ROCKET_TOWER:
-                    return 20;
             }
             return 0;
         }
-        public static float GetStartRange(int towerType){
+        public static float GetDefaultRange(int towerType){
             switch(towerType){
                 case ICE_TOWER:
                     return 100;
                 case FIRE_TOWER:
-                    return 100;
+                    return 120;
                 case ROCKET_TOWER:
-                    return 100;
+                    return 75;
             }
             return 0;
         }
-        public static float GetStartCooldown(int towerType){
+        public static float GetDefaultCooldown(int towerType){
             switch(towerType){
                 case ICE_TOWER:
-                    return 10;
+                    return 50;
                 case FIRE_TOWER:
-                    return 10;
+                    return 35;
                 case ROCKET_TOWER:
-                    return 10;
+                    return 120;
             }
             return 0;
         }
