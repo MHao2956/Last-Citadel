@@ -209,4 +209,8 @@ public class Playing extends GameScene implements SceneMethods {
         return gamePaused;
     }
 
+    public EnemyManager getEnemyManager(){
+        return enemyManager;
+    }
+
 }
