@@ -43,7 +43,7 @@ public class ProjectileManager {
     }
 
     public void newProjectile(Tower t,Enemy e){
-        int type = t.getTowerType();
+        int type = getProjType(t);
         int xDistance=(int)(t.getX() - e.getX());
         int yDistance=(int)(t.getY() - e.getY());
         int totalDistance = Math.abs(xDistance) + Math.abs(yDistance);
