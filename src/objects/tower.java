@@ -21,13 +21,13 @@ public class Tower{
         cdTick = 0;
     }
     private void setDefaultDamage() {
-      damage= helpz.Constants.Towers.GetStartDamage(towerType);
+      damage= helpz.Constants.Towers.GetStartDmg(towerType);
     }
     private void setDefaultRange() {
-        range= helpz.Constants.Towers.GetStartRange(towerType);
+        range= helpz.Constants.Towers.GetDefaultRange(towerType);
     }
     private void setDefaultCooldown() {
-        cooldown= helpz.Constants.Towers.GetStartCooldown(towerType);
+        cooldown= helpz.Constants.Towers.GetDefaultCooldown(towerType);
     }
     public int getX() {
         return x;
