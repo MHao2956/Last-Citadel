@@ -1,5 +1,6 @@
 package scenes;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -7,8 +8,15 @@ import java.util.ArrayList;
 import helpz.LoadSave;
 import main.Game;
 import managers.EnemyManager;
+import managers.TowerManager;
 import objects.PathPoint;
 import ui.ActionBar;
+import objects.Tower;
+import enemies.Enemy;
+
+import java.awt.event.KeyEvent;
+import static helpz.Constants.Tiles.GRASS_TILE;
+import managers.ProjectileManager;
 
 public class Playing extends GameScene implements SceneMethods {
 
@@ -16,8 +24,10 @@ public class Playing extends GameScene implements SceneMethods {
     private ActionBar actionBar;
     private int mouseX, mouseY;
     private EnemyManager enemyManager;
+    private TowerManager towerManager;
+    private ProjectileManager projManager;
     private PathPoint start, end;
-
+    private Tower selectedTower;
     public Playing(Game game) {
         super(game);
         loadDefaultLevel();
@@ -26,7 +36,8 @@ public class Playing extends GameScene implements SceneMethods {
         actionBar = new ActionBar(0, 640, 640, 160, this); 
 
         enemyManager = new EnemyManager(this, start, end);
-
+        towerManager = new TowerManager(this);
+        projManager = new ProjectileManager(this);
 
     }
 
@@ -49,6 +60,11 @@ public class Playing extends GameScene implements SceneMethods {
     public void update(){
         updateTick();
         enemyManager.update();
+        towerManager.update();
+        projManager.update();
+    }
+    public void setSelectedTower(Tower selectedTower){
+        this.selectedTower = selectedTower;
     }
 
     @Override
@@ -57,9 +73,20 @@ public class Playing extends GameScene implements SceneMethods {
         drawLevel(g);
         actionBar.draw(g);
         enemyManager.draw(g);
-
+        towerManager.draw(g);
+        projManager.draw(g);
+        drawSelectedTower(g);
+        drawHighlight(g);
     }
-
+    private void drawHighlight(Graphics g){
+        g.setColor(Color.WHITE);
+        g.drawRect(mouseX, mouseY, 32, 32);
+    }
+    
+    private void drawSelectedTower(Graphics g){
+        if (selectedTower != null)
+        g.drawImage(towerManager.getTowerImgs()[selectedTower.getTowerType()], mouseX, mouseY, null);
+    }
     private void drawLevel(Graphics g){
 
         if (lvl == null) return;
@@ -96,11 +123,30 @@ public class Playing extends GameScene implements SceneMethods {
     public void mouseClicked(int x, int y){
         if(y >= 640)
             actionBar.mouseClicked(x, y);
-        // else
-        //     enemyManager.addEnemy(x,y);      
+        else {
+            if(selectedTower != null){
+                if(isTileGrass(mouseX, mouseY)){
+                if(getTowerAt(mouseX, mouseY) == null){
+                towerManager.addTower(selectedTower, mouseX, mouseY);
+                selectedTower = null;}
+            }
+        }else {Tower t=getTowerAt(mouseX, mouseY);
+         actionBar.displayTower(t);
+        }
+        
+        }}
+        private Tower getTowerAt(int x,int y){
+            return towerManager.getTowerAt(x, y);
+        }
+    private boolean isTileGrass(int x,int y){
+        int id= lvl[y/32][x/32];
+        int tileType=game.getTileManager().getTile(id).getTileType();
+        return tileType == GRASS_TILE;
     }
-
-
+    public void keyPressed(KeyEvent e){
+        if(e.getKeyCode() ==KeyEvent.VK_SPACE)
+            selectedTower =null;
+    }
     @Override
     public void mouseMoved(int x, int y){
         if(y >= 640)
@@ -110,6 +156,7 @@ public class Playing extends GameScene implements SceneMethods {
             mouseY = (y/32)*32;
         }
     }
+
 
     @Override
     public void mousePressed(int x, int y){
@@ -128,5 +175,18 @@ public class Playing extends GameScene implements SceneMethods {
 
     }
 
+
     
+    
+
+    public TowerManager getTowerManager() {
+        return towerManager;
+    }
+    public EnemyManager getEnemyManager() {
+        return enemyManager;
+    }
+    public void shootEnemy(Tower t, Enemy e){
+        projManager.newProjectile(t, e);
+    }
+
 }
