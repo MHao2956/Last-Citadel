@@ -39,6 +39,11 @@ public abstract class Enemy {
         slowTick = 0;
     }
 
+    public void kill(){
+        // Is for killing enemy, when it reaches the end
+        alive = false;
+        health = 0;
+    }
     public void move(float speed, int dir){
         lastDir = dir;
 

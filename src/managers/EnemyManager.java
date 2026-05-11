@@ -17,13 +17,15 @@ import static helpz.Constants.Enemies.*;
 import static helpz.Constants.Tiles.*;
 
 import java.awt.Color;
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 
 public class EnemyManager {
 
     private BufferedImage[] enemyImgs;
     private Playing playing;
-    private ArrayList<Enemy> enemies = new ArrayList<>();
+    private List<Enemy> enemies = new CopyOnWriteArrayList<>();
     private PathPoint start, end;
     private int HPBarWidth = 20;
     private BufferedImage slowEffect;
@@ -58,11 +60,21 @@ public class EnemyManager {
     }
 
     public void update(){
+
+        updateWaveManager();
+
+
         for (Enemy e : enemies){
        if(e.isAlive())
          updateEnemyMove(e);
         }   
     }
+
+    private void updateWaveManager() {
+        playing.getWaveManager().update();
+    }
+
+
 
     public void updateEnemyMove(Enemy e){
         if(e.getLastDir() == -1)
@@ -73,6 +85,7 @@ public class EnemyManager {
         if(getTileType(newX,newY) == ROAD_TILE){
             e.move(GetSpeed(e.getEnemyType()), e.getLastDir());
         }else if(isAtEnd(e)){
+            e.kill();
             System.out.println("Lives lost!");
         }else {
             setNewDirectionAndMove(e);
@@ -89,7 +102,7 @@ public class EnemyManager {
         fixEnemyOffsetTile(e, dir, xCord, yCore);
 
         if(isAtEnd(e))
-        return;
+            return;
 
         if(dir == LEFT || dir == RIGHT){
             int newY = (int)(e.getY() + getSpeedAndHeight(UP, e.getEnemyType())); 
@@ -128,7 +141,8 @@ public class EnemyManager {
             if(e.getX() == end.getxCord() * 32)
                 if(e.getY() == end.getyCord() * 32)
                     return true;
-                return false;
+
+            return false;
         }
     
 
@@ -157,6 +171,10 @@ public class EnemyManager {
             return GetSpeed(enemyType) + 32;
         }
         return 0;
+    }
+
+    public void spawnEnemy(int nextEnemy) {
+        addEnemy(nextEnemy);
     }
 
     public void addEnemy( int enemyType){
@@ -207,11 +225,16 @@ public class EnemyManager {
     private void drawEnemy(Enemy e, Graphics g){
         g.drawImage(enemyImgs[e.getEnemyType()],(int)e.getX() ,(int)e.getY(), null);
     }
-    public ArrayList<Enemy> getEnemies() {
+    public List<Enemy> getEnemies() {
         return enemies;
     }
 
+    public int getAmountOfAliveEnemies(){
+        int size = 0;
+        for(Enemy e: enemies)
+            if(e.isAlive())
+                size++;
 
-
-
+        return size;
+    }
 }
