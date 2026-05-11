@@ -16,12 +16,8 @@ public class Menu extends GameScene implements SceneMethods {
         super(game);
         initButtons();
 
+        //draw backgr img
         bgImg = LoadSave.getImage("bg.png");
-    }
-
-    //draw backgr menu game
-    private void loadImgs(){
-        
     }
 
     private void initButtons(){
@@ -31,10 +27,10 @@ public class Menu extends GameScene implements SceneMethods {
         int y = 150;
         int yOffset = 100;
 
-        bPlaying = new MyButton("Play", x, y, w, h);
-        bEdit = new MyButton("Edit", x, y + yOffset, w, h);
-        bSettings = new MyButton("Settings", x, y + yOffset*2, w, h);
-        bQuit = new MyButton("Quit", x, y + yOffset*3, w, h);
+        bPlaying = new MyButton("play.png", x, y, w, h);
+        bEdit = new MyButton("edit.png", x, y + yOffset, w, h);
+        bSettings = new MyButton("settings.png", x, y + yOffset*2, w, h);
+        bQuit = new MyButton("quit.png", x, y + yOffset*3, w, h);
     }
 
     @Override

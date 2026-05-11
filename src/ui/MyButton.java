@@ -3,6 +3,8 @@ package ui;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
+import java.awt.image.BufferedImage;
+import helpz.LoadSave;
 
 public class MyButton {
 
@@ -10,6 +12,7 @@ public class MyButton {
     private String text;
     private Rectangle bounds;
     private boolean mouseOver, mousePressed;
+    private BufferedImage img;
 
     //for normal buttons
     public MyButton(String text, int x, int y, int width, int height){
@@ -20,6 +23,7 @@ public class MyButton {
         this.height = height;
         this.id =  -1;
 
+        loadImg(text);
         initBounds();
     }
 
@@ -32,7 +36,12 @@ public class MyButton {
         this.height = height;
         this.id = id;
 
+        loadImg(text);
         initBounds();
+    }
+
+    private void loadImg(String text){
+        img = LoadSave.getImage(text);
     }
 
     private void initBounds(){
@@ -46,6 +55,8 @@ public class MyButton {
         drawBorder(g);
 
         drawText(g);   
+
+        g.drawImage(img, x, y, width, height, null);
     }
 
     private void drawBorder(Graphics g){
