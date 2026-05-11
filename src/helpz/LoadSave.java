@@ -40,6 +40,18 @@ public class LoadSave {
         return img;
     }
 
+    public static BufferedImage getImage(String fileName){
+        BufferedImage img = null;
+
+        try {
+            img = ImageIO.read(new File("res/" + fileName));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return img;
+    }
+
     public static void CreateLevel(String name, int[] idArr){
         File newLevel = new File("res/" + name + ".txt");
         if(newLevel.exists()){

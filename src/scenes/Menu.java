@@ -1,17 +1,27 @@
 package scenes;
 
 import java.awt.Graphics;
+import java.awt.image.BufferedImage;
 
+import helpz.LoadSave;
 import main.Game;
 import ui.MyButton;
 import static main.GameStates.*;
 
 public class Menu extends GameScene implements SceneMethods { 
     private MyButton bPlaying, bEdit, bSettings, bQuit;
+    private BufferedImage bgImg;
 
     public Menu(Game game){
         super(game);
         initButtons();
+
+        bgImg = LoadSave.getImage("bg.png");
+    }
+
+    //draw backgr menu game
+    private void loadImgs(){
+        
     }
 
     private void initButtons(){
@@ -29,6 +39,7 @@ public class Menu extends GameScene implements SceneMethods {
 
     @Override
     public void render(Graphics g){
+        g.drawImage(bgImg, 0, 0, 640, 800, null);
         drawButtons(g);
     }
 
