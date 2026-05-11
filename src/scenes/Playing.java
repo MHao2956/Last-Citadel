@@ -1,13 +1,19 @@
 package scenes;
 
 import java.awt.Graphics;
+import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
+import enemies.Enemy;
 import helpz.LoadSave;
 import main.Game;
 import managers.EnemyManager;
+import managers.ProjectileManager;
+import managers.TowerManager;
+import managers.WaveManager;
 import objects.PathPoint;
+import objects.Tower;
 import ui.ActionBar;
 
 public class Playing extends GameScene implements SceneMethods {
@@ -16,15 +22,21 @@ public class Playing extends GameScene implements SceneMethods {
     private ActionBar actionBar;
     private int mouseX, mouseY;
     private EnemyManager enemyManager;
+    private TowerManager towerManager;
+    private ProjectileManager projManager;
+    private WaveManager waveManager;
     private PathPoint start, end;
+    private Tower selectedTower;
+    private int goldTick;
+    private boolean gamePaused;
 
     public Playing(Game game) {
         super(game);
         loadDefaultLevel();
         
 
-        actionBar = new ActionBar(0, 640, 640, 160, this); 
-
+        actionBar = new ActionBar(0, 640, 640, 160, this);
+        projManager = new ProjectileManager(this);
         enemyManager = new EnemyManager(this, start, end);
 
 
@@ -47,8 +59,68 @@ public class Playing extends GameScene implements SceneMethods {
     enemyManager = new EnemyManager(this, start, end);
 }
     public void update(){
-        updateTick();
-        enemyManager.update();
+
+        if (!gamePaused) {
+            updateTick();
+            waveManager.update();
+
+            // Gold tick
+            goldTick++;
+            if (goldTick % (60 * 3) == 0)
+                actionBar.addGold(1);
+
+            if (isAllEnemiesDead()) {
+                if (isThereMoreWaves()) {
+                    waveManager.startWaveTimer();
+                    if (isWaveTimerOver()) {
+                        waveManager.increaseWaveIndex();
+                        enemyManager.getEnemies().clear();
+                        waveManager.resetEnemyIndex();
+
+                    }
+                }
+            }
+
+            if (isTimeForNewEnemy()) {
+                if (!waveManager.isWaveTimerOver())
+                    spawnEnemy();
+            }
+
+            enemyManager.update();
+            towerManager.update();
+            projManager.update();
+        }
+    }
+
+    private boolean isWaveTimerOver() {
+        return waveManager.isWaveTimerOver();
+    }
+
+    private boolean isThereMoreWaves() {
+        return waveManager.isThereMoreWaves();
+    }
+
+    private boolean isTimeForNewEnemy() {
+        if (waveManager.isTimeForNewEnemy()) {
+            if (waveManager.isThereMoreEnemiesInWave())
+                return true;
+        }
+
+        return false;
+    }
+
+    private boolean isAllEnemiesDead() {
+        if (waveManager.isThereMoreEnemiesInWave())
+            return false;
+
+        for (Enemy e : enemyManager.getEnemies())
+            if (e.isAlive())
+                return false;
+
+        return true;
+    }
+    private void spawnEnemy() {
+        enemyManager.spawnEnemy(waveManager.getNextEnemy());
     }
 
     @Override
@@ -128,6 +200,22 @@ public class Playing extends GameScene implements SceneMethods {
 
     }
 
-    
-    
+
+    public EnemyManager getEnemyManager() {
+        return enemyManager;
+    }
+
+    public void shootEnemy(Tower t, Enemy e) {
+        projManager.newProjectile(t, e);
+    }
+
+    public WaveManager getWaveManager() {
+        return waveManager;
+    }
+
+    public void keyPressed(KeyEvent e) {
+        if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+            selectedTower = null;
+        }
+    }
 }

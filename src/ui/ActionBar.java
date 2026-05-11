@@ -12,6 +12,7 @@ public class ActionBar extends Bar{
     
     private Playing playing;
     private MyButton bMenu;
+    private int gold = 500;
 
     public ActionBar(int x, int y, int width, int height, Playing playing){
         super(x, y, width, height);
@@ -55,4 +56,7 @@ public class ActionBar extends Bar{
         bMenu.resetBooleans();
     }
 
+    public void addGold(int getReward) {
+        this.gold += getReward;
+    }
 }

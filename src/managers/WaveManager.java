@@ -92,4 +92,8 @@ public class WaveManager {
     public boolean isWaveTimerStarted() {
         return waveStartTimer;
     }
+
+    public boolean isWaveTimerOver() {
+        return waveTickTimerOver;
+    }
 }
