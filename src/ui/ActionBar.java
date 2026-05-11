@@ -22,6 +22,8 @@ public class ActionBar extends Bar{
     private Tower selectedTower; ;
     private Tower displayedTower;
 
+    private MyButton sellTower, upgradeTower;
+
     public ActionBar(int x, int y, int width, int height, Playing playing){
         super(x, y, width, height);
         this.playing = playing;
@@ -42,6 +44,10 @@ public class ActionBar extends Bar{
         for(int i = 0; i < towerButtons.length; i++){
             towerButtons[i] = new MyButton("" ,xStart + i * xOffset, yStart, w, h,i);
         }
+
+        //sellTower, upgradeTower
+        sellTower = new MyButton("Sell", 490, 675, 50, 30);
+        upgradeTower = new MyButton("Upgrade", 570, 675, 50, 30);
     }
 
     private void drawButtons(Graphics g){
@@ -83,6 +89,10 @@ public class ActionBar extends Bar{
             g.drawString("ID: " + displayedTower.getId(), 410, 690);
             drawDisplayedTowerBorder(g);
             drawDisplayedTowerRange(g);
+
+            //Sell button
+            sellTower.draw(g);
+            upgradeTower.draw(g);
         }
     }
 
@@ -105,6 +115,9 @@ public class ActionBar extends Bar{
     public void mouseMoved(int x, int y){
         bMenu.setMouseOver(false);
         bPause.setMouseOver(false);
+        sellTower.setMouseOver(false);
+        upgradeTower.setMouseOver(false);
+
         for (MyButton b : towerButtons)
             b.setMouseOver(false);
         if(bMenu.getBounds().contains(x, y))
