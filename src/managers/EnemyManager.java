@@ -17,13 +17,15 @@ import static helpz.Constants.Enemies.*;
 import static helpz.Constants.Tiles.*;
 
 import java.awt.Color;
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 
 public class EnemyManager {
 
     private BufferedImage[] enemyImgs;
     private Playing playing;
-    private ArrayList<Enemy> enemies = new ArrayList<>();
+    private List<Enemy> enemies = new CopyOnWriteArrayList<>();
     private PathPoint start, end;
     private int HPBarWidth = 20;
     private BufferedImage slowEffect;
@@ -223,7 +225,7 @@ public class EnemyManager {
     private void drawEnemy(Enemy e, Graphics g){
         g.drawImage(enemyImgs[e.getEnemyType()],(int)e.getX() ,(int)e.getY(), null);
     }
-    public ArrayList<Enemy> getEnemies() {
+    public List<Enemy> getEnemies() {
         return enemies;
     }
 

@@ -3,8 +3,6 @@ package managers;
 import enemies.Enemy;
 import events.Wave;
 import scenes.Playing;
-
-import javax.lang.model.type.ArrayType;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -39,6 +37,7 @@ public class WaveManager {
         waveIndex++;
         waveTickTimerOver = false;
         waveStartTimer = false;
+        waveTick = 0;
     }
 
     public boolean isWaveTimeOver() {
@@ -72,7 +71,7 @@ public class WaveManager {
     }
 
     public boolean isThereMoreWaves() {
-        return waveIndex + 1 > waves.size();
+        return waveIndex + 1 < waves.size();
     }
 
 
