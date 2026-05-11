@@ -4,11 +4,9 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
-import enemies.Enemy;
 import helpz.LoadSave;
 import main.Game;
 import managers.EnemyManager;
-import managers.WaveManager;
 import objects.PathPoint;
 import ui.ActionBar;
 
@@ -18,10 +16,7 @@ public class Playing extends GameScene implements SceneMethods {
     private ActionBar actionBar;
     private int mouseX, mouseY;
     private EnemyManager enemyManager;
-    private WaveManager waveManager;
     private PathPoint start, end;
-
-    private boolean gamePaused;
 
     public Playing(Game game) {
         super(game);
@@ -32,7 +27,7 @@ public class Playing extends GameScene implements SceneMethods {
 
         enemyManager = new EnemyManager(this, start, end);
 
-        waveManager = new WaveManager(this);
+
     }
 
     private void loadDefaultLevel(){
@@ -52,65 +47,8 @@ public class Playing extends GameScene implements SceneMethods {
     enemyManager = new EnemyManager(this, start, end);
 }
     public void update(){
-
-        if(!gamePaused){
-            updateTick();
-            waveManager.update();
-            if(isAllEnemiesDead()){
-                if(isThereMoreWaves()){
-                    waveManager.startWaveTimer();
-                    //check timer
-                    if(isWaveTimerOver()){
-                        waveManager.increaseWaveIndex();
-                        enemyManager.getEnemies().clear();
-                        waveManager.resetEnemyIndex();
-                    }
-
-                    //Increase wave index
-                }
-            }
-            if(isTimeForNewEnemy()){
-                spawnEnemy();
-            }
-
-            enemyManager.update();
-        }
-
-    }
-
-    private boolean isWaveTimerOver() {
-        return waveManager.isWaveTimeOver();
-    }
-
-    private boolean isThereMoreWaves() {
-        return waveManager.isThereMoreWaves();
-    }
-
-    private boolean isAllEnemiesDead() {
-
-        if(waveManager.isThereMoreEnemiesInWave()){
-            return false;
-        }
-
-        for(Enemy e : enemyManager.getEnemies())
-            if(e.isAlive())
-                return false;
-
-        return true;
-    }
-
-    private void spawnEnemy() {
-        enemyManager.spawnEnemy(waveManager.getNextEnemy());
-    }
-
-    private boolean isTimeForNewEnemy() {
-        if(waveManager.isTimeForNewEnemy()){
-            if(waveManager.isThereMoreEnemiesInWave()){
-                return true;
-            }
-        }
-
-        return false;
+        updateTick();
+        enemyManager.update();
     }
 
     @Override
@@ -119,13 +57,6 @@ public class Playing extends GameScene implements SceneMethods {
         drawLevel(g);
         actionBar.draw(g);
         enemyManager.draw(g);
-
-
-        drawWaveInfos(g);
-
-    }
-
-    private void drawWaveInfos(Graphics g) {
 
     }
 
@@ -169,9 +100,6 @@ public class Playing extends GameScene implements SceneMethods {
         //     enemyManager.addEnemy(x,y);      
     }
 
-    public void setGamePaused(boolean gamePaused) {
-        this.gamePaused = gamePaused;
-    }
 
     @Override
     public void mouseMoved(int x, int y){
@@ -200,17 +128,6 @@ public class Playing extends GameScene implements SceneMethods {
 
     }
 
-
-    public WaveManager getWaveManager() {
-        return waveManager;
-    }
-
-    public boolean isGamePaused(){
-        return gamePaused;
-    }
-
-    public EnemyManager getEnemyManager(){
-        return enemyManager;
-    }
-
+    
+    
 }
