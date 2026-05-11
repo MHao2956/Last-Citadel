@@ -3,6 +3,7 @@ package ui;
 import java.awt.Color;
 import java.awt.Graphics;
 
+
 public class Bar {
 
     protected int x, y, width, height;
