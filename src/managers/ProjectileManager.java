@@ -74,14 +74,23 @@ public class ProjectileManager {
                        explodeOnEnemies(p);
                         
                 } 
-            }else{
-         
+            }else if (isProjOutSideBounds(p)){
+                    p.setActive(false);
             }
         }
     }
         for(Explosion e : explosions)
             if(e.getIndex() < 7)
-            e.update();
+                e.update();
+    }
+
+    private boolean isProjOutSideBounds(Projectile p) {
+        if(p.getPos().x >= 0)
+            if(p.getPos().x <= 640)
+                if(p.getPos().y >= 0)
+                    if(p.getPos().y <= 800)
+                        return false;
+        return true;
     }
 
     private void explodeOnEnemies(Projectile p){
@@ -104,13 +113,13 @@ public class ProjectileManager {
     private boolean isProjHittingEnemy(Projectile p) {
         for(Enemy e:playing.getEnemyManager().getEnemies()){
             if(e.isAlive())
-            if(e.getBounds().contains(p.getPos())){
-                e.hurt(p.getDmg());
-                if(p.getProjectileType() == ICE)
-                    e.slow();
+                if(e.getBounds().contains(p.getPos())){
+                    e.hurt(p.getDmg());
+                    if(p.getProjectileType() == ICE)
+                        e.slow();
 
-                return true;
-            }
+                    return true;
+                }
         }
 
        return false;
@@ -175,5 +184,12 @@ public class ProjectileManager {
         public Point2D.Float getPos(){
             return pos;
         }
+    }
+
+    public void reset(){
+        projectiles.clear();
+        explosions.clear();
+
+        proj_id = 0;
     }
 }

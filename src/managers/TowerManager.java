@@ -80,4 +80,9 @@ public class TowerManager {
             int range =helpz.Utilz.GetHypotenuseDistance(t.getX(), t.getY(),e.getX(),e.getY());
                   return range <= t.getRange();
     }
+
+    public void reset(){
+        towers.clear();
+        towerAmount = 0;
+    }
 }

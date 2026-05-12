@@ -1,8 +1,5 @@
 package ui;
 
-import static main.GameStates.MENU;
-import static main.GameStates.SetGameState;
-
 import java.awt.*;
 import java.text.DecimalFormat;
 
@@ -10,6 +7,7 @@ import helpz.Constants.Towers;
 import objects.Tower;
 import scenes.Playing;
 import static helpz.Constants.Towers;
+import static main.GameStates.*;
 
 public class ActionBar extends Bar{
     
@@ -25,12 +23,23 @@ public class ActionBar extends Bar{
 
     private MyButton sellTower, upgradeTower;
 
+    private int lives = 1;
+
     public ActionBar(int x, int y, int width, int height, Playing playing){
         super(x, y, width, height);
         this.playing = playing;
         formatter = new DecimalFormat("0.0");
 
         initButtons();
+    }
+
+    public void resetEverything() {
+        lives = 25;
+        towerCostType = 0;
+        showTowerCost = false;
+        gold = 100;
+        selectedTower = null;
+        displayedTower = null;
     }
     
     private void initButtons(){
@@ -51,6 +60,12 @@ public class ActionBar extends Bar{
         upgradeTower = new MyButton("Upgrade", 560, 700, 50, 30);
     }
 
+    public void removeOneLives(){
+        lives--;
+        if(lives <= 0)
+            SetGameState(GAME_OVER);
+    }
+
     private void drawButtons(Graphics g){
         bMenu.draw(g);
         bPause.draw(g);
@@ -61,27 +76,32 @@ public class ActionBar extends Bar{
             drawButtonFeedback(g, b);
         }
     }
- public void draw(Graphics g){
-        g.setColor(new Color(220, 123, 15));
-        g.fillRect(x, y, width, height);
+     public void draw(Graphics g){
+            g.setColor(new Color(220, 123, 15));
+            g.fillRect(x, y, width, height);
 
-        drawButtons(g);
-        //Wave info
+            drawButtons(g);
+            //Wave info
 
-        if(playing.isGamePaused()){
+            //game paused text
+            if(playing.isGamePaused()){
+                g.setColor(Color.black);
+                g.drawString("Game is Paused!", 110, 790);
+            }
+
+            drawDisplayedTower(g);
+
+            drawWaveInfo(g);
+
+            drawGoldAmount(g);
+
+            if(showTowerCost)
+                drawTowerCost(g);
+
+            //Lives
             g.setColor(Color.black);
-            g.drawString("Game is Paused!", 110, 790);
-        }
-
-        drawDisplayedTower(g);
-        
-        drawWaveInfo(g);
-
-        drawGoldAmount(g);
-        if(showTowerCost)
-        drawTowerCost(g);
-
-    }
+            g.drawString("Lives: " + lives, 110, 750);
+     }
   
 
     private void drawDisplayedTower(Graphics g){
@@ -193,11 +213,11 @@ public class ActionBar extends Bar{
             }
 
             for (MyButton b : towerButtons)
-            if(b.getBounds().contains(x, y)){
-                b.setMouseOver(true);
-                showTowerCost=true;
-                towerCostType=b.getId();
-            return;
+                if(b.getBounds().contains(x, y)){
+                    b.setMouseOver(true);
+                    showTowerCost=true;
+                    towerCostType=b.getId();
+                return;
         }
     }
     }
@@ -218,10 +238,10 @@ public class ActionBar extends Bar{
         }
 
             for (MyButton b : towerButtons)
-            if(b.getBounds().contains(x, y)){
-                b.setMousePressed(true);
-                return;
-            
+                if(b.getBounds().contains(x, y)){
+                    b.setMousePressed(true);
+                    return;
+
         }
     }
 
@@ -318,4 +338,10 @@ public class ActionBar extends Bar{
     public void addGold(int getReward) {
         this.gold += getReward;
     }
+
+    public int getLives() {
+        return lives;
+    }
+
+
 }
