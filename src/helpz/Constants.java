@@ -111,9 +111,9 @@ public class Constants {
                 case ICE_TOWER:
                     return 50;
                 case FIRE_TOWER:
-                    return 35;
+                    return 25;
                 case ROCKET_TOWER:
-                    return 120;
+                    return 70;
             }
             return 0;
         }

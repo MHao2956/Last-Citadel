@@ -3,15 +3,15 @@ import java.awt.geom.Point2D;
 
 public class Projectile {
     private Point2D.Float pos;
-    private int id, projectileType, damage;
+    private int id, projectileType, dmg ;
     private boolean active = true;
     private float xSpeed, ySpeed,rotation;
 
-    public Projectile(float x, float y, float xSpeed, float ySpeed, int damage, float rotation, int id, int projectileType){
+    public Projectile(float x, float y, float xSpeed, float ySpeed, int dmg, float rotation, int id, int projectileType){
         pos = new Point2D.Float(x, y);
         this.xSpeed = xSpeed;
         this.ySpeed = ySpeed;
-        this.damage = damage;
+        this.dmg = dmg;
         this.rotation = rotation;
         this.id = id;
         this.projectileType = projectileType;
@@ -39,7 +39,7 @@ public class Projectile {
         this.active = active;
     }
     public int getDmg(){
-        return damage;
+        return dmg;
     }
     public float getRotation(){
         return rotation;

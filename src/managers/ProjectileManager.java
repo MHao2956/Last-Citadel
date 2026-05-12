@@ -56,15 +56,10 @@ public class ProjectileManager {
         if (t.getY()>e.getY())
                 ySpeed*=-1;
 
-        float rotate = 0;
-
-        if(type == FIRE){
         float arcValue=(float)Math.atan(yDistance/(float) xDistance);
-        rotate = (float) Math.toDegrees(arcValue);
-
+        float rotate = (float) Math.toDegrees(arcValue);
             if(xDistance < 0)
                 rotate+=180;
-        }
      
         projectiles.add(new Projectile(t.getX()+16,t.getY()+16,xSpeed,ySpeed,t.getDamage(),rotate,proj_id++,type));
     }
@@ -129,17 +124,12 @@ public class ProjectileManager {
 
         for(Projectile p:projectiles)
             if(p.isActive()){
-            if(p.getProjectileType() == FIRE){
             g2d.translate(p.getPos().x, p.getPos().y);
-            g2d.rotate(Math.toRadians(90));
+            g2d.rotate(Math.toRadians(p.getRotation()));
             g2d.drawImage(proj_imgs[p.getProjectileType()], -16, -16, null);
-            g2d.rotate(Math.toRadians(-90));
+            g2d.rotate(-Math.toRadians(p.getRotation()));
             g2d.translate(-p.getPos().x, -p.getPos().y);
-            }else{
-                 g2d.drawImage(proj_imgs[p.getProjectileType()],(int)p.getPos().x-16, (int)p.getPos().y-16, null);
             }
-        }
-
         drawExplosion(g2d);
 
     }
