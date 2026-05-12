@@ -92,9 +92,9 @@ public class ActionBar extends Bar{
             g.setColor(Color.BLACK);
             g.drawRect(380, 650, 50, 50);
             g.drawRect(380, 650, 250, 80);
-            g.drawString("" + Towers.GetName(displayedTower.getTowerType()), 440, 675);
-            g.drawString("ID: " + displayedTower.getId(), 440, 690);
-            g.drawString("Tier: " + displayedTower.getTier(), 440, 705);
+            g.drawString("" + Towers.GetName(displayedTower.getTowerType()), 440, 665);
+            g.drawString("ID: " + displayedTower.getId(), 440, 680);
+            g.drawString("Tier: " + displayedTower.getTier(), 440, 695);
             drawDisplayedTowerBorder(g);
             drawDisplayedTowerRange(g);
 
