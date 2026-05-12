@@ -184,16 +184,16 @@ public class EnemyManager {
 
         switch(enemyType){
             case ENEMY1:
-                enemies.add(new ENEMY1(x, y, 0));
+                enemies.add(new ENEMY1(x, y, 0, this));
                 break;
             case ENEMY2:
-                enemies.add(new ENEMY2(x, y, 0));
+                enemies.add(new ENEMY2(x, y, 0, this));
                 break;
             case ENEMY3:
-                enemies.add(new ENEMY3(x, y, 0));
+                enemies.add(new ENEMY3(x, y, 0, this));
                 break;
             case ENEMY4:
-                enemies.add(new ENEMY4(x, y, 0));
+                enemies.add(new ENEMY4(x, y, 0, this));
                 break;
         }
         
@@ -237,4 +237,7 @@ public class EnemyManager {
 
         return size;
     }
+    public void rewardPlayer(int enemyType){
+        playing.rewardPlayer(enemyType);
+}
 }

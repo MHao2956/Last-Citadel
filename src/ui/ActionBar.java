@@ -5,9 +5,8 @@ import static main.GameStates.SetGameState;
 
 import java.awt.*;
 import java.text.DecimalFormat;
-import java.awt.Color;
-import java.awt.Graphics;
 
+import helpz.Constants.Towers;
 import objects.Tower;
 import scenes.Playing;
 import static helpz.Constants.Towers;
@@ -17,7 +16,9 @@ public class ActionBar extends Bar{
     private Playing playing;
     private MyButton bMenu, bPause;
     private DecimalFormat formatter;
-    private int gold = 500;
+    private int gold = 100;
+    private boolean showTowerCost;
+    private int towerCostType;
     private MyButton[] towerButtons ;
     private Tower selectedTower; ;
     private Tower displayedTower;
@@ -46,8 +47,8 @@ public class ActionBar extends Bar{
         }
 
         //sellTower, upgradeTower
-        sellTower = new MyButton("Sell", 490, 675, 50, 30);
-        upgradeTower = new MyButton("Upgrade", 570, 675, 50, 30);
+        sellTower = new MyButton("Sell", 490, 680, 50, 30);
+        upgradeTower = new MyButton("Upgrade", 550, 680, 50, 30);
     }
 
     private void drawButtons(Graphics g){
@@ -60,33 +61,39 @@ public class ActionBar extends Bar{
             drawButtonFeedback(g, b);
         }
     }
-
-    public void draw(Graphics g){
+ public void draw(Graphics g){
         g.setColor(new Color(220, 123, 15));
         g.fillRect(x, y, width, height);
 
         drawButtons(g);
         //Wave info
-        drawWaveInfo(g);
-        //Game paused text
+
         if(playing.isGamePaused()){
             g.setColor(Color.black);
             g.drawString("Game is Paused!", 110, 790);
         }
 
         drawDisplayedTower(g);
+        
+        drawWaveInfo(g);
+
+        drawGoldAmount(g);
+        if(showTowerCost)
+        drawTowerCost(g);
+
     }
+  
 
     private void drawDisplayedTower(Graphics g){
         if(displayedTower!=null){
             g.setColor(Color.GRAY);
-            g.fillRect(350, 650, 200, 100);
-            g.drawImage(playing.getTowerManager().getTowerImgs()[displayedTower.getTowerType()],350,650,50,50,null);
+            g.fillRect(380, 650, 260, 70);
+            g.drawImage(playing.getTowerManager().getTowerImgs()[displayedTower.getTowerType()],380,650,50,50,null);
             g.setColor(Color.BLACK);
-            g.drawRect(350, 650, 50, 50);
-            g.drawRect(350, 650, 200, 100);
-            g.drawString("" + Towers.GetName(displayedTower.getTowerType()), 410, 675);
-            g.drawString("ID: " + displayedTower.getId(), 410, 690);
+            g.drawRect(380, 650, 50, 50);
+            g.drawRect(380, 650, 260, 70);
+            g.drawString("" + Towers.GetName(displayedTower.getTowerType()), 440, 675);
+            g.drawString("ID: " + displayedTower.getId(), 440, 690);
             drawDisplayedTowerBorder(g);
             drawDisplayedTowerRange(g);
 
@@ -104,6 +111,9 @@ public class ActionBar extends Bar{
         else {
             for (MyButton b : towerButtons) {
                 if (b.getBounds().contains(x, y)) {
+                    if(!isGoldEnoughForTower(b.getId())){
+                        return;
+                    }
                     selectedTower = new Tower(0, 0, -1, b.getId());
                     playing.setSelectedTower(selectedTower);
                     return;
@@ -112,12 +122,15 @@ public class ActionBar extends Bar{
         }
     }
 
+        private boolean isGoldEnoughForTower(int towerType) {
+            return gold >= helpz.Constants.Towers.GetTowerCost(towerType);
+        }
     public void mouseMoved(int x, int y){
         bMenu.setMouseOver(false);
         bPause.setMouseOver(false);
         sellTower.setMouseOver(false);
         upgradeTower.setMouseOver(false);
-
+        showTowerCost=false;
         for (MyButton b : towerButtons)
             b.setMouseOver(false);
         if(bMenu.getBounds().contains(x, y))
@@ -125,12 +138,14 @@ public class ActionBar extends Bar{
         else if(bPause.getBounds().contains(x, y))
             bPause.setMouseOver(true);
         else { for (MyButton b : towerButtons)
-            if(b.getBounds().contains(x, y))
+            if(b.getBounds().contains(x, y)){
                 b.setMouseOver(true);
+                showTowerCost=true;
+                towerCostType=b.getId();
             return;
         }
     }
-
+    }
     public void mousePressed(int x, int y){
         if(bMenu.getBounds().contains(x, y))
             bMenu.setMousePressed(true);
@@ -151,6 +166,9 @@ public class ActionBar extends Bar{
             b.resetBooleans();
         }
     }
+    public void payForTower(int towerType){
+        gold -= Towers.GetTowerCost(towerType);
+    }
     public void drawDisplayedTowerRange(Graphics g){
         g.setColor(Color.white);
         g.drawOval(displayedTower.getX() + 16 - ((int)displayedTower.getRange()*2)/2, displayedTower.getY() + 16 - ((int)displayedTower.getRange()*2)/2, (int)displayedTower.getRange()*2, (int)displayedTower.getRange()*2);
@@ -162,7 +180,34 @@ public class ActionBar extends Bar{
     public void displayTower(Tower t){
         displayedTower=t;
     }
+ 
+    private void drawTowerCost(Graphics g) {
+        g.setColor(Color.GRAY);
+        g.fillRect(280, 650, 95, 50);
+        g.setColor(Color.BLACK);
+        g.drawRect(280, 650, 95, 50);
+        g.drawString(""+getTowerCostName(), 285, 675);
+        g.drawString(""+getTowerCostCost(), 285, 690);
+        
+        if(isTowerCostMoreThanCurrentGold()){
+            g.setColor(Color.RED);
+            g.drawString("Not enough gold!", 285, 720);
+        }
+    }
+    private boolean isTowerCostMoreThanCurrentGold() {
+        return getTowerCostCost() > gold;
+    }
+    private String getTowerCostName() {
+        return helpz.Constants.Towers.GetName(towerCostType);
+    }
+    private int getTowerCostCost() {
+        return helpz.Constants.Towers.GetTowerCost(towerCostType);
+    }
+    private void drawGoldAmount(Graphics g) {
+        g.drawString("Gold: " + gold, 110, 720);
+    }
     private void drawWaveInfo(Graphics g) {
+         g.setColor(Color.black);
         drawWaveTimerInfo(g);
         drawEnemiesLeftInfo(g);
         drawWavesLeftInfo(g);
@@ -171,22 +216,21 @@ public class ActionBar extends Bar{
     private void drawWavesLeftInfo(Graphics g) {
         int current = playing.getWaveManager().getWaveIndex();
         int size = playing.getWaveManager().getWaves().size();
-        g.drawString("Wave " + (current + 1) + " / " + size, 425, 690);
+        g.drawString("Wave " + (current + 1) + " / " + size, 425, 740);
     }
 
     private void drawEnemiesLeftInfo(Graphics g) {
         int remaining = playing.getEnemyManager().getAmountOfAliveEnemies();
-        g.drawString("Enemies Left: " + remaining, 425, 720);
+        g.drawString("Enemies Left: " + remaining, 425, 760);
     }
 
     private void drawWaveTimerInfo(Graphics g){
         if(playing.getWaveManager().isWaveTimerStarted()){
             g.setFont(new Font("LucidaSans", Font.BOLD, 20));
-            g.setColor(Color.black);
             float timeLeft = playing.getWaveManager().getTimeLeft();
             String formatedText = formatter.format(timeLeft);
 
-            g.drawString("Time Left: " + formatedText, 425, 660);
+            g.drawString("Time Left: " + formatedText, 425, 720);
         }
 
     }
