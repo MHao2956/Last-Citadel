@@ -217,15 +217,14 @@ public class Playing extends GameScene implements SceneMethods {
         actionBar.payForTower(towerType);
 
     }
-//
-//    public void upgradeTower(Tower displayedTower) {
-//        towerManager.upgradeTower(displayedTower);
-//
-//    }
-//
-//    public void removeTower(Tower displayedTower) {
-//        towerManager.removeTower(displayedTower);
-//    }
+
+  public void upgradeTower(Tower displayedTower) {
+        towerManager.upgradeTower(displayedTower);
+  }
+
+   public void removeTower(Tower displayedTower) {
+        towerManager.removeTower(displayedTower);
+   }
 
     private Tower getTowerAt(int x, int y) {
         return towerManager.getTowerAt(x, y);

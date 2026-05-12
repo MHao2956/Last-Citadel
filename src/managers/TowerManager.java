@@ -28,7 +28,20 @@ public class TowerManager {
     }
     public void addTower(Tower selectedTower,int xPosition,int yPosition){
         towers.add(new Tower(xPosition,yPosition,towerAmount++,selectedTower.getTowerType()));}
-
+    public void removeTower(Tower displayedTower){
+        for(int i=0;i<towers.size();i++){
+            if(towers.get(i).getId() == displayedTower.getId()){
+                towers.remove(i);
+            }
+        }
+    }
+    public void upgradeTower(Tower displayedTower){
+        for(Tower t:towers){
+            if(t.getId() == displayedTower.getId()){
+                t.upgradeTower();
+            }
+        }
+    }
     
     public void draw(Graphics g) {
         for (Tower t : towers) {
