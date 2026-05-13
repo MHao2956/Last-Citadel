@@ -76,7 +76,7 @@ public class Tower{
     public void setTowerType(int towerType) {
         this.towerType = towerType;
     }
-    public int getDamage() {
+    public int getDmg() {
         return damage;
     }
     public float getRange() {
