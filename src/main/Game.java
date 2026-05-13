@@ -7,6 +7,9 @@ import javax.swing.JFrame;
 
 import helpz.LoadSave;
 
+import helpz.AudioPlayer;
+
+
 public class Game extends JFrame implements Runnable {
 
     private GameScreen gameScreen;
@@ -24,6 +27,9 @@ public class Game extends JFrame implements Runnable {
     private TileManager tileManager;
     private GameOver gameOver;
 
+    private AudioPlayer audioPlayer;
+    private GameStates previousGameState;
+
     public Game(){
 
         LoadSave.CreateFolder();
@@ -39,7 +45,11 @@ public class Game extends JFrame implements Runnable {
         add(gameScreen);
         pack();
         setVisible(true);
+
+        updateMusic();
     }
+
+    
 
     private void createDefaultLevel(){
         int[] arr = new int[400];
@@ -58,6 +68,8 @@ public class Game extends JFrame implements Runnable {
         settings = new Settings(this);
         editing = new Editing(this);
         gameOver = new GameOver(this);
+
+        audioPlayer = new AudioPlayer();
     }
 
     private void start(){
@@ -85,6 +97,35 @@ public class Game extends JFrame implements Runnable {
 		}
     }
 
+    private void updateMusic() {
+
+    if (previousGameState == GameStates.gameState) {
+        return;
+    }
+
+    previousGameState = GameStates.gameState;
+
+    switch (GameStates.gameState) {
+
+        case MENU:
+            audioPlayer.playMusic("res/audio/menu.wav");
+            break;
+
+        case PLAYING:
+            audioPlayer.playMusic("res/audio/battle.wav");
+            break;
+        case GAME_OVER:
+            audioPlayer.playMusic("res/audio/gameOver.wav");
+            break;
+        case EDIT:
+        case SETTINGS:
+        
+
+        default:
+            audioPlayer.stopMusic();
+            break;
+    }
+}
 
     public static void main(String[] args){
         Game game = new Game();
@@ -117,6 +158,8 @@ public class Game extends JFrame implements Runnable {
             //updates
             if(now - lastUpdate >= timePerUpdate){
                 updateGame();
+                updateMusic();
+
                 lastUpdate = now;
                 updates++;
             }
@@ -159,4 +202,9 @@ public class Game extends JFrame implements Runnable {
     public GameOver getGameOver() {
         return gameOver;
     }
+
+    public AudioPlayer getAudioPlayer() {
+    return audioPlayer;
+}
+
 }
