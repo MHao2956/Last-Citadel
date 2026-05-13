@@ -32,6 +32,20 @@ public class Constants {
         public static final int ENEMY2 = 1;
         public static final int ENEMY3 = 2;
         public static final int ENEMY4 = 3;
+
+        public static int GetReward(int enemyType){
+            switch(enemyType){
+                case ENEMY1:
+                    return 5;
+                case ENEMY2:
+                    return 10;
+                case ENEMY3:
+                    return 15;
+                case ENEMY4:
+                    return 50;
+            }
+            return 0;
+        }
         public static float GetSpeed(int enemyType) {
     switch (enemyType) {
         case ENEMY1:
@@ -73,6 +87,17 @@ public class Constants {
         public static final int FIRE_TOWER =1;
         public static final int ICE_TOWER =2;
 
+        public static int GetTowerCost(int towerType){
+            switch(towerType){
+                case ICE_TOWER:
+                    return 30;
+                case FIRE_TOWER:
+                    return 45;
+                case ROCKET_TOWER:
+                    return 65;
+            }
+            return 0;
+        }
         public static String GetName(int towerType){
             switch(towerType){
                 case ICE_TOWER:
@@ -111,9 +136,9 @@ public class Constants {
                 case ICE_TOWER:
                     return 50;
                 case FIRE_TOWER:
-                    return 35;
+                    return 25;
                 case ROCKET_TOWER:
-                    return 120;
+                    return 70;
             }
             return 0;
         }

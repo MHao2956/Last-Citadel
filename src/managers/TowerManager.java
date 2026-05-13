@@ -28,7 +28,20 @@ public class TowerManager {
     }
     public void addTower(Tower selectedTower,int xPosition,int yPosition){
         towers.add(new Tower(xPosition,yPosition,towerAmount++,selectedTower.getTowerType()));}
-
+    public void removeTower(Tower displayedTower){
+        for(int i=0;i<towers.size();i++){
+            if(towers.get(i).getId() == displayedTower.getId()){
+                towers.remove(i);
+            }
+        }
+    }
+    public void upgradeTower(Tower displayedTower){
+        for(Tower t:towers){
+            if(t.getId() == displayedTower.getId()){
+                t.upgradeTower();
+            }
+        }
+    }
     
     public void draw(Graphics g) {
         for (Tower t : towers) {
@@ -66,5 +79,10 @@ public class TowerManager {
     private boolean isEnemiesInRange(Tower t, Enemy e) {
             int range =helpz.Utilz.GetHypotenuseDistance(t.getX(), t.getY(),e.getX(),e.getY());
                   return range <= t.getRange();
+    }
+
+    public void reset(){
+        towers.clear();
+        towerAmount = 0;
     }
 }

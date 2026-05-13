@@ -1,15 +1,11 @@
 package main;
 
 import managers.TileManager;
-import scenes.Editing;
-import scenes.Playing;
-import scenes.Settings;
+import scenes.*;
 
 import javax.swing.JFrame;
 
 import helpz.LoadSave;
-
-import scenes.Menu;
 
 public class Game extends JFrame implements Runnable {
 
@@ -26,17 +22,20 @@ public class Game extends JFrame implements Runnable {
     private Editing editing;
 
     private TileManager tileManager;
+    private GameOver gameOver;
 
     public Game(){
 
         LoadSave.CreateFolder();
 
-        initClasses();
         createDefaultLevel();
+        initClasses();
+
 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setResizable(false);
+        setTitle("Last-Citadel");
         add(gameScreen);
         pack();
         setVisible(true);
@@ -58,6 +57,7 @@ public class Game extends JFrame implements Runnable {
         playing = new Playing(this);
         settings = new Settings(this);
         editing = new Editing(this);
+        gameOver = new GameOver(this);
     }
 
     private void start(){
@@ -154,5 +154,9 @@ public class Game extends JFrame implements Runnable {
 
     public TileManager getTileManager(){
         return tileManager;
+    }
+
+    public GameOver getGameOver() {
+        return gameOver;
     }
 }

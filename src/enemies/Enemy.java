@@ -1,10 +1,12 @@
 package enemies;
 
 import java.awt.Rectangle;
+import managers.EnemyManager;
 import static helpz.Constants.Diretion.*; // dau * la lay het
 //asbstract class because can not create an enenemy from enemy class, craeate from enemy1,2,3, ko tao enemy trong super class
 public abstract class Enemy {
     
+    protected EnemyManager enemyManager;
     protected float x,y;
     protected Rectangle bounds; //latter on add hitbox
     protected int health;
@@ -16,10 +18,11 @@ public abstract class Enemy {
     protected int slowTickLimit = 120;
     protected int slowTick = slowTickLimit;
 
-    public Enemy(float x, float y, int ID, int enemyType){
+    public Enemy(float x, float y, int ID, int enemyType,EnemyManager enemyManager){
         this.x = x;
         this.y = y;
         this.ID = ID;
+        this.enemyManager = enemyManager;
         this.enemyType = enemyType;
         bounds = new Rectangle((int) x, (int) y, 32, 32 );
         lastDir = -1; // tell the enemyManager is -1 is the fist update so i need to find a direction that i can go no matter where i am
@@ -31,8 +34,10 @@ public abstract class Enemy {
     }
     public void hurt(int damage){
        this.health -= damage;
-       if(health <= 0)
+       if(health <= 0){
            alive = false;
+              enemyManager.rewardPlayer(enemyType);
+       }
     }
 
     public void slow(){
