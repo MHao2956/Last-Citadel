@@ -49,14 +49,27 @@ public class MyButton {
     }
 
     public void draw(Graphics g){
+        float scale = 1f;
+        if(mouseOver)
+            scale = 1.1f;
 
-        drawBody(g);
+        int newWidth = (int)(width * scale);
+        int newHeight = (int)(height * scale);
+
+        int newX = x - (newWidth - width)/2;
+        int newY = y - (newHeight - height)/2;
+
+        if(img != null){
+            g.drawImage(img, newX, newY, newWidth, newHeight, null);
+        }
+
+        else{
+            drawBody(g);
         
-        drawBorder(g);
+            drawBorder(g);
 
-        drawText(g);   
-
-        g.drawImage(img, x, y, width, height, null);
+            drawText(g);   
+        }    
     }
 
     private void drawBorder(Graphics g){
