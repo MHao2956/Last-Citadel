@@ -42,7 +42,7 @@ public class Editing extends GameScene implements SceneMethods{
         lvl = LoadSave.GetLevelData("new_level");
 
         if(lvl == null)
-        lvl = new int[20][20];
+            lvl = new int[20][20];
         for(int y=0; y<20; y++)
             for(int x=0; x<20; x++)
                 lvl[y][x] = 0;

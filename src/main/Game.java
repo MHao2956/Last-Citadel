@@ -60,6 +60,8 @@ public class Game extends JFrame implements Runnable {
     }
 
     private void initClasses(){
+        audioPlayer = new AudioPlayer();
+
         tileManager = new TileManager(); 
         render = new Render(this);
         gameScreen = new GameScreen(this);
