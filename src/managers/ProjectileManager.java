@@ -56,15 +56,10 @@ public class ProjectileManager {
         if (t.getY()>e.getY())
                 ySpeed*=-1;
 
-        float rotate = 0;
-
-        if(type == FIRE){
         float arcValue=(float)Math.atan(yDistance/(float) xDistance);
-        rotate = (float) Math.toDegrees(arcValue);
-
+        float rotate = (float) Math.toDegrees(arcValue);
             if(xDistance < 0)
                 rotate+=180;
-        }
      
         projectiles.add(new Projectile(t.getX()+16,t.getY()+16,xSpeed,ySpeed,t.getDamage(),rotate,proj_id++,type));
     }
@@ -79,14 +74,23 @@ public class ProjectileManager {
                        explodeOnEnemies(p);
                         
                 } 
-            }else{
-         
+            }else if (isProjOutSideBounds(p)){
+                    p.setActive(false);
             }
         }
     }
         for(Explosion e : explosions)
             if(e.getIndex() < 7)
-            e.update();
+                e.update();
+    }
+
+    private boolean isProjOutSideBounds(Projectile p) {
+        if(p.getPos().x >= 0)
+            if(p.getPos().x <= 640)
+                if(p.getPos().y >= 0)
+                    if(p.getPos().y <= 800)
+                        return false;
+        return true;
     }
 
     private void explodeOnEnemies(Projectile p){
@@ -109,13 +113,13 @@ public class ProjectileManager {
     private boolean isProjHittingEnemy(Projectile p) {
         for(Enemy e:playing.getEnemyManager().getEnemies()){
             if(e.isAlive())
-            if(e.getBounds().contains(p.getPos())){
-                e.hurt(p.getDmg());
-                if(p.getProjectileType() == ICE)
-                    e.slow();
+                if(e.getBounds().contains(p.getPos())){
+                    e.hurt(p.getDmg());
+                    if(p.getProjectileType() == ICE)
+                        e.slow();
 
-                return true;
-            }
+                    return true;
+                }
         }
 
        return false;
@@ -129,17 +133,12 @@ public class ProjectileManager {
 
         for(Projectile p:projectiles)
             if(p.isActive()){
-            if(p.getProjectileType() == FIRE){
             g2d.translate(p.getPos().x, p.getPos().y);
-            g2d.rotate(Math.toRadians(90));
+            g2d.rotate(Math.toRadians(p.getRotation()));
             g2d.drawImage(proj_imgs[p.getProjectileType()], -16, -16, null);
-            g2d.rotate(Math.toRadians(-90));
+            g2d.rotate(-Math.toRadians(p.getRotation()));
             g2d.translate(-p.getPos().x, -p.getPos().y);
-            }else{
-                 g2d.drawImage(proj_imgs[p.getProjectileType()],(int)p.getPos().x-16, (int)p.getPos().y-16, null);
             }
-        }
-
         drawExplosion(g2d);
 
     }
@@ -185,5 +184,12 @@ public class ProjectileManager {
         public Point2D.Float getPos(){
             return pos;
         }
+    }
+
+    public void reset(){
+        projectiles.clear();
+        explosions.clear();
+
+        proj_id = 0;
     }
 }

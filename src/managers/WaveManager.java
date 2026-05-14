@@ -95,4 +95,15 @@ public class WaveManager {
     public boolean isWaveTimerOver() {
         return waveTickTimerOver;
     }
+
+    public void reset(){
+        waves.clear();
+        createWaves();
+        enemyIndex = 0;
+        waveIndex = 0;
+        waveStartTimer = false;
+        waveTickTimerOver = false;
+        waveTick = 0;
+        enemySpawnTick = enemySpawnTickLimit;
+    }
 }

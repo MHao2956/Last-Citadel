@@ -66,6 +66,10 @@ public class Playing extends GameScene implements SceneMethods {
         if(!gamePaused){
             updateTick();
             waveManager.update();
+            goldTick++;
+            if(goldTick % (60*3)==0){
+                actionBar.addGold(1);
+            }
             if(isAllEnemiesDead()){
                 if(isThereMoreWaves()){
                     waveManager.startWaveTimer();
@@ -197,7 +201,9 @@ public class Playing extends GameScene implements SceneMethods {
                 if(isTileGrass(mouseX, mouseY)){
                     if(getTowerAt(mouseX, mouseY) == null){
                         towerManager.addTower(selectedTower, mouseX, mouseY);
-                        selectedTower = null;}
+                        removeGold(selectedTower.getTowerType());
+                    selectedTower = null;
+                }
                 }
             } else {
                 // Not trying to place a tower
@@ -207,19 +213,18 @@ public class Playing extends GameScene implements SceneMethods {
             }
         }
     }
-//    private void removeGold(int towerType) {
-//        actionBar.payForTower(towerType);
-//
-//    }
-//
-//    public void upgradeTower(Tower displayedTower) {
-//        towerManager.upgradeTower(displayedTower);
-//
-//    }
-//
-//    public void removeTower(Tower displayedTower) {
-//        towerManager.removeTower(displayedTower);
-//    }
+    private void removeGold(int towerType) {
+        actionBar.payForTower(towerType);
+
+    }
+
+  public void upgradeTower(Tower displayedTower) {
+        towerManager.upgradeTower(displayedTower);
+  }
+
+   public void removeTower(Tower displayedTower) {
+        towerManager.removeTower(displayedTower);
+   }
 
     private Tower getTowerAt(int x, int y) {
         return towerManager.getTowerAt(x, y);
@@ -271,7 +276,9 @@ public class Playing extends GameScene implements SceneMethods {
     public void mouseDragged(int x, int y){
 
     }
-
+    public void rewardPlayer(int reward){
+        actionBar.addGold(helpz.Constants.Enemies.GetReward(reward));
+    }
     public boolean isGamePaused(){
         return gamePaused;
     }
@@ -288,5 +295,26 @@ public class Playing extends GameScene implements SceneMethods {
         return towerManager;
     }
 
+
+    public void removeOneLife() {
+        actionBar.removeOneLives();
+    }
+
+    public void resetEverything() {
+        actionBar.resetEverything();
+
+        //managers
+        enemyManager.reset();
+        towerManager.reset();
+        projManager.reset();
+        waveManager.reset();
+
+        mouseX = 0;
+        mouseY = 0;
+
+        selectedTower = null;
+        goldTick = 0;
+        gamePaused = false;
+    }
 
 }

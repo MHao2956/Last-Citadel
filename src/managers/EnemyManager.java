@@ -66,7 +66,7 @@ public class EnemyManager {
 
         for (Enemy e : enemies){
        if(e.isAlive())
-         updateEnemyMove(e);
+           updateEnemyMoveNew(e);
         }   
     }
 
@@ -76,7 +76,7 @@ public class EnemyManager {
 
 
 
-    public void updateEnemyMove(Enemy e){
+    public void updateEnemyMoveNew(Enemy e){
         if(e.getLastDir() == -1)
             setNewDirectionAndMove(e);
         int newX = (int)(e.getX() + getSpeedAndWidth(e.getLastDir(), e.getEnemyType()));
@@ -86,7 +86,7 @@ public class EnemyManager {
             e.move(GetSpeed(e.getEnemyType()), e.getLastDir());
         }else if(isAtEnd(e)){
             e.kill();
-            System.out.println("Lives lost!");
+            playing.removeOneLife();
         }else {
             setNewDirectionAndMove(e);
         }
@@ -137,13 +137,20 @@ public class EnemyManager {
         }
 
 
-        private boolean isAtEnd(Enemy e){
-            if(e.getX() == end.getxCord() * 32)
-                if(e.getY() == end.getyCord() * 32)
-                    return true;
+    private boolean isAtEnd(Enemy e) {
+        int currentX = (int) (e.getX() / 32);
+        int currentY = (int) (e.getY() / 32);
 
-            return false;
+        if (currentX == end.getxCord() && currentY == end.getyCord()) {
+            return true;
         }
+        
+        if (currentX >= 20 || currentX < 0 || currentY >= 20 || currentY < 0) {
+            return true;
+        }
+
+        return false;
+    }
     
 
     private int getTileType(int x, int y) {
@@ -184,16 +191,16 @@ public class EnemyManager {
 
         switch(enemyType){
             case ENEMY1:
-                enemies.add(new ENEMY1(x, y, 0));
+                enemies.add(new ENEMY1(x, y, 0, this));
                 break;
             case ENEMY2:
-                enemies.add(new ENEMY2(x, y, 0));
+                enemies.add(new ENEMY2(x, y, 0, this));
                 break;
             case ENEMY3:
-                enemies.add(new ENEMY3(x, y, 0));
+                enemies.add(new ENEMY3(x, y, 0, this));
                 break;
             case ENEMY4:
-                enemies.add(new ENEMY4(x, y, 0));
+                enemies.add(new ENEMY4(x, y, 0, this));
                 break;
         }
         
@@ -236,5 +243,12 @@ public class EnemyManager {
                 size++;
 
         return size;
+    }
+    public void rewardPlayer(int enemyType){
+        playing.rewardPlayer(enemyType);
+}
+
+    public void reset(){
+        enemies.clear();
     }
 }
