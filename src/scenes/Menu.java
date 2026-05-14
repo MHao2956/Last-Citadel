@@ -46,17 +46,19 @@ public class Menu extends GameScene implements SceneMethods {
         bQuit.draw(g);
     }
 
-    @Override
-    public void mouseClicked(int x, int y){
-        if(bPlaying.getBounds().contains(x, y))
-            SetGameState(PLAYING);
-        else if(bEdit.getBounds().contains(x, y))
-            SetGameState(EDIT);
-        else if (bSettings.getBounds().contains(x, y))
-            SetGameState(SETTINGS);
-        else if (bQuit.getBounds().contains(x, y))
-            System.exit(0);
+  @Override
+public void mouseClicked(int x, int y){
+    if(bPlaying.getBounds().contains(x, y))
+        SetGameState(PLAYING);
+    else if(bEdit.getBounds().contains(x, y))
+        SetGameState(EDIT);
+    else if (bSettings.getBounds().contains(x, y))
+        SetGameState(SETTINGS);
+    else if (bQuit.getBounds().contains(x, y)) {
+        game.getAudioPlayer().stopMusic();
+        System.exit(0);
     }
+}
 
     @Override 
     public void mouseMoved(int x, int y){

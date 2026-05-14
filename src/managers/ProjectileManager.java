@@ -60,8 +60,8 @@ public class ProjectileManager {
         float rotate = (float) Math.toDegrees(arcValue);
             if(xDistance < 0)
                 rotate+=180;
-     
-        projectiles.add(new Projectile(t.getX()+16,t.getY()+16,xSpeed,ySpeed,t.getDamage(),rotate,proj_id++,type));
+    
+        projectiles.add(new Projectile(t.getX()+16,t.getY()+16,xSpeed,ySpeed,t.getDmg(),rotate,proj_id++,type));
     }
     public void update() {
         for(Projectile p:projectiles){
@@ -128,8 +128,7 @@ public class ProjectileManager {
         Graphics2D g2d = (Graphics2D) g;
 
 
-        // for(int i = 0; i < explo_imgs.length; i++)
-        //     g2d.drawImage(explo_imgs[i], 300 + i * 32, 300, null);
+      
 
         for(Projectile p:projectiles)
             if(p.isActive()){
