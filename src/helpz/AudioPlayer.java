@@ -64,7 +64,7 @@ public class AudioPlayer {
         playSoundEffect(filePath);
     }
 
-    // Hàm phụ trợ dùng chung để phát tiếng động ngắn (click, bắn)
+    //  tiếng động ngắn (click, bắn)
     private void playSoundEffect(String filePath) {
         try {
             File sfxFile = new File(filePath);
@@ -83,8 +83,6 @@ public class AudioPlayer {
             e.printStackTrace();
         }
     }
-
-    // --- CÁC HÀM GETTER / SETTER ---
 
     public void setVolume(int volumeLevel) {
         this.currentVolumeLevel = volumeLevel;
@@ -143,6 +141,7 @@ public class AudioPlayer {
         // Lưu ý: KHÔNG set currentSong = null ở đây, để lúc Unmute còn biết bài gì mà bật lại
     }
 
+
     public boolean isMuted() { return isMuted; }
     public int getVolumeLevel() { return currentVolumeLevel; }
 
@@ -151,4 +150,16 @@ public class AudioPlayer {
 
     public boolean isShootSfxOn() { return isShootSfxOn; }
     public void setShootSfxOn(boolean shootSfxOn) { this.isShootSfxOn = shootSfxOn; }
+
+    public void playSoundEffect(String path) {
+    try {
+        AudioInputStream audioInput = AudioSystem.getAudioInputStream(new File(path));
+        Clip clip = AudioSystem.getClip();
+        clip.open(audioInput);
+        clip.start();
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+}
+
 }

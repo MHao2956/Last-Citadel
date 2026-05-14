@@ -40,6 +40,35 @@ public class LoadSave {
         return img;
     }
 
+    //hàm load ảnh riêng
+    public static BufferedImage getImage(String fileName) {
+    BufferedImage img = null;
+
+    try {
+        InputStream is = LoadSave.class.getClassLoader().getResourceAsStream(fileName);
+
+        if (is != null) {
+            img = ImageIO.read(is);
+            is.close();
+            return img;
+        }
+
+        File file = new File("res/" + fileName);
+
+        if (file.exists()) {
+            img = ImageIO.read(file);
+            return img;
+        }
+
+        System.out.println("Image not found: " + fileName);
+
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+
+    return img;
+}
+
     public static void CreateLevel(String name, int[] idArr){
         File newLevel = new File("res/" + name + ".txt");
         if(newLevel.exists()){

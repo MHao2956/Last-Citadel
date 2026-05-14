@@ -21,6 +21,8 @@ public class Tile {
         this.tileType = tileType;
     }
 
+    
+
     public int getTileType(){
         return tileType;
     }
