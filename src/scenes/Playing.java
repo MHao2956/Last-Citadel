@@ -2,7 +2,6 @@ package scenes;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import helpz.LoadSave;
@@ -18,6 +17,7 @@ import enemies.Enemy;
 import java.awt.event.KeyEvent;
 import static helpz.Constants.Tiles.GRASS_TILE;
 import managers.ProjectileManager;
+import static main.GameStates.*;
 
 public class Playing extends GameScene implements SceneMethods {
 

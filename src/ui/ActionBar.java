@@ -23,7 +23,7 @@ public class ActionBar extends Bar{
 
     private MyButton sellTower, upgradeTower;
 
-    private int lives = 1;
+    private int lives = 5;
 
     public ActionBar(int x, int y, int width, int height, Playing playing){
         super(x, y, width, height);
@@ -34,7 +34,7 @@ public class ActionBar extends Bar{
     }
 
     public void resetEverything() {
-        lives = 25;
+        lives = 5;
         towerCostType = 0;
         showTowerCost = false;
         gold = 100;
