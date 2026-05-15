@@ -19,6 +19,10 @@ public class AudioPlayer {
     private float currentVolumeDb = 0f;
     private int currentVolumeLevel = 5;
 
+    public AudioPlayer(){
+        setVolume(currentVolumeLevel);
+    }
+
     public void playMusic(String filePath) {
         if (isMuted) return; // if turn off, then cannot load file
 
@@ -53,12 +57,12 @@ public class AudioPlayer {
     }
 
     public void playButtonSfx(String filePath) {
-        if (!isBtnSfxOn) return; // Nếu tắt SFX thì không phát
+        if (!isBtnSfxOn) return; // turn off SFX
         playSoundEffect(filePath);
     }
 
     public void playShootSfx(String filePath) {
-        if (!isShootSfxOn) return; // Nếu tắt SFX thì không phát
+        if (!isShootSfxOn) return; // turn off SFX
         playSoundEffect(filePath);
     }
 
@@ -72,11 +76,11 @@ public class AudioPlayer {
             Clip sfxClip = AudioSystem.getClip();
             sfxClip.open(audioStream);
 
-            // Đồng bộ âm lượng SFX theo thanh Volume chung
+
             FloatControl gainControl = (FloatControl) sfxClip.getControl(FloatControl.Type.MASTER_GAIN);
             gainControl.setValue(currentVolumeDb);
 
-            sfxClip.start(); // Phát 1 lần, không lặp lại
+            sfxClip.start(); //play once time
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -108,11 +112,11 @@ public class AudioPlayer {
     public void unmute() {
         isMuted = false;
 
-        // Nếu trước đó đang có nhạc mà bị tắt ngang, ta bật lại luôn
+        // current có nhạc mà bị tắt ngang, we turn on immediately
         if (currentSong != null && (musicClip == null || !musicClip.isRunning())) {
             playMusic(currentSong);
         } else {
-            applyCurrentVolume(); // Khôi phục lại âm lượng trước đó
+            applyCurrentVolume(); // return lại âm lượng trước đó
         }
     }
 
@@ -135,7 +139,6 @@ public class AudioPlayer {
             musicClip.close();
             musicClip = null;
         }
-        // Lưu ý: KHÔNG set currentSong = null ở đây, để lúc Unmute còn biết bài gì mà bật lại
     }
 
 
