@@ -52,8 +52,6 @@ public class AudioPlayer {
         }
     }
 
-    // --- CÁC HÀM XỬ LÝ SFX ---
-
     public void playButtonSfx(String filePath) {
         if (!isBtnSfxOn) return; // Nếu tắt SFX thì không phát
         playSoundEffect(filePath);
@@ -65,7 +63,7 @@ public class AudioPlayer {
     }
 
     //  tiếng động ngắn (click, bắn)
-    private void playSoundEffect(String filePath) {
+    public void playSoundEffect(String filePath) {
         try {
             File sfxFile = new File(filePath);
             if (!sfxFile.exists()) return;
@@ -90,7 +88,6 @@ public class AudioPlayer {
         if (volumeLevel == 0) {
             currentVolumeDb = -80.0f; // Tắt hẳn tiếng
         } else {
-            // Chuyển đổi mức 1-10 thành decibel (dB)
             float minDb = -40.0f;
             float maxDb = 6.0f;
             currentVolumeDb = minDb + ((maxDb - minDb) * (volumeLevel - 1) / 9.0f);
@@ -104,7 +101,7 @@ public class AudioPlayer {
         isMuted = true;
         if (musicClip != null && musicClip.isOpen()) {
             FloatControl gainControl = (FloatControl) musicClip.getControl(FloatControl.Type.MASTER_GAIN);
-            gainControl.setValue(-80.0f); // Set về mức thấp nhất
+            gainControl.setValue(-80.0f); // Set lowest
         }
     }
 
@@ -151,15 +148,15 @@ public class AudioPlayer {
     public boolean isShootSfxOn() { return isShootSfxOn; }
     public void setShootSfxOn(boolean shootSfxOn) { this.isShootSfxOn = shootSfxOn; }
 
-    public void playSoundEffect(String path) {
-    try {
-        AudioInputStream audioInput = AudioSystem.getAudioInputStream(new File(path));
-        Clip clip = AudioSystem.getClip();
-        clip.open(audioInput);
-        clip.start();
-    } catch (Exception e) {
-        e.printStackTrace();
-    }
-}
+//    public void playSoundEffect(String path) {
+//    try {
+//        AudioInputStream audioInput = AudioSystem.getAudioInputStream(new File(path));
+//        Clip clip = AudioSystem.getClip();
+//        clip.open(audioInput);
+//        clip.start();
+//    } catch (Exception e) {
+//        e.printStackTrace();
+//    }
+//}
 
 }
