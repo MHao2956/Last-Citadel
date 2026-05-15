@@ -1,34 +1,41 @@
 package scenes;
 
 import java.awt.Graphics;
+import java.awt.image.BufferedImage;
 
+import helpz.LoadSave;
 import main.Game;
 import ui.MyButton;
 import static main.GameStates.*;
 
 public class Menu extends GameScene implements SceneMethods { 
     private MyButton bPlaying, bEdit, bSettings, bQuit;
+    private BufferedImage bgImg;
 
     public Menu(Game game){
         super(game);
         initButtons();
+
+        //draw backgr img
+        bgImg = LoadSave.getImage("bg.png");
     }
 
     private void initButtons(){
         int w = 150;
         int h = w/3;
         int x = 640/2 - w/2;
-        int y = 150;
+        int y = 300;
         int yOffset = 100;
 
-        bPlaying = new MyButton("Play", x, y, w, h);
-        bEdit = new MyButton("Edit", x, y + yOffset, w, h);
-        bSettings = new MyButton("Settings", x, y + yOffset*2, w, h);
-        bQuit = new MyButton("Quit", x, y + yOffset*3, w, h);
+        bPlaying = new MyButton("play.png", x, y, w, h);
+        bEdit = new MyButton("edit.png", x, y + yOffset, w, h);
+        bSettings = new MyButton("settings.png", x, y + yOffset*2, w, h);
+        bQuit = new MyButton("quit.png", x, y + yOffset*3, w, h);
     }
 
     @Override
     public void render(Graphics g){
+        g.drawImage(bgImg, 0, 0, 640, 800, null);
         drawButtons(g);
     }
 
