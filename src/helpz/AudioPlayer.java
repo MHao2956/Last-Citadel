@@ -51,4 +51,16 @@ public class AudioPlayer {
 
         currentSong = null;
     }
+
+    public void playSoundEffect(String path) {
+    try {
+        AudioInputStream audioInput = AudioSystem.getAudioInputStream(new File(path));
+        Clip clip = AudioSystem.getClip();
+        clip.open(audioInput);
+        clip.start();
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+}
+
 }

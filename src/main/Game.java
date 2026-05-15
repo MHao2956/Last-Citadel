@@ -47,6 +47,7 @@ public class Game extends JFrame implements Runnable {
         setVisible(true);
 
         updateMusic();
+        
     }
 
     
@@ -60,6 +61,9 @@ public class Game extends JFrame implements Runnable {
     }
 
     private void initClasses(){
+
+        audioPlayer = new AudioPlayer();
+
         tileManager = new TileManager(); 
         render = new Render(this);
         gameScreen = new GameScreen(this);
@@ -69,7 +73,7 @@ public class Game extends JFrame implements Runnable {
         editing = new Editing(this);
         gameOver = new GameOver(this);
 
-        audioPlayer = new AudioPlayer();
+        
     }
 
     private void start(){

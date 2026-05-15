@@ -6,42 +6,93 @@ import static main.GameStates.*;
 
 import java.awt.*;
 
+import helpz.LoadSave;
+import java.awt.image.BufferedImage;
+
+import helpz.AudioPlayer;
+
 public class GameOver extends GameScene implements SceneMethods {
 
     private MyButton bReplay, bMenu;
+    private boolean wasOverMenu = false;
+    private boolean wasOverReplay = false;
+
+    private BufferedImage gameOverBg;
+    private BufferedImage menuImg;
+    private BufferedImage replayImg;
+
+private float menuScale = 1f;
+private float replayScale = 1f;
+
+private AudioPlayer audioPlayer;
 
     public GameOver(Game game) {
         super(game);
+        this.audioPlayer = game.getAudioPlayer();
+        gameOverBg = LoadSave.getImage("gameover_bg.png");
+        menuImg = LoadSave.getImage("btn_menu.png");
+        replayImg = LoadSave.getImage("btn_replay.png");
         initButtons();
+
     }
 
-    private void initButtons() {
-        int w = 150;
-        int h = w/3;
-        int x = 640/2 - w/2;
-        int y = 300;
-        int yOffset = 100;
+ private void initButtons() {
+    int w = 300;
+    int h = 175;
+    int x = 640 / 2 - w / 2;
 
-        bMenu = new MyButton("Menu", x,y,w,h);
-        bReplay = new MyButton("Replay", x, y + yOffset, w, h);
+    bMenu = new MyButton("Menu", x, 400, w, h);
+    bReplay = new MyButton("Replay", x, 530, w, h);
+}
+
+@Override
+public void render(Graphics g) {
+    Graphics2D g2d = (Graphics2D) g;
+
+    if (gameOverBg != null) {
+        g2d.drawImage(gameOverBg, 0, 0, 640, 800, null);
     }
 
-    @Override
-    public void render(Graphics g) {
-        //game over text
-        g.setFont(new Font("LucidaSans", Font.BOLD, 50));
-        g.setColor(Color.red);
-        g.drawString("Game Over!", 160, 80);
+    updateButtonScale();
 
-        //buttons
-        g.setFont(new Font("LucidaSans", Font.BOLD, 20));
-        bMenu.draw(g);
-        bReplay.draw(g);
+    drawImageButton(g2d, menuImg, bMenu, menuScale);
+    drawImageButton(g2d, replayImg, bReplay, replayScale);
+}
 
-        //exit
-        //replay
-        //meunu
-    }
+private void updateButtonScale() {
+    if (bMenu.isMousePressed())
+        menuScale = approach(menuScale, 0.95f);
+    else if (bMenu.isMouseOver())
+        menuScale = approach(menuScale, 1.10f);
+    else
+        menuScale = approach(menuScale, 1f);
+
+    if (bReplay.isMousePressed())
+        replayScale = approach(replayScale, 0.95f);
+    else if (bReplay.isMouseOver())
+        replayScale = approach(replayScale, 1.10f);
+    else
+        replayScale = approach(replayScale, 1f);
+}
+
+
+//method vẽ ảnh nút
+private float approach(float current, float target) {
+    return current + (target - current) * 0.18f;
+}
+
+private void drawImageButton(Graphics2D g2d, BufferedImage img, MyButton b, float scale) {
+    if (img == null)
+        return;
+
+    int newWidth = (int) (b.width * scale);
+    int newHeight = (int) (b.height * scale);
+
+    int newX = b.x - (newWidth - b.width) / 2;
+    int newY = b.y - (newHeight - b.height) / 2;
+
+    g2d.drawImage(img, newX, newY, newWidth, newHeight, null);
+}
 
     private void replayGame() {
         //reset everything
@@ -67,18 +118,26 @@ public class GameOver extends GameScene implements SceneMethods {
 
 
 
-    @Override
-    public void mouseMoved(int x, int y) {
-        bMenu.setMouseOver(false);
-        bReplay.setMouseOver(false);
+@Override
+public void mouseMoved(int x, int y) {
 
-        if(bMenu.getBounds().contains(x, y)){
-            bMenu.setMouseOver(true);
-        }
-        else if(bReplay.getBounds().contains(x, y)){
-            bReplay.setMouseOver(true);
-        }
+    boolean overMenu = bMenu.getBounds().contains(x, y);
+    boolean overReplay = bReplay.getBounds().contains(x, y);
+
+    bMenu.setMouseOver(overMenu);
+    bReplay.setMouseOver(overReplay);
+
+    if (overMenu && !wasOverMenu) {
+        audioPlayer.playSoundEffect("res/audio/hover.wav");
     }
+
+    if (overReplay && !wasOverReplay) {
+        audioPlayer.playSoundEffect("res/audio/hover.wav");
+    }
+
+    wasOverMenu = overMenu;
+    wasOverReplay = overReplay;
+}
 
     @Override
     public void mousePressed(int x, int y) {
