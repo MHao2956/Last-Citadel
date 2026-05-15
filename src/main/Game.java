@@ -26,6 +26,7 @@ public class Game extends JFrame implements Runnable {
 
     private TileManager tileManager;
     private GameOver gameOver;
+    private GameWin gameWin;
 
     private AudioPlayer audioPlayer;
     private GameStates previousGameState;
@@ -72,6 +73,7 @@ public class Game extends JFrame implements Runnable {
         settings = new Settings(this);
         editing = new Editing(this);
         gameOver = new GameOver(this);
+        gameWin = new GameWin(this);
 
         
     }
@@ -121,14 +123,14 @@ public class Game extends JFrame implements Runnable {
         case GAME_OVER:
             audioPlayer.playMusic("res/audio/gameOver.wav");
             break;
+        case GAME_WIN:
+            break;
         case EDIT:
              audioPlayer.playMusic("res/audio/menu.wav");
             break;
         case SETTINGS:
              audioPlayer.playMusic("res/audio/menu.wav");
             break;
-        
-
         default:
             audioPlayer.stopMusic();
             break;
@@ -215,4 +217,7 @@ public class Game extends JFrame implements Runnable {
     return audioPlayer;
 }
 
+    public GameWin getGameWin() {
+        return gameWin;
+    }
 }
