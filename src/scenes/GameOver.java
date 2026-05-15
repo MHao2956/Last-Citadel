@@ -37,12 +37,12 @@ private AudioPlayer audioPlayer;
     }
 
  private void initButtons() {
-    int w = 300;
-    int h = 145;
+    int w = 200;
+    int h = 150;
     int x = 640 / 2 - w / 2;
 
-    bMenu = new MyButton("Menu", x, 430, w, h);
-    bReplay = new MyButton("Replay", x, 550, w, h);
+    bMenu = new MyButton("Menu", x, 380, w, h);
+    bReplay = new MyButton("Replay", x, 470, w, h);
 }
 
 @Override
