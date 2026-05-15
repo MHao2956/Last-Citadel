@@ -39,11 +39,11 @@ public class Game extends JFrame implements Runnable {
 
 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);
         setResizable(false);
         setTitle("Last-Citadel");
         add(gameScreen);
         pack();
+        setLocationRelativeTo(null);
         setVisible(true);
 
         updateMusic();
