@@ -1,7 +1,6 @@
 package scenes;
 
-import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.*;
 import java.util.ArrayList;
 
 import helpz.LoadSave;
@@ -32,6 +31,10 @@ public class Playing extends GameScene implements SceneMethods {
     private Tower selectedTower;
     private int goldTick;
     private boolean gamePaused;
+
+    private boolean countdownActive = true; 
+    private int countdownTick = 0;
+    private int countdownSeconds = 3;
 
     public Playing(Game game) {
         super(game);
@@ -64,6 +67,11 @@ public class Playing extends GameScene implements SceneMethods {
     public void update(){
 
         if(!gamePaused){
+            if (countdownActive) {
+                updateCountdown();
+                return;
+            }
+            
             updateTick();
             waveManager.update();
             goldTick++;
@@ -93,6 +101,18 @@ public class Playing extends GameScene implements SceneMethods {
             projManager.update();
         }
 
+    }
+
+    private void updateCountdown() {
+        countdownTick++;
+        if (countdownTick >= 60) {
+            countdownTick = 0;
+            countdownSeconds--;
+
+            if (countdownSeconds <= 0) {
+                countdownActive = false;
+            }
+        }
     }
 
     private boolean isWaveTimerOver() {
@@ -146,6 +166,26 @@ public class Playing extends GameScene implements SceneMethods {
 
         drawSelectedTower(g);
         drawHighlight(g);
+
+        if (countdownActive) {
+            drawCountdown(g);
+        }
+    }
+
+    private void drawCountdown(Graphics g) {
+        g.setColor(new Color(0, 0, 0, 100));
+        g.fillRect(0, 0, 640, 640);
+
+        g.setColor(Color.YELLOW);
+        g.setFont(new Font("Arial", Font.BOLD, 100));
+
+        String text = String.valueOf(countdownSeconds);
+
+        FontMetrics fm = g.getFontMetrics();
+        int textWidth = fm.stringWidth(text);
+        int textHeight = fm.getAscent();
+
+        g.drawString(text, 640 / 2 - textWidth / 2, 640 / 2 + textHeight / 3);
     }
 
     private void drawHighlight(Graphics g) {
@@ -316,6 +356,10 @@ public class Playing extends GameScene implements SceneMethods {
         selectedTower = null;
         goldTick = 0;
         gamePaused = false;
+
+        countdownActive = true;
+        countdownSeconds = 3;
+        countdownTick = 0;
     }
 
 }
