@@ -12,7 +12,7 @@ import java.awt.geom.Point2D;
 
 import static helpz.Constants.Towers.*;
 import static helpz.Constants.Projectile.*;
-
+import static helpz.Constants.Enemies.*;
 
 public class ProjectileManager {
     private Playing playing;
@@ -61,7 +61,7 @@ public class ProjectileManager {
             if(xDistance < 0)
                 rotate+=180;
     
-        projectiles.add(new Projectile(t.getX()+16,t.getY()+16,xSpeed,ySpeed,t.getDmg(),rotate,proj_id++,type));
+        projectiles.add(new Projectile(t.getX()+16,t.getY()+16,xSpeed,ySpeed,t.getDmg(),rotate,proj_id++,type,t.getTier()));
     }
     public void update() {
         for(Projectile p:projectiles){
@@ -104,7 +104,7 @@ public class ProjectileManager {
             float realDist  =  (float) Math.hypot(xDist, yDist);
 
             if(realDist <= radius)
-                e.hurt(p.getDmg());
+                e.hurt(getFinalDamage(p,e));
             }
            
         }
@@ -114,16 +114,27 @@ public class ProjectileManager {
         for(Enemy e:playing.getEnemyManager().getEnemies()){
             if(e.isAlive())
                 if(e.getBounds().contains(p.getPos())){
-                    e.hurt(p.getDmg());
-                    if(p.getProjectileType() == ICE)
+                    e.hurt(getFinalDamage(p,e));
+                    if(p.getProjectileType() == ICE){
+                        if(p.getTowerTier() >= 3 && e.getEnemyType() != ENEMY4)
+                        e.freeze();
+                     else              
                         e.slow();
-
+                    }
                     return true;
                 }
         }
-
        return false;
     }
+    private int getFinalDamage(Projectile p, Enemy e){
+    int damage = p.getDmg();
+
+    if(p.getProjectileType() == ROCKET && p.getTowerTier() >= 3 && e.getEnemyType() == ENEMY4){
+        damage *= 2;
+    }
+
+    return damage;
+}
     public void draw(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
 

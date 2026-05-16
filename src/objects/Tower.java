@@ -4,6 +4,7 @@ public class Tower{
     private int x, y, id, towerType,cdTick,damage;
     private float range, cooldown;
     private int tier;
+    private final int MAX_TIER = 3;
     public Tower(int x, int y, int id, int towerType) {
         this.x = x;
         this.y = y;
@@ -18,18 +19,21 @@ public class Tower{
         cdTick++;
     }
     public void upgradeTower(){
+            if(tier >= MAX_TIER)
+        return;
+
         this.tier++;
         switch (towerType) {
             case ICE_TOWER :
                 damage += 2;
                 range += 20;
                 cooldown -= 5;
-            
+                break;  
             case FIRE_TOWER : 
                 damage += 2;
-                range += 20;
-                cooldown -= 5;
-            
+                range += 10;
+                cooldown -= 2;
+                break;
             case ROCKET_TOWER :
                 damage += 5;
                 range += 20;
@@ -89,5 +93,8 @@ public class Tower{
     public int getTier() {
         return tier;
     }
+    public boolean isMaxTier(){
+    return tier >= MAX_TIER;
+}
 
 }

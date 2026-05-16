@@ -17,6 +17,8 @@ public abstract class Enemy {
     protected boolean alive = true;
     protected int slowTickLimit = 120;
     protected int slowTick = slowTickLimit;
+    protected int freezeTickLimit = 60;
+    protected int freezeTick = freezeTickLimit;
 
     public Enemy(float x, float y, int ID, int enemyType,EnemyManager enemyManager){
         this.x = x;
@@ -43,7 +45,9 @@ public abstract class Enemy {
     public void slow(){
         slowTick = 0;
     }
-
+    public void freeze(){
+    freezeTick = 0;
+    }
     public void kill(){
         // Is for killing enemy, when it reaches the end
         alive = false;
@@ -51,7 +55,10 @@ public abstract class Enemy {
     }
     public void move(float speed, int dir){
         lastDir = dir;
-
+          if(freezeTick < freezeTickLimit){
+        freezeTick++;
+        return;
+        }
         if(slowTick < slowTickLimit){
             slowTick++;
             speed *= 0.5f;
@@ -115,5 +122,9 @@ public abstract class Enemy {
         public boolean isSlowed(){
             return slowTick < slowTickLimit;
         }
-    }
+        public boolean isFrozen(){
+            return freezeTick < freezeTickLimit;
+        }
+}
+
 
