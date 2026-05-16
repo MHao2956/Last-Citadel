@@ -27,6 +27,9 @@ public class Settings extends GameScene implements SceneMethods {
     private boolean isShootSfxOn = true;
     private int volumeLevel = 5;
 
+    private int lastHoverButton = -1;
+
+
     public Settings(Game game){
         super(game);
         initButtons();
@@ -214,12 +217,31 @@ public class Settings extends GameScene implements SceneMethods {
         }
     }
 
-    @Override
-    public void mouseMoved(int x, int y){
-        bMenu.setMouseOver(false);
-        if (bMenu.getBounds().contains(x, y))
-            bMenu.setMouseOver(true);
+  @Override
+public void mouseMoved(int x, int y){
+    bMenu.setMouseOver(false);
+
+    int hoverButton = -1;
+
+    if (bMenu.getBounds().contains(x, y)) {
+        bMenu.setMouseOver(true);
+        hoverButton = 0;
     }
+    else if (boundsMusicOn.contains(x, y)) hoverButton = 1;
+    else if (boundsMusicOff.contains(x, y)) hoverButton = 2;
+    else if (boundsBtnSfxOn.contains(x, y)) hoverButton = 3;
+    else if (boundsBtnSfxOff.contains(x, y)) hoverButton = 4;
+    else if (boundsShootSfxOn.contains(x, y)) hoverButton = 5;
+    else if (boundsShootSfxOff.contains(x, y)) hoverButton = 6;
+    else if (boundsVolMinus.contains(x, y)) hoverButton = 7;
+    else if (boundsVolPlus.contains(x, y)) hoverButton = 8;
+
+    if (hoverButton != -1 && hoverButton != lastHoverButton) {
+        getGame().getAudioPlayer().playButtonSfx("res/audio/hover.wav");
+    }
+
+    lastHoverButton = hoverButton;
+}
 
     private void resetButtons() {
         bMenu.resetBooleans();
