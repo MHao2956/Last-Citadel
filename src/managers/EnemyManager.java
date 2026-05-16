@@ -6,10 +6,6 @@ import java.util.ArrayList;
 
 import helpz.LoadSave;
 import objects.PathPoint;
-import enemies.ENEMY1;
-import enemies.ENEMY2;
-import enemies.ENEMY3;
-import enemies.ENEMY4;
 import enemies.Enemy;
 import scenes.Playing;
 import static helpz.Constants.Diretion.*;
@@ -184,27 +180,17 @@ public class EnemyManager {
         addEnemy(nextEnemy);
     }
 
-    public void addEnemy( int enemyType){
+ public void addEnemy(int enemyType) {
 
-        int x = start.getxCord() * 32;
-        int y = start.getyCord() * 32;
+    int x = start.getxCord() * 32;
+    int y = start.getyCord() * 32;
 
-        switch(enemyType){
-            case ENEMY1:
-                enemies.add(new ENEMY1(x, y, 0, this));
-                break;
-            case ENEMY2:
-                enemies.add(new ENEMY2(x, y, 0, this));
-                break;
-            case ENEMY3:
-                enemies.add(new ENEMY3(x, y, 0, this));
-                break;
-            case ENEMY4:
-                enemies.add(new ENEMY4(x, y, 0, this));
-                break;
-        }
-        
+    Enemy enemy = EnemyFactory.createEnemy(enemyType, x, y, this);
+
+    if (enemy != null) {
+        enemies.add(enemy);
     }
+}
 
     public void draw(Graphics g){ 
         for (Enemy e : enemies){
