@@ -3,6 +3,7 @@ package scenes;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
+import helpz.AudioPlayer;
 import helpz.LoadSave;
 import main.Game;
 import ui.MyButton;
@@ -11,9 +12,12 @@ import static main.GameStates.*;
 public class Menu extends GameScene implements SceneMethods { 
     private MyButton bPlaying, bEdit, bSettings, bQuit;
     private BufferedImage bgImg;
+    private boolean wasOverPlay, wasOverEdit, wasOverSettings, wasOverQuit;
+    private AudioPlayer audioPlayer;
 
     public Menu(Game game){
         super(game);
+        audioPlayer = game.getAudioPlayer();
         initButtons();
 
         //draw backgr img
@@ -46,6 +50,27 @@ public class Menu extends GameScene implements SceneMethods {
         bQuit.draw(g);
     }
 
+    
+// @Override
+// public void mouseMoved(int x, int y) {
+
+//     boolean overMenu = bMenu.getBounds().contains(x, y);
+//     boolean overReplay = bReplay.getBounds().contains(x, y);
+
+//     bMenu.setMouseOver(overMenu);
+//     bReplay.setMouseOver(overReplay);
+
+//     if (overMenu && !wasOverMenu) {
+//         audioPlayer.playSoundEffect("res/audio/hover.wav");
+//     }
+
+//     if (overReplay && !wasOverReplay) {
+//         audioPlayer.playSoundEffect("res/audio/hover.wav");
+//     }
+
+//     wasOverMenu = overMenu;
+//     wasOverReplay = overReplay;
+// }
   @Override
 public void mouseClicked(int x, int y){
     if(bPlaying.getBounds().contains(x, y))
@@ -61,22 +86,39 @@ public void mouseClicked(int x, int y){
 }
 
     @Override 
-    public void mouseMoved(int x, int y){
-        bPlaying.setMouseOver(false);
-        bEdit.setMouseOver(false);
-        bSettings.setMouseOver(false);
-        bQuit.setMouseOver(false);
-        
-        if(bPlaying.getBounds().contains(x, y))
-            bPlaying.setMouseOver(true);
-        else if(bEdit.getBounds().contains(x, y))
-            bEdit.setMouseOver(true);
-        else if(bSettings.getBounds().contains(x, y))
-            bSettings.setMouseOver(true);
-        else if(bQuit.getBounds().contains(x, y))
-            bQuit.setMouseOver(true);
+public void mouseMoved(int x, int y){
+
+    boolean overPlay = bPlaying.getBounds().contains(x, y);
+    boolean overEdit = bEdit.getBounds().contains(x, y);
+    boolean overSettings = bSettings.getBounds().contains(x, y);
+    boolean overQuit = bQuit.getBounds().contains(x, y);
+
+    bPlaying.setMouseOver(overPlay);
+    bEdit.setMouseOver(overEdit);
+    bSettings.setMouseOver(overSettings);
+    bQuit.setMouseOver(overQuit);
+
+    if (overPlay && !wasOverPlay) {
+        audioPlayer.playSoundEffect("res/audio/hover.wav");
     }
 
+    if (overEdit && !wasOverEdit) {
+        audioPlayer.playSoundEffect("res/audio/hover.wav");
+    }
+
+    if (overSettings && !wasOverSettings) {
+        audioPlayer.playSoundEffect("res/audio/hover.wav");
+    }
+
+    if (overQuit && !wasOverQuit) {
+        audioPlayer.playSoundEffect("res/audio/hover.wav");
+    }
+
+    wasOverPlay = overPlay;
+    wasOverEdit = overEdit;
+    wasOverSettings = overSettings;
+    wasOverQuit = overQuit;
+}
     @Override
     public void mousePressed(int x, int y){
         if(bPlaying.getBounds().contains(x, y))
