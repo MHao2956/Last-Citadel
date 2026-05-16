@@ -4,23 +4,23 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Rectangle;
+import java.awt.image.BufferedImage;
 
 import main.Game;
-import ui.MyButton;
+import helpz.LoadSave;
 
 import static main.GameStates.*;
 
 public class Settings extends GameScene implements SceneMethods {
 
-    private MyButton bMenu; //  nút BACK
-
     // Hitbox Bật / Tắt
     private Rectangle boundsMusicOn, boundsMusicOff;
     private Rectangle boundsBtnSfxOn, boundsBtnSfxOff;
     private Rectangle boundsShootSfxOn, boundsShootSfxOff;
+    private BufferedImage settingsBgImg;
 
     // Hitbox Tăng / Giảm âm lượng
-    private Rectangle boundsVolMinus, boundsVolPlus;
+    private Rectangle boundsVolMinus, boundsVolPlus, boundsBack;
 
     private boolean isMusicOn = true;
     private boolean isBtnSfxOn = true;
@@ -32,6 +32,9 @@ public class Settings extends GameScene implements SceneMethods {
 
     public Settings(Game game){
         super(game);
+
+        loadImgs();
+
         initButtons();
         if (game.getAudioPlayer() != null) {
             this.isMusicOn = !game.getAudioPlayer().isMuted();
@@ -39,106 +42,74 @@ public class Settings extends GameScene implements SceneMethods {
         }
     }
 
+    private void loadImgs(){
+        settingsBgImg = LoadSave.getImage("settingsMenu.png");
+    }
+
     private void initButtons() {
-        bMenu = new MyButton("BACK", 260, 520, 120, 40);
 
         // Music
-        boundsMusicOn = new Rectangle(280, 170, 60, 30);
-        boundsMusicOff = new Rectangle(350, 170, 60, 30);
+        boundsMusicOn  = new Rectangle(320, 270, 56, 30);
+        boundsMusicOff = new Rectangle(400, 270, 56, 30);
 
-        //  Button SFX
-        boundsBtnSfxOn = new Rectangle(280, 220, 60, 30);
-        boundsBtnSfxOff = new Rectangle(350, 220, 60, 30);
+        // Button SFX
+        boundsBtnSfxOn  = new Rectangle(320, 324, 56, 30);
+        boundsBtnSfxOff = new Rectangle(400, 324, 56, 30);
 
-        //Shoot SFX
-        boundsShootSfxOn = new Rectangle(280, 270, 60, 30);
-        boundsShootSfxOff = new Rectangle(350, 270, 60, 30);
+        // Shoot SFX
+        boundsShootSfxOn  = new Rectangle(320, 385, 56, 30);
+        boundsShootSfxOff = new Rectangle(400, 385, 56, 30);
 
-        //nút [-] và [+]
-        boundsVolMinus = new Rectangle(240, 360, 50, 30);
-        boundsVolPlus = new Rectangle(370, 360, 50, 30);
+        // nút [-] và [+]
+        boundsVolMinus = new Rectangle(227, 471, 56, 30);
+        boundsVolPlus  = new Rectangle(385, 471, 56, 30);
+
+        // Back
+        boundsBack = new Rectangle(255, 735, 140, 45);
     }
 
     @Override
     public void render(Graphics g){
-        g.setColor(new Color(0, 0, 0, 150));
-        g.fillRect(0, 0, 640, 640);
 
-        //Bảng Menu Settings
-        g.setColor(new Color(74, 54, 35));
-        g.fillRect(120, 50, 400, 540);
-        g.setColor(new Color(133, 94, 66));
-        g.drawRect(120, 50, 400, 540);
+        if (settingsBgImg != null) {
+            g.drawImage(settingsBgImg, 0, 0, 640, 800, null);
+        }
 
-        //Tiêu đề
-        g.setFont(new Font("Serif", Font.BOLD, 26));
-        g.setColor(new Color(245, 222, 179));
-        g.drawString("SETTINGS", 250, 90);
-
-        g.setFont(new Font("Serif", Font.PLAIN, 22));
-        g.drawString("AUDIO", 285, 130);
-
-        // ON / OFF
-        g.setFont(new Font("Serif", Font.PLAIN, 20));
-        g.drawString("Music", 160, 192);
         drawSelectButton(g, boundsMusicOn, "ON", isMusicOn);
         drawSelectButton(g, boundsMusicOff, "OFF", !isMusicOn);
 
-        g.setColor(new Color(245, 222, 179));
-        g.drawString("Button SFX", 160, 242);
         drawSelectButton(g, boundsBtnSfxOn, "ON", isBtnSfxOn);
         drawSelectButton(g, boundsBtnSfxOff, "OFF", !isBtnSfxOn);
 
-        g.setColor(new Color(245, 222, 179));
-        g.drawString("Shoot SFX", 160, 292);
         drawSelectButton(g, boundsShootSfxOn, "ON", isShootSfxOn);
         drawSelectButton(g, boundsShootSfxOff, "OFF", !isShootSfxOn);
 
-        g.setColor(new Color(245, 222, 179));
-        g.drawString("Volume", 290, 340);
-
-        drawVolButton(g, boundsVolMinus, "[-]");
-        drawVolButton(g, boundsVolPlus, "[+]");
-
         // hiển thị số Volume ở giữa
-        g.setColor(new Color(40, 30, 20));
-        g.fillRect(300, 360, 60, 30);
-        g.setColor(new Color(133, 94, 66));
-        g.drawRect(300, 360, 60, 30);
-
-        // âm lượng (0 - 10)
         g.setColor(new Color(245, 222, 179));
-        g.drawString(String.valueOf(volumeLevel), 325, 382);
+        g.setFont(new Font("Serif", Font.BOLD, 22));
 
-        bMenu.draw(g);
+        String volText = String.valueOf(volumeLevel);
+        g.drawString(volText, 326, 492);
     }
 
     // nút ON/OFF
     private void drawSelectButton(Graphics g, Rectangle bounds, String text, boolean isSelected) {
         if (isSelected) g.setColor(new Color(60, 120, 120));
         else g.setColor(new Color(40, 30, 20));
-        g.fillRoundRect(bounds.x, bounds.y, bounds.width, bounds.height, 10, 10);
+        g.fillRoundRect(bounds.x, bounds.y, bounds.width, bounds.height, 8, 8);
 
         if (isSelected) g.setColor(Color.CYAN);             // Viền sáng
         else g.setColor(new Color(133, 94, 66));            // Viền tối
-        g.drawRoundRect(bounds.x, bounds.y, bounds.width, bounds.height, 10, 10);
+        g.drawRoundRect(bounds.x, bounds.y, bounds.width, bounds.height, 8, 8);
 
         g.setColor(new Color(245, 222, 179));
-        g.setFont(new Font("Serif", Font.PLAIN, 16));
-        g.drawString(text, bounds.x + 15, bounds.y + 20);
-    }
+        g.setFont(new Font("Serif", Font.PLAIN, 14));
 
-    // Tăng/Giảm âm lượng
-    private void drawVolButton(Graphics g, Rectangle bounds, String text) {
-        g.setColor(new Color(40, 30, 20));
-        g.fillRoundRect(bounds.x, bounds.y, bounds.width, bounds.height, 10, 10);
+        java.awt.FontMetrics fm = g.getFontMetrics();
+        int textX = bounds.x + (bounds.width - fm.stringWidth(text)) / 2;
+        int textY = bounds.y + ((bounds.height - fm.getHeight()) / 2) + fm.getAscent();
 
-        g.setColor(Color.CYAN);
-        g.drawRoundRect(bounds.x, bounds.y, bounds.width, bounds.height, 10, 10);
-
-        g.setColor(new Color(245, 222, 179));
-        g.setFont(new Font("Serif", Font.BOLD, 18));
-        g.drawString(text, bounds.x + 12, bounds.y + 22);
+        g.drawString(text, textX, textY);
     }
 
     @Override
@@ -146,13 +117,12 @@ public class Settings extends GameScene implements SceneMethods {
 
     @Override
     public void mousePressed(int x, int y){
-        if (bMenu.getBounds().contains(x, y))
-            bMenu.setMousePressed(true);
+
     }
 
     @Override
     public void mouseReleased(int x, int y){
-        if (bMenu.getBounds().contains(x, y)) {
+        if (boundsBack.contains(x, y)) {
             SetGameState(MENU);
         }
 
@@ -218,13 +188,11 @@ public class Settings extends GameScene implements SceneMethods {
     }
 
   @Override
-public void mouseMoved(int x, int y){
-    bMenu.setMouseOver(false);
+    public void mouseMoved(int x, int y){
 
     int hoverButton = -1;
 
-    if (bMenu.getBounds().contains(x, y)) {
-        bMenu.setMouseOver(true);
+    if (boundsBack.contains(x, y)) {
         hoverButton = 0;
     }
     else if (boundsMusicOn.contains(x, y)) hoverButton = 1;
@@ -244,7 +212,7 @@ public void mouseMoved(int x, int y){
 }
 
     private void resetButtons() {
-        bMenu.resetBooleans();
+        
     }
 
     @Override
