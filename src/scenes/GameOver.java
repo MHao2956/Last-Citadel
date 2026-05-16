@@ -30,8 +30,8 @@ private AudioPlayer audioPlayer;
         super(game);
         this.audioPlayer = game.getAudioPlayer();
         gameOverBg = LoadSave.getImage("gameover_bg.png");
-        menuImg = LoadSave.getImage("btn_menu.png");
-        replayImg = LoadSave.getImage("btn_replay.png");
+        menuImg = LoadSave.getImage("menuOver.png");
+        replayImg = LoadSave.getImage("replayOver.png");
         initButtons();
 
     }
