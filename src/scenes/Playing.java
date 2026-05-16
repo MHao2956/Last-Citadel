@@ -79,9 +79,9 @@ public class Playing extends GameScene implements SceneMethods {
                         enemyManager.getEnemies().clear();
                         waveManager.resetEnemyIndex();
                     }
-                    else{
-                        SetGameState(GAME_WIN);
-                    }
+                }
+                else{
+                    SetGameState(GAME_WIN);
                 }
             }
             if(isTimeForNewEnemy()){
