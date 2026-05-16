@@ -35,11 +35,11 @@ public class EnemyManager {
 
         loadEffectImg();
         
-        addEnemy(ENEMY1);// so o muon spam enemy * 32
-        addEnemy(ENEMY2);
-        addEnemy(ENEMY3);
-        addEnemy(ENEMY4);
-         
+//        addEnemy(ENEMY1);// so o muon spam enemy * 32
+//        addEnemy(ENEMY2);
+//        addEnemy(ENEMY3);
+//        addEnemy(ENEMY4);
+//
         loadEnemyImgs();
     }
 
