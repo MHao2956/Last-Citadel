@@ -134,11 +134,11 @@ public class Constants {
         public static float GetDefaultCooldown(int towerType){
             switch(towerType){
                 case ICE_TOWER:
-                    return 50;
-                case FIRE_TOWER:
-                    return 25;
-                case ROCKET_TOWER:
                     return 70;
+                case FIRE_TOWER:
+                    return 60;
+                case ROCKET_TOWER:
+                    return 80;
             }
             return 0;
         }
