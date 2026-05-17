@@ -19,13 +19,13 @@ public class TowerManager {
         this.playing = playing;
         loadTowerImgs();
     }
-    private void loadTowerImgs() {
-        BufferedImage atlas = LoadSave.getSpriteAtlas();
-        towerImgs = new BufferedImage[3];
-        for (int i = 0; i < 3; i++) {
-            towerImgs[i] = atlas.getSubimage((4 + i) * 32, 32, 32, 32);
-        }
-    }
+private void loadTowerImgs() {
+    towerImgs = new BufferedImage[3];
+
+    towerImgs[0] = LoadSave.getImage("rocket_tower.png");
+    towerImgs[1] = LoadSave.getImage("fire_tower.png");
+    towerImgs[2] = LoadSave.getImage("ice_tower.png");
+}
     public void addTower(Tower selectedTower,int xPosition,int yPosition){
         towers.add(new Tower(xPosition,yPosition,towerAmount++,selectedTower.getTowerType()));}
     public void removeTower(Tower displayedTower){
@@ -43,11 +43,16 @@ public class TowerManager {
         }
     }
     
-    public void draw(Graphics g) {
-        for (Tower t : towers) {
-            g.drawImage(towerImgs[t.getTowerType()], t.getX(), t.getY(),null);
-        }
+  public void draw(Graphics g) {
+    int towerSize = 64;
+
+    for (Tower t : towers) {
+        int drawX = t.getX() + 16 - towerSize / 2;
+        int drawY = t.getY() + 32 - towerSize;
+
+        g.drawImage(towerImgs[t.getTowerType()],drawX,drawY,towerSize,towerSize,null);
     }
+}
     public Tower getTowerAt(int x,int y){
         for(Tower t:towers)
             if(t.getX() ==x && t.getY() ==y)
