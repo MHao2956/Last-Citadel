@@ -52,9 +52,6 @@ public class Toolbar extends Bar{
         int xOffset = (int)(w * 1.1f);
         int i = 0;
 
-
-
-
 		bGrass = new MyButton("Grass", xStart, yStart, w, h, i++);
 		bWater = new MyButton("Water", xStart + xOffset, yStart, w, h, i++);
 
@@ -69,9 +66,7 @@ public class Toolbar extends Bar{
 
 		bPathStart = new MyButton("PathStart", xStart, yStart + xOffset, w, h, i++);
 		bPathEnd = new MyButton("PathEnd", xStart + xOffset, yStart + xOffset, w, h, i++);
-
 	}
-
 
 	private void initMapButton(MyButton b, ArrayList<Tile> list, int x, int y, int xOff, int w, int h, int id) {
 		b = new MyButton("", x + xOff * id, y, w, h, id);
