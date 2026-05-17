@@ -15,8 +15,13 @@ public abstract class Enemy {
     protected int enemyType;
     protected int lastDir;
     protected boolean alive = true;
+    protected int effectType = 0;
     protected int slowTickLimit = 120;
     protected int slowTick = slowTickLimit;
+    public static final int EFFECT_NONE = 0;
+    public static final int EFFECT_SLOW = 1;
+    public static final int EFFECT_FREEZE = 2;
+
     protected int freezeTickLimit = 60;
     protected int freezeTick = freezeTickLimit;
 
@@ -42,12 +47,17 @@ public abstract class Enemy {
        }
     }
 
-    public void slow(){
-        slowTick = 0;
-    }
-    public void freeze(){
-    freezeTick = 0;
-    }
+   public void slow(){
+    slowTick = 0;
+    effectType = EFFECT_SLOW;
+}
+
+public void freeze(){
+    slowTick = 0;
+    effectType = EFFECT_FREEZE;
+}
+
+    
     public void kill(){
         // Is for killing enemy, when it reaches the end
         alive = false;
@@ -59,10 +69,17 @@ public abstract class Enemy {
         freezeTick++;
         return;
         }
-        if(slowTick < slowTickLimit){
-            slowTick++;
-            speed *= 0.5f;
-        }
+if(slowTick < slowTickLimit){
+    slowTick++;
+
+    if(effectType == EFFECT_FREEZE)
+        speed = 0;
+    else
+        speed *= 0.5f;
+
+} else {
+    effectType = EFFECT_NONE;
+}
 
         switch (dir) {
             case LEFT:
@@ -122,6 +139,9 @@ public abstract class Enemy {
         public boolean isSlowed(){
             return slowTick < slowTickLimit;
         }
+        public boolean isFrozenEffect(){
+    return isSlowed() && effectType == EFFECT_FREEZE;
+}
         public boolean isFrozen(){
             return freezeTick < freezeTickLimit;
         }
