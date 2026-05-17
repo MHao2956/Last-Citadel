@@ -124,6 +124,7 @@ public class Game extends JFrame implements Runnable {
             audioPlayer.playMusic("res/audio/gameOver.wav");
             break;
         case GAME_WIN:
+            audioPlayer.playMusic("res/audio/gameWin.wav");
             break;
         case EDIT:
              audioPlayer.playMusic("res/audio/menu.wav");
