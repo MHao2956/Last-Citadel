@@ -112,11 +112,11 @@ public class Constants {
         public static int GetStartDmg(int towerType){
             switch(towerType){
                 case ICE_TOWER:
-                    return 5;
+                    return 15;
                 case FIRE_TOWER:
-                    return 10;
+                    return 30;
                 case ROCKET_TOWER:
-                    return 20;
+                    return 60;
             }
             return 0;
         }
@@ -136,7 +136,7 @@ public class Constants {
                 case ICE_TOWER:
                     return 50;
                 case FIRE_TOWER:
-                    return 25;
+                    return 50;
                 case ROCKET_TOWER:
                     return 70;
             }

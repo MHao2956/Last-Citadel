@@ -203,7 +203,7 @@ public class EnemyManager {
     }
 
     private void drawEffects(Enemy e, Graphics g){
-        if(e.isSlowed())
+        if( e.isFrozen())
             g.drawImage(slowEffect, (int) e.getX(), (int)e.getY(), null);
         
     }

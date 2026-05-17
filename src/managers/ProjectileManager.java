@@ -62,6 +62,13 @@ public class ProjectileManager {
                 rotate+=180;
     
         projectiles.add(new Projectile(t.getX()+16,t.getY()+16,xSpeed,ySpeed,t.getDmg(),rotate,proj_id++,type,t.getTier()));
+        if (type == FIRE) {
+             playing.getGame().getAudioPlayer().playShootSfx("res/audio/fireShoot.wav");
+        } else if (type == ICE) {
+             playing.getGame().getAudioPlayer().playShootSfx("res/audio/iceShoot.wav");
+        } else if (type == ROCKET) {
+             playing.getGame().getAudioPlayer().playShootSfx("res/audio/rocketShoot.wav");
+}
     }
     public void update() {
         for(Projectile p:projectiles){
