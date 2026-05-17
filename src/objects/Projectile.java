@@ -3,16 +3,17 @@ import java.awt.geom.Point2D;
 
 public class Projectile {
     private Point2D.Float pos;
-    private int id, projectileType, dmg ;
+    private int id, projectileType, dmg ,towerTier;
     private boolean active = true;
     private float xSpeed, ySpeed,rotation;
 
-    public Projectile(float x, float y, float xSpeed, float ySpeed, int dmg, float rotation, int id, int projectileType){
+    public Projectile(float x, float y, float xSpeed, float ySpeed, int dmg, float rotation, int id, int projectileType, int towerTier){
         pos = new Point2D.Float(x, y);
         this.xSpeed = xSpeed;
         this.ySpeed = ySpeed;
         this.dmg = dmg;
         this.rotation = rotation;
+        this.towerTier = towerTier;
         this.id = id;
         this.projectileType = projectileType;
 }
@@ -43,5 +44,8 @@ public class Projectile {
     }
     public float getRotation(){
         return rotation;
+    }
+    public int getTowerTier() {
+        return towerTier;
     }
 }

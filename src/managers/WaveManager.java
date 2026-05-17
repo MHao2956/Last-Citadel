@@ -9,7 +9,7 @@ import java.util.Arrays;
 public class WaveManager {
     private Playing playing;
     private ArrayList<Wave> waves = new ArrayList<>();
-    private int enemySpawnTickLimit = 60 * 1;
+    private int enemySpawnTickLimit = 60 * 3;
     private int enemySpawnTick = enemySpawnTickLimit;
     private int enemyIndex, waveIndex;
     private int waveTickLimit = 60 * 5;
@@ -54,8 +54,21 @@ public class WaveManager {
     }
 
     private void createWaves() {
-        waves.add(new Wave(new ArrayList<Integer>(Arrays.asList(0, 0, 0, 0, 0, 0, 0, 0, 0,1))));
-        waves.add(new Wave(new ArrayList<Integer>(Arrays.asList(2, 0, 0, 0, 0, 0, 0, 0, 0,1))));
+        //small enemis
+        waves.add(new Wave(new ArrayList<Integer>(Arrays.asList( 0,0,0,0,
+                1,1,0,0,1))));
+
+        //medium - small
+        waves.add(new Wave(new ArrayList<Integer>(Arrays.asList(1,1,1,
+                2,2,
+                1,2,1,
+                0,0,1))));
+
+        //boss
+        waves.add(new Wave(new ArrayList<Integer>(
+                Arrays.asList(
+                        2,2,
+                        3))));
     }
 
     public ArrayList<Wave> getWaves() {
