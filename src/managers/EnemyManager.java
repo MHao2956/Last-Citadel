@@ -24,7 +24,10 @@ public class EnemyManager {
     private List<Enemy> enemies = new CopyOnWriteArrayList<>();
     private PathPoint start, end;
     private int HPBarWidth = 20;
-    private BufferedImage slowEffect;
+    private BufferedImage slowEffect, freezeEffect;
+    private final int ENEMY_DRAW_SIZE = 48;
+    private final int EFFECT_DRAW_SIZE = 70;
+
     
 
     public EnemyManager(Playing playing, PathPoint start, PathPoint end){
@@ -35,25 +38,23 @@ public class EnemyManager {
 
         loadEffectImg();
         
-//        addEnemy(ENEMY1);// so o muon spam enemy * 32
-//        addEnemy(ENEMY2);
-//        addEnemy(ENEMY3);
-//        addEnemy(ENEMY4);
-//
+
         loadEnemyImgs();
     }
 
-    private void loadEffectImg(){
-        slowEffect = LoadSave.getSpriteAtlas().getSubimage(32 * 9, 32 * 2, 32, 32);
-    }
+   private void loadEffectImg(){
+    slowEffect = LoadSave.getImage("slow_effect.png");
+    freezeEffect = LoadSave.getImage("freeze_effect.png");
+}
 
-    public void loadEnemyImgs(){
-        BufferedImage atlas = LoadSave.getSpriteAtlas();
-        
-        for(int i = 0; i < 4; i++)
-            enemyImgs[i] = atlas.getSubimage( i* 32, 32, 32, 32);  
-        
-    }
+ public void loadEnemyImgs(){
+    enemyImgs = new BufferedImage[4];
+
+    enemyImgs[ENEMY1] = LoadSave.getImage("enemy1.png");
+    enemyImgs[ENEMY2] = LoadSave.getImage("enemy2.png");
+    enemyImgs[ENEMY3] = LoadSave.getImage("enemy3.png");
+    enemyImgs[ENEMY4] = LoadSave.getImage("enemy4.png");
+}
 
     public void update(){
 
@@ -192,32 +193,64 @@ public class EnemyManager {
     }
 }
 
-    public void draw(Graphics g){ 
-        for (Enemy e : enemies){
+  public void draw(Graphics g){ 
+    for (Enemy e : enemies){
         if(e.isAlive()){
-        drawEnemy(e, g);
-        drawHealthBar(e, g);
-        drawEffects(e, g);
-           } 
-        }
+            
+            drawEnemy(e, g);
+            drawEffects(e, g);
+            drawHealthBar(e, g);
+        } 
     }
+}
 
-    private void drawEffects(Enemy e, Graphics g){
-        if( e.isFrozen())
-            g.drawImage(slowEffect, (int) e.getX(), (int)e.getY(), null);
-        
-    }
+private void drawEffects(Enemy e, Graphics g){
+    if(!e.isSlowed())
+        return;
 
-    private void drawHealthBar(Enemy e, Graphics g){
-        g.setColor(Color.RED);
-        g.fillRect((int)e.getX()+16 -(getNewHPBarWidth(e)/2),(int)e.getY()-10, getNewHPBarWidth(e), 3);
-    }
+    BufferedImage effectImg;
+
+    if(e.isFrozenEffect())
+        effectImg = freezeEffect;
+    else
+        effectImg = slowEffect;
+
+    if(effectImg == null)
+        return;
+
+    int drawX = (int)e.getX() + 16 - EFFECT_DRAW_SIZE / 2;
+    int drawY = (int)e.getY() + 32 - EFFECT_DRAW_SIZE;
+
+    g.drawImage(effectImg, drawX, drawY, EFFECT_DRAW_SIZE, EFFECT_DRAW_SIZE, null);
+}
+
+  private void drawHealthBar(Enemy e, Graphics g){
+    g.setColor(Color.RED);
+
+    int drawX = (int)e.getX() + 16 - getNewHPBarWidth(e) / 2;
+    int drawY = (int)e.getY() + 32 - ENEMY_DRAW_SIZE - 6;
+
+    g.fillRect(drawX, drawY, getNewHPBarWidth(e), 3);
+}
+
     private int getNewHPBarWidth(Enemy e){
         return (int)(HPBarWidth * e.getHealthBarFloat());
     }
-    private void drawEnemy(Enemy e, Graphics g){
-        g.drawImage(enemyImgs[e.getEnemyType()],(int)e.getX() ,(int)e.getY(), null);
-    }
+
+  private void drawEnemy(Enemy e, Graphics g){
+    int drawX = (int)e.getX() + 16 - ENEMY_DRAW_SIZE / 2;
+    int drawY = (int)e.getY() + 32 - ENEMY_DRAW_SIZE;
+
+    g.drawImage(
+        enemyImgs[e.getEnemyType()],
+        drawX,
+        drawY,
+        ENEMY_DRAW_SIZE,
+        ENEMY_DRAW_SIZE,
+        null
+    );
+}
+
     public List<Enemy> getEnemies() {
         return enemies;
     }

@@ -196,7 +196,7 @@ public class Playing extends GameScene implements SceneMethods {
 
     private void drawSelectedTower(Graphics g) {
         if (selectedTower != null)
-            g.drawImage(towerManager.getTowerImgs()[selectedTower.getTowerType()], mouseX, mouseY, null);
+           g.drawImage(towerManager.getTowerImgs()[selectedTower.getTowerType()], mouseX, mouseY, 32, 32, null);
     }
 
     private void drawWaveInfos(Graphics g) {

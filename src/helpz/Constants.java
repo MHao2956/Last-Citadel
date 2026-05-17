@@ -112,11 +112,11 @@ public class Constants {
         public static int GetStartDmg(int towerType){
             switch(towerType){
                 case ICE_TOWER:
-                    return 15;
+                    return 5;
                 case FIRE_TOWER:
-                    return 30;
+                    return 10;
                 case ROCKET_TOWER:
-                    return 60;
+                    return 20;
             }
             return 0;
         }
@@ -134,11 +134,11 @@ public class Constants {
         public static float GetDefaultCooldown(int towerType){
             switch(towerType){
                 case ICE_TOWER:
-                    return 50;
-                case FIRE_TOWER:
-                    return 50;
-                case ROCKET_TOWER:
                     return 70;
+                case FIRE_TOWER:
+                    return 60;
+                case ROCKET_TOWER:
+                    return 80;
             }
             return 0;
         }
