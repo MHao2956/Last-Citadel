@@ -14,7 +14,7 @@ public class ActionBar extends Bar{
     private Playing playing;
     private MyButton bMenu, bPause;
     private DecimalFormat formatter;
-    private int gold = 500;
+    private int gold = 100;
     private boolean showTowerCost;
     private int towerCostType;
     private MyButton[] towerButtons ;
@@ -37,7 +37,7 @@ public class ActionBar extends Bar{
         lives = 5;
         towerCostType = 0;
         showTowerCost = false;
-        gold = 500;
+        gold = 100;
         selectedTower = null;
         displayedTower = null;
     }
