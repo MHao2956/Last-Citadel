@@ -50,27 +50,6 @@ public class Menu extends GameScene implements SceneMethods {
         bQuit.draw(g);
     }
 
-    
-// @Override
-// public void mouseMoved(int x, int y) {
-
-//     boolean overMenu = bMenu.getBounds().contains(x, y);
-//     boolean overReplay = bReplay.getBounds().contains(x, y);
-
-//     bMenu.setMouseOver(overMenu);
-//     bReplay.setMouseOver(overReplay);
-
-//     if (overMenu && !wasOverMenu) {
-//         audioPlayer.playSoundEffect("res/audio/hover.wav");
-//     }
-
-//     if (overReplay && !wasOverReplay) {
-//         audioPlayer.playSoundEffect("res/audio/hover.wav");
-//     }
-
-//     wasOverMenu = overMenu;
-//     wasOverReplay = overReplay;
-// }
   @Override
 public void mouseClicked(int x, int y){
     if(bPlaying.getBounds().contains(x, y))

@@ -1,11 +1,7 @@
 package scenes;
 
-import static helpz.Constants.Tiles.ROAD_TILE;
-
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
-
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 
@@ -15,7 +11,7 @@ import objects.PathPoint;
 import objects.Tile;
 import ui.Toolbar;
 
-import static helpz.Constants.Tiles.ROAD_TILE;;
+import static helpz.Constants.Tiles.ROAD_TILE;
 
 public class Editing extends GameScene implements SceneMethods{
 
@@ -25,10 +21,7 @@ public class Editing extends GameScene implements SceneMethods{
     private int lastTileX, lastTileY, lastTileId;
     private boolean drawSelect;
     private Toolbar toolbar;
-
     private PathPoint start, end;
-   
-
 
     public Editing(Game game){
         super(game);
