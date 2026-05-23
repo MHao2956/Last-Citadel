@@ -76,7 +76,7 @@ public class Playing extends GameScene implements SceneMethods {
             waveManager.update();
             goldTick++;
             if(goldTick % (60*3)==0){
-                actionBar.addGold(1);
+                actionBar.addGold(3);
             }
             if(isAllEnemiesDead()){
                 if(isThereMoreWaves()){

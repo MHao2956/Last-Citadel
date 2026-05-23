@@ -22,7 +22,7 @@ public class Game extends JFrame implements Runnable {
     private Menu menu;
     private Playing playing;
     private Settings settings;
-    private Editing editing;
+    private Editing editing;    
 
     private TileManager tileManager;
     private GameOver gameOver;
