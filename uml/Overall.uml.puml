@@ -1,0 +1,754 @@
+@startuml
+skinparam dpi 300
+skinparam classAttributeIconSize 0
+skinparam linetype ortho
+
+' ================= NAMESPACE: ENEMIES =================
+package "enemies" {
+    abstract class Enemy {
+        # enemyManager: EnemyManager
+        # x: float
+        # y: float
+        # bounds: Rectangle
+        # health: int
+        # maxHealth: int
+        # ID: int
+        # enemyType: int
+        # lastDir: int
+        # alive: boolean = true
+        # slowTickLimit: int = 120
+        # slowTick: int = 120
+
+        + Enemy(x: float, y: float, ID: int, enemyType: int, enemyManager: EnemyManager)
+        + setStartHealth(): void
+        + hurt(damage: int): void
+        + slow(): void
+        + kill(): void
+        + move(speed: float, dir: int): void
+        - updateHitbox(): void
+        + setPos(x: int, y: int): void
+        + getHealthBarFloat(): float
+        + getX(): float
+        + getY(): float
+        + getID(): int
+        + getEnemyType(): int
+        + getHealth(): int
+        + getBounds(): Rectangle
+        + getLastDir(): int
+        + isAlive(): boolean
+        + isSlowed(): boolean
+    }
+
+    class ENEMY1 {
+        + ENEMY1(x: float, y: float, ID: int, enemyManager: EnemyManager)
+    }
+
+    class ENEMY2 {
+        + ENEMY2(x: float, y: float, ID: int, enemyManager: EnemyManager)
+    }
+
+    class ENEMY3 {
+        + ENEMY3(x: float, y: float, ID: int, enemyManager: EnemyManager)
+    }
+
+    class ENEMY4 {
+        + ENEMY4(x: float, y: float, ID: int, enemyManager: EnemyManager)
+    }
+
+    Enemy <|-- ENEMY1
+    Enemy <|-- ENEMY2
+    Enemy <|-- ENEMY3
+    Enemy <|-- ENEMY4
+}
+
+' ================= NAMESPACE: EVENTS =================
+package "events" {
+    class Wave {
+        - enemyList: ArrayList<Integer>
+        + Wave(enemyList: ArrayList<Integer>)
+        + getEnemyList(): ArrayList<Integer>
+    }
+}
+
+' ================= NAMESPACE: HELPZ =================
+package "helpz" {
+    class Constants {
+    }
+
+    class "Projectile" as Const_Projectile {
+        + {static} FIRE: int = 0
+        + {static} ICE: int = 1
+        + {static} ROCKET: int = 2
+        + {static} GetSpeed(type: int): float
+    }
+
+    class "Diretion" as Const_Diretion {
+        + {static} LEFT: int = 0
+        + {static} UP: int = 1
+        + {static} RIGHT: int = 2
+        + {static} DOWN: int = 3
+    }
+
+    class "Enemies" as Const_Enemies {
+        + {static} ENEMY1: int = 0
+        + {static} ENEMY2: int = 1
+        + {static} ENEMY3: int = 2
+        + {static} ENEMY4: int = 3
+        + {static} GetReward(enemyType: int): int
+        + {static} GetSpeed(enemyType: int): float
+        + {static} GetStartHealth(enemyType: int): int
+    }
+
+    class "Tiles" as Const_Tiles {
+        + {static} WATER_TILE: int = 0
+        + {static} GRASS_TILE: int = 1
+        + {static} ROAD_TILE: int = 2
+    }
+
+    class "Towers" as Const_Towers {
+        + {static} ROCKET_TOWER: int = 0
+        + {static} FIRE_TOWER: int = 1
+        + {static} ICE_TOWER: int = 2
+        + {static} GetTowerCost(towerType: int): int
+        + {static} GetName(towerType: int): String
+        + {static} GetStartDmg(towerType: int): int
+        + {static} GetDefaultRange(towerType: int): float
+        + {static} GetDefaultCooldown(towerType: int): float
+    }
+
+    Constants +-- Const_Projectile
+    Constants +-- Const_Diretion
+    Constants +-- Const_Enemies
+    Constants +-- Const_Tiles
+    Constants +-- Const_Towers
+
+    class ImgFix {
+        + getRotImg(img: BufferedImage, rotAngle: int): BufferedImage
+        + buildImg(imgs: BufferedImage[]): BufferedImage
+        + getBuildRotImg(imgs: BufferedImage[], rotAngle: int, rotAtIndex: int): BufferedImage
+        + getBuildRotImg(imgs: BufferedImage[], secondImage: BufferedImage, rotAngle: int): BufferedImage[]
+    }
+
+    class LoadSave {
+        + homePath: String
+        + saveFolder: String
+        + levelFile: String
+        + filePath: String
+        - lvlFile: File
+        + CreateFolder(): void
+        + getSpriteAtlas(): BufferedImage
+        + CreateLevel(name: String, idArr: int[]): void
+        - WriteToFile(f: File, idArr: int[], start: PathPoint, end: PathPoint): void
+        + SaveLevel(name: String, idArr: int[][], start: PathPoint, end: PathPoint): void
+        - ReadFromFile(f: File): ArrayList<Integer>
+        + GetLevelPathPoints(name: String): ArrayList<PathPoint>
+        + GetLevelData(name: String): int[][]
+    }
+
+    class Utilz {
+        + ArrayListTo2Dint(list: ArrayList<Integer>, ySize: int, xSize: int): int[][]
+        + TwoDto1DintArr(twoArr: int[][]): int[]
+        + GetHypotenuseDistance(x1: float, y1: float, x2: float, y2: float): int
+    }
+}
+
+' ================= NAMESPACE: INPUTS =================
+package "inputs" {
+    class KeyboardListener {
+        - game: Game
+        + KeyboardListener(game: Game)
+        + keyTyped(e: KeyEvent): void
+        + keyPressed(e: KeyEvent): void
+        + keyReleased(e: KeyEvent): void
+    }
+
+    class MyMouseListener {
+        - game: Game
+        + MyMouseListener(game: Game)
+        + mouseDragged(e: MouseEvent): void
+        + mouseMoved(e: MouseEvent): void
+        + mouseClicked(e: MouseEvent): void
+        + mousePressed(e: MouseEvent): void
+        + mouseReleased(e: MouseEvent): void
+        + mouseEntered(e: MouseEvent): void
+        + mouseExited(e: MouseEvent): void
+    }
+}
+
+' ================= NAMESPACE: MAIN =================
+package "main" {
+    class Game {
+        - gameScreen: GameScreen
+        - gameThread: Thread
+        - FPS_SET: double = 120.0
+        - UPS_SET: double = 60.0
+        - render: Render
+        - menu: Menu
+        - playing: Playing
+        - settings: Settings
+        - editing: Editing
+        - tileManager: TileManager
+        - gameOver: GameOver
+        + Game()
+        - createDefaultLevel(): void
+        - initClasses(): void
+        - start(): void
+        - updateGame(): void
+        + main(args: String[]): void
+        + run(): void
+        + getRender(): Render
+        + getMenu(): Menu
+        + getPlaying(): Playing
+        + getSettings(): Settings
+        + getEditor(): Editing
+        + getTileManager(): TileManager
+        + getGameOver(): GameOver
+    }
+
+    class GameScreen {
+        - game: Game
+        - size: Dimension
+        - myMouseListener: MyMouseListener
+        - keyboardListener: KeyboardListener
+        + GameScreen(game: Game)
+        + initInputs(): void
+        - setPanelSize(): void
+        + paintComponent(g: Graphics): void
+    }
+
+    enum GameStates {
+        PLAYING
+        MENU
+        SETTINGS
+        EDIT
+        GAME_OVER
+        + gameState: GameStates = MENU
+        + SetGameState(state: GameStates): void
+    }
+
+    class Render {
+        - game: Game
+        + Render(game: Game)
+        + render(g: Graphics): void
+    }
+}
+
+' ================= NAMESPACE: MANAGERS =================
+package "managers" {
+    class EnemyManager {
+        - enemyImgs: BufferedImage[]
+        - playing: Playing
+        - enemies: List<Enemy>
+        - start: PathPoint
+        - end: PathPoint
+        - HPBarWidth: int = 20
+        - slowEffect: BufferedImage
+        + EnemyManager(playing: Playing, start: PathPoint, end: PathPoint)
+        - loadEffectImg(): void
+        + loadEnemyImgs(): void
+        + update(): void
+        - updateWaveManager(): void
+        + updateEnemyMoveNew(e: Enemy): void
+        - setNewDirectionAndMove(e: Enemy): void
+        - fixEnemyOffsetTile(e: Enemy, dir: int, xCord: int, yCore: int): void
+        - isAtEnd(e: Enemy): boolean
+        - getTileType(x: int, y: int): int
+        - getSpeedAndHeight(dir: int, enemyType: int): float
+        - getSpeedAndWidth(dir: int, enemyType: int): float
+        + spawnEnemy(nextEnemy: int): void
+        + addEnemy(enemyType: int): void
+        + draw(g: Graphics): void
+        - drawEffects(e: Enemy, g: Graphics): void
+        - drawHealthBar(e: Enemy, g: Graphics): void
+        - getNewHPBarWidth(e: Enemy): int
+        - drawEnemy(e: Enemy, g: Graphics): void
+        + getEnemies(): List<Enemy>
+        + getAmountOfAliveEnemies(): int
+        + rewardPlayer(enemyType: int): void
+        + reset(): void
+    }
+
+    class ProjectileManager {
+        - playing: Playing
+        - projectiles: ArrayList<Projectile>
+        - explosions: ArrayList<Explosion>
+        - proj_imgs: BufferedImage[]
+        - explo_imgs: BufferedImage[]
+        - proj_id: int = 0
+        + ProjectileManager(playing: Playing)
+        - importImgs(): void
+        - importExplosion(atlas: BufferedImage): void
+        + newProjectile(t: Tower, e: Enemy): void
+        + update(): void
+        - isProjOutSideBounds(p: Projectile): boolean
+        - explodeOnEnemies(p: Projectile): void
+        - isProjHittingEnemy(p: Projectile): boolean
+        + draw(g: Graphics): void
+        - drawExplosion(g2d: Graphics2D): void
+        - getProjType(t: Tower): int
+        + reset(): void
+    }
+
+    class "Explosion" as ProjectileManager_Explosion {
+        - pos: Point2D.Float
+        - exploTick: int = 0
+        - exploIndex: int = 0
+        + Explosion(pos: Point2D.Float)
+        + update(): void
+        + getIndex(): int
+        + getPos(): Point2D.Float
+    }
+
+    ProjectileManager +-- ProjectileManager_Explosion
+
+    class TileManager {
+        + GRASS, WATER, ROAD_LR, ROAD_TB, ROAD_B_TO_R, ROAD_L_TO_B, ROAD_L_TO_T, ROAD_T_TO_R, BL_WATER_CORNER, TL_WATER_CORNER, TR_WATER_CORNER, BR_WATER_CORNER, T_WATER, R_WATER, B_WATER, L_WATER, TL_ISLE, TR_ISLE, BR_ISLE, BL_ISLE: Tile
+        + atlas: BufferedImage
+        + tiles: ArrayList<Tile>
+        + roadsS: ArrayList<Tile>
+        + roadsC: ArrayList<Tile>
+        + corners: ArrayList<Tile>
+        + beaches: ArrayList<Tile>
+        + islands: ArrayList<Tile>
+        + TileManager()
+        - createTiles(): void
+        - loadAtlas(): void
+        + getTile(id: int): Tile
+        + getSprite(id: int): BufferedImage
+        + getAniSprite(id: int, animationIndex: int): BufferedImage
+        - getAniSprites(xCord: int, yCord: int): BufferedImage[]
+        - getSprite(xCord: int, yCord: int): BufferedImage
+        + isSpriteAnimation(spriteID: int): boolean
+        + getRoadsS(): ArrayList<Tile>
+        + getRoadsC(): ArrayList<Tile>
+        + getCorners(): ArrayList<Tile>
+        + getBeaches(): ArrayList<Tile>
+        + getIslands(): ArrayList<Tile>
+    }
+
+    class TowerManager {
+        - playing: Playing
+        - towerImgs: BufferedImage[]
+        - towers: ArrayList<Tower>
+        - towerAmount: int = 0
+        + TowerManager(playing: Playing)
+        - loadTowerImgs(): void
+        + addTower(selectedTower: Tower, xPosition: int, yPosition: int): void
+        + removeTower(displayedTower: Tower): void
+        + upgradeTower(displayedTower: Tower): void
+        + draw(g: Graphics): void
+        + getTowerAt(x: int, y: int): Tower
+        + getTowerImgs(): BufferedImage[]
+        + update(): void
+        - attackEnemies(t: Tower): void
+        - isEnemiesInRange(t: Tower, e: Enemy): boolean
+        + reset(): void
+    }
+
+    class WaveManager {
+        - playing: Playing
+        - waves: ArrayList<Wave>
+        - enemySpawnTickLimit: int
+        - enemySpawnTick: int
+        - enemyIndex: int
+        - waveIndex: int
+        - waveTickLimit: int
+        - waveTick: int
+        - waveStartTimer: boolean
+        - waveTickTimerOver: boolean
+        + WaveManager(playing: Playing)
+        + update(): void
+        + increaseWaveIndex(): void
+        + isWaveTimeOver(): boolean
+        + startWaveTimer(): void
+        + getNextEnemy(): int
+        - createWaves(): void
+        + getWaves(): ArrayList<Wave>
+        + isTimeForNewEnemy(): boolean
+        + isThereMoreEnemiesInWave(): boolean
+        + isThereMoreWaves(): boolean
+        + resetEnemyIndex(): void
+        + getWaveIndex(): int
+        + getTimeLeft(): float
+        + isWaveTimerStarted(): boolean
+        + isWaveTimerOver(): boolean
+        + reset(): void
+    }
+}
+
+' ================= NAMESPACE: OBJECTS =================
+package "objects" {
+    class PathPoint {
+        - xCord: int
+        - yCord: int
+        + PathPoint(xCord: int, yCord: int)
+        + setxCord(xCord: int): void
+        + getxCord(): int
+        + setyCord(yCord: int): void
+        + getyCord(): int
+    }
+
+    class Projectile {
+        - pos: Point2D.Float
+        - id: int
+        - projectileType: int
+        - dmg: int
+        - active: boolean = true
+        - xSpeed: float
+        - ySpeed: float
+        - rotation: float
+        + Projectile(x: float, y: float, xSpeed: float, ySpeed: float, dmg: int, rotation: float, id: int, projectileType: int)
+        + move(): void
+        + getPos(): Point2D.Float
+        + setPos(x: float, y: float): void
+        + getID(): int
+        + getProjectileType(): int
+        + isActive(): boolean
+        + setActive(active: boolean): void
+        + getDmg(): int
+        + getRotation(): float
+    }
+
+    class Tile {
+        - sprite: BufferedImage[]
+        - id: int
+        - tileType: int
+        + Tile(sprite: BufferedImage, id: int, tileType: int)
+        + Tile(sprite: BufferedImage[], id: int, TileType: int)
+        + getTileType(): int
+        + getSprite(animationIndex: int): BufferedImage
+        + getSprite(): BufferedImage
+        + isAnimation(): boolean
+        + getId(): int
+    }
+
+    class Tower {
+        - x: int
+        - y: int
+        - id: int
+        - towerType: int
+        - cdTick: int
+        - damage: int
+        - range: float
+        - cooldown: float
+        - tier: int
+        + Tower(x: int, y: int, id: int, towerType: int)
+        + update(): void
+        + upgradeTower(): void
+        + isCooldownOver(): boolean
+        + resetCooldown(): void
+        - setDefaultDamage(): void
+        - setDefaultRange(): void
+        - setDefaultCooldown(): void
+        + getX(): int
+        + setX(x: int): void
+        + getY(): int
+        + setY(y: int): void
+        + getId(): int
+        + setId(id: int): void
+        + getTowerType(): int
+        + setTowerType(towerType: int): void
+        + getDamage(): int
+        + getRange(): float
+        + getCooldown(): float
+        + getTier(): int
+    }
+}
+
+' ================= NAMESPACE: SCENES =================
+package "scenes" {
+    class Editing {
+        - lvl: int[][]
+        - selectedTile: Tile
+        - mouseX: int
+        - mouseY: int
+        - lastTileX: int
+        - lastTileY: int
+        - lastTileId: int
+        - drawSelect: boolean
+        - toolbar: Toolbar
+        - start: PathPoint
+        - end: PathPoint
+        + Editing(game: Game)
+        - loadDefaultLevel(): void
+        + update(): void
+        + render(g: Graphics): void
+        - drawPathPoints(g: Graphics): void
+        - drawLevel(g: Graphics): void
+        - drawSelectedTile(g: Graphics): void
+        + saveLevel(): void
+        + setSelectedTile(tile: Tile): void
+        - changeTile(x: int, y: int): void
+        + mouseClicked(x: int, y: int): void
+        + mouseMoved(x: int, y: int): void
+        + mousePressed(x: int, y: int): void
+        + mouseReleased(x: int, y: int): void
+        + mouseDragged(x: int, y: int): void
+        + keyPressed(e: KeyEvent): void
+    }
+
+    class GameOver {
+        - bReplay: MyButton
+        - bMenu: MyButton
+        + GameOver(game: Game)
+        - initButtons(): void
+        + render(g: Graphics): void
+        - replayGame(): void
+        - resetAll(): void
+        + mouseClicked(x: int, y: int): void
+        + mouseMoved(x: int, y: int): void
+        + mousePressed(x: int, y: int): void
+        + mouseReleased(x: int, y: int): void
+        + mouseDragged(x: int, y: int): void
+    }
+
+    class GameScene {
+        # game: Game
+        # animationIndex: int
+        # ANIMATION_SPEED: int = 25
+        # tick: int
+        + GameScene(game: Game)
+        + getGame(): Game
+        # isAnimation(spriteID: int): boolean
+        # updateTick(): void
+        # getSprite(spriteID: int): BufferedImage
+        # getSprite(spriteID: int, animationIndex: int): BufferedImage
+    }
+
+    class Menu {
+        - bPlaying: MyButton
+        - bEdit: MyButton
+        - bSettings: MyButton
+        - bQuit: MyButton
+        + Menu(game: Game)
+        - initButtons(): void
+        + render(g: Graphics): void
+        - drawButtons(g: Graphics): void
+        + mouseClicked(x: int, y: int): void
+        + mouseMoved(x: int, y: int): void
+        + mousePressed(x: int, y: int): void
+        + mouseReleased(x: int, y: int): void
+        - ressetButton(): void
+        + mouseDragged(x: int, y: int): void
+    }
+
+    class Playing {
+        - lvl: int[][]
+        - actionBar: ActionBar
+        - mouseX: int
+        - mouseY: int
+        - enemyManager: EnemyManager
+        - towerManager: TowerManager
+        - projManager: ProjectileManager
+        - waveManager: WaveManager
+        - start: PathPoint
+        - end: PathPoint
+        - selectedTower: Tower
+        - goldTick: int
+        - gamePaused: boolean
+        + Playing(game: Game)
+        - loadDefaultLevel(): void
+        + setLevel(lvl: int[][], start: PathPoint, end: PathPoint): void
+        + update(): void
+        - isWaveTimerOver(): boolean
+        - isThereMoreWaves(): boolean
+        - isAllEnemiesDead(): boolean
+        - spawnEnemy(): void
+        - isTimeForNewEnemy(): boolean
+        + setSelectedTower(selectedTower: Tower): void
+        + render(g: Graphics): void
+        - drawHighlight(g: Graphics): void
+        - drawSelectedTower(g: Graphics): void
+        - drawWaveInfos(g: Graphics): void
+        - drawLevel(g: Graphics): void
+        + getTileType(x: int, y: int): int
+        + mouseClicked(x: int, y: int): void
+        - removeGold(towerType: int): void
+        + upgradeTower(displayedTower: Tower): void
+        + removeTower(displayedTower: Tower): void
+        - getTowerAt(x: int, y: int): Tower
+        - isTileGrass(x: int, y: int): boolean
+        + shootEnemy(t: Tower, e: Enemy): void
+        + setGamePaused(gamePaused: boolean): void
+        + keyPressed(e: KeyEvent): void
+        + mouseMoved(x: int, y: int): void
+        + mousePressed(x: int, y: int): void
+        + mouseReleased(x: int, y: int): void
+        + mouseDragged(x: int, y: int): void
+        + rewardPlayer(reward: int): void
+        + isGamePaused(): boolean
+        + getWaveManager(): WaveManager
+        + getEnemyManager(): EnemyManager
+        + getTowerManager(): TowerManager
+        + removeOneLife(): void
+        + resetEverything(): void
+    }
+
+    interface SceneMethods {
+        + render(g: Graphics): void
+        + mouseClicked(x: int, y: int): void
+        + mouseMoved(x: int, y: int): void
+        + mousePressed(x: int, y: int): void
+        + mouseReleased(x: int, y: int): void
+        + mouseDragged(x: int, y: int): void
+    }
+
+    class Settings {
+        - bMenu: MyButton
+        + Settings(game: Game)
+        - initButtons(): void
+        + render(g: Graphics): void
+        - drawButtons(g: Graphics): void
+        + mouseClicked(x: int, y: int): void
+        + mouseMoved(x: int, y: int): void
+        + mousePressed(x: int, y: int): void
+        + mouseReleased(x: int, y: int): void
+        - resetButtons(): void
+        + mouseDragged(x: int, y: int): void
+    }
+
+    GameScene <|-- Editing
+    SceneMethods <|.. Editing
+    GameScene <|-- GameOver
+    SceneMethods <|.. GameOver
+    GameScene <|-- Menu
+    SceneMethods <|.. Menu
+    GameScene <|-- Playing
+    SceneMethods <|.. Playing
+    GameScene <|-- Settings
+    SceneMethods <|.. Settings
+}
+
+' ================= NAMESPACE: UI =================
+package "ui" {
+    class Bar {
+        # x: int
+        # y: int
+        # width: int
+        # height: int
+        + Bar(x: int, y: int, width: int, height: int)
+        # drawButtonFeedback(g: Graphics, b: MyButton): void
+    }
+
+    class ActionBar {
+        - playing: Playing
+        - bMenu: MyButton
+        - bPause: MyButton
+        - formatter: DecimalFormat
+        - gold: int = 100
+        - showTowerCost: boolean
+        - towerCostType: int
+        - towerButtons: MyButton[]
+        - selectedTower: Tower
+        - displayedTower: Tower
+        - sellTower: MyButton
+        - upgradeTower: MyButton
+        - lives: int = 1
+        + ActionBar(x: int, y: int, width: int, height: int, playing: Playing)
+        + resetEverything(): void
+        - initButtons(): void
+        + removeOneLives(): void
+        - drawButtons(g: Graphics): void
+        + draw(g: Graphics): void
+        - drawDisplayedTower(g: Graphics): void
+        - getUpgradeAmount(displayedTower2: Tower): int
+        - getSellAmount(displayedTower2: Tower): int
+        - upgradeTowerClicked(): void
+        + mouseClicked(x: int, y: int): void
+        - sellTowerClicked(): void
+        - isGoldEnoughForTower(towerType: int): boolean
+        + mouseMoved(x: int, y: int): void
+        + mousePressed(x: int, y: int): void
+        + mouseReleased(x: int, y: int): void
+        + payForTower(towerType: int): void
+        + drawDisplayedTowerRange(g: Graphics): void
+        + drawDisplayedTowerBorder(g: Graphics): void
+        + displayTower(t: Tower): void
+        - drawTowerCost(g: Graphics): void
+        - isTowerCostMoreThanCurrentGold(): boolean
+        - getTowerCostName(): String
+        - getTowerCostCost(): int
+        - drawGoldAmount(g: Graphics): void
+        - drawWaveInfo(g: Graphics): void
+        - drawWavesLeftInfo(g: Graphics): void
+        - drawEnemiesLeftInfo(g: Graphics): void
+        - drawWaveTimerInfo(g: Graphics): void
+        - togglePause(): void
+        + addGold(getReward: int): void
+        + getLives(): int
+    }
+
+    class MyButton {
+        + x: int
+        + y: int
+        + width: int
+        + height: int
+        + id: int
+        - text: String
+        - bounds: Rectangle
+        - mouseOver: boolean
+        - mousePressed: boolean
+        + MyButton(text: String, x: int, y: int, width: int, height: int)
+        + MyButton(text: String, x: int, y: int, width: int, height: int, id: int)
+        - initBounds(): void
+        + draw(g: Graphics): void
+        - drawBorder(g: Graphics): void
+        - drawBody(g: Graphics): void
+        - drawText(g: Graphics): void
+        + resetBooleans(): void
+        + setText(text: String): void
+        + setMousePressed(mousePressed: boolean): void
+        + setMouseOver(mouseOver: boolean): void
+        + isMouseOver(): boolean
+        + isMousePressed(): boolean
+        + getBounds(): Rectangle
+        + getId(): int
+    }
+
+    class Toolbar {
+        - editing: Editing
+        - bMenu: MyButton
+        - bSave: MyButton
+        - bPathStart: MyButton
+        - bPathEnd: MyButton
+        - pathStart: BufferedImage
+        - pathEnd: BufferedImage
+        - selectedTile: Tile
+        - map: Map<MyButton, ArrayList<Tile>>
+        - bGrass: MyButton
+        - bWater: MyButton
+        - bRoadS: MyButton
+        - bRoadC: MyButton
+        - bWaterC: MyButton
+        - bWaterB: MyButton
+        - bWaterI: MyButton
+        - currentButton: MyButton
+        - currentIndex: int = 0
+        + Toolbar(x: int, y: int, width: int, height: int, editing: Editing)
+        - initPathImgs(): void
+        - initButtons(): void
+        - initMapButton(b: MyButton, list: ArrayList<Tile>, x: int, y: int, xOff: int, w: int, h: int, id: int): void
+        - saveLevel(): void
+        + rotateSprite(): void
+        + draw(g: Graphics): void
+        - drawButtons(g: Graphics): void
+        - drawPathButton(g: Graphics, b: MyButton, img: BufferedImage): void
+        - drawNormalButton(g: Graphics, b: MyButton): void
+        - drawMapButtons(g: Graphics): void
+        - drawSelectedTile(g: Graphics): void
+        + getButtImg(id: int): BufferedImage
+        + mouseClicked(x: int, y: int): void
+        + mouseMoved(x: int, y: int): void
+        + mousePressed(x: int, y: int): void
+        + mouseReleased(x: int, y: int): void
+        + getStartPathImg(): BufferedImage
+        + getEndPathImg(): BufferedImage
+    }
+
+    Bar <|-- ActionBar
+    Bar <|-- Toolbar
+}
+
+@enduml
+
+

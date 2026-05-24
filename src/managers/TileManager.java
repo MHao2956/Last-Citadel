@@ -1,0 +1,103 @@
+package managers;
+
+import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+
+import helpz.ImgFix;
+import helpz.LoadSave;
+import objects.Tile;
+import static helpz.Constants.Tiles.*;
+
+public class TileManager {
+
+    public Tile GRASS, WATER;
+
+    // Road
+    public Tile ROAD_LR, ROAD_TB;
+    public Tile ROAD_B_TO_R, ROAD_L_TO_B, ROAD_L_TO_T, ROAD_T_TO_R;
+
+    // Elements / Decorations
+    public Tile TREE, ROCK, WATERFALL;
+
+    public BufferedImage atlas;
+    public ArrayList<Tile> tiles = new ArrayList<>();
+
+    public ArrayList<Tile> roadsS = new ArrayList<>();
+    public ArrayList<Tile> roadsC = new ArrayList<>();
+    public ArrayList<Tile> elements = new ArrayList<>();
+
+    public TileManager(){
+        loadAtlas();
+        createTiles();
+    }
+
+    private void createTiles(){
+
+        int id = 0;
+
+        //Basic tiles
+        tiles.add(GRASS = new Tile(getSprite(9, 0), id++, GRASS_TILE)); //lay cord cua grass(X, Y)
+        tiles.add(WATER = new Tile(getAniSprites(0, 0), id++, WATER_TILE)); //lay cord cua WATER(X, Y)
+
+        //Elements 
+        elements.add(TREE = new Tile(getSprite(4, 0), id++, WATER_TILE)); //dùng WATER_TILE để không cho đặt tower lên mấy elements này
+        elements.add(ROCK = new Tile(getSprite(5, 0), id++, WATER_TILE));
+        elements.add(WATERFALL = new Tile(getSprite(6, 0), id++, WATER_TILE));
+
+        roadsS.add(ROAD_LR = new Tile(getSprite(8, 0), id++, ROAD_TILE)); //lay cord cua ROAD(X, Y)
+        roadsS.add(ROAD_TB = new Tile(ImgFix.getRotImg(getSprite(8, 0), 90), id++, ROAD_TILE));
+        
+        roadsC.add(ROAD_B_TO_R = new Tile(getSprite(7, 0), id++, ROAD_TILE));
+        roadsC.add(ROAD_L_TO_B = new Tile(ImgFix.getRotImg(getSprite(7, 0), 90), id++, ROAD_TILE));
+        roadsC.add(ROAD_L_TO_T = new Tile(ImgFix.getRotImg(getSprite(7, 0), 180), id++, ROAD_TILE));
+        roadsC.add(ROAD_T_TO_R = new Tile(ImgFix.getRotImg(getSprite(7, 0), 270), id++, ROAD_TILE));
+    
+        tiles.addAll(elements);
+        tiles.addAll(roadsS);
+        tiles.addAll(roadsC);
+    }
+
+    private void loadAtlas(){
+        atlas = LoadSave.getSpriteAtlas();
+    }
+
+    public Tile getTile(int id){
+        return tiles.get(id);
+    }
+
+    public BufferedImage getSprite(int id){
+        return tiles.get(id).getSprite();
+    }
+
+    public BufferedImage getAniSprite(int id, int animationIndex){
+        return tiles.get(id).getSprite(animationIndex);
+    }
+
+    private BufferedImage[] getAniSprites(int xCord, int yCord){
+        BufferedImage[] arr = new BufferedImage[4];
+        for(int i = 0; i < 4; i++){
+            arr[i] = getSprite(xCord + i, yCord);
+        }
+        return arr;
+    }
+
+    private BufferedImage getSprite(int xCord, int yCord){
+        return atlas.getSubimage(xCord*32,yCord*32,32,32);
+    }
+
+    public boolean isSpriteAnimation(int spriteID){
+        return tiles.get(spriteID).isAnimation();
+    }
+
+    public ArrayList<Tile> getRoadsS(){
+        return roadsS;
+    }
+
+    public ArrayList<Tile> getRoadsC(){
+        return roadsC;
+    }
+
+    public ArrayList<Tile> getElements() {
+        return elements;
+    }
+}

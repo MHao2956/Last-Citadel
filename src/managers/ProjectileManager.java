@@ -1,0 +1,212 @@
+package managers;
+import java.awt.Graphics;
+import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import scenes.Playing;
+import objects.Projectile;
+import enemies.Enemy;
+import objects.Tower;
+import helpz.LoadSave;
+import java.awt.Graphics2D;
+import java.awt.geom.Point2D;
+
+import static helpz.Constants.Towers.*;
+import static helpz.Constants.Projectile.*;
+import static helpz.Constants.Enemies.*;
+
+public class ProjectileManager {
+    private Playing playing;
+    private ArrayList<Projectile> projectiles = new ArrayList<>();
+    private ArrayList<Explosion> explosions = new ArrayList<>();
+    private BufferedImage[] proj_imgs, explo_imgs;
+    private int proj_id = 0;
+    
+
+    public ProjectileManager(Playing playing) {
+        this.playing = playing;
+        importImgs();
+
+    }
+    private void importImgs(){
+        BufferedImage atlas = helpz.LoadSave.getSpriteAtlas();
+        proj_imgs = new BufferedImage[3];
+        for(int i = 0; i < 3; i++)
+            proj_imgs[i] = atlas.getSubimage((7+i) * 32, 32, 32, 32);
+        importExplosion(atlas);
+    }
+
+    private void importExplosion(BufferedImage atlas){
+        explo_imgs = new BufferedImage[7];
+
+        for(int i = 0; i < 7; i++)
+            explo_imgs[i] = atlas.getSubimage(i * 32, 32 * 2, 32, 32);
+    }
+
+    public void newProjectile(Tower t,Enemy e){
+        int type = getProjType(t);
+        int xDistance=(int)(t.getX() - e.getX());
+        int yDistance=(int)(t.getY() - e.getY());
+        int totalDistance = Math.abs(xDistance) + Math.abs(yDistance);
+        float xPercent = (float)Math.abs(xDistance)/totalDistance;
+   
+        float xSpeed= xPercent*helpz.Constants.Projectile.GetSpeed(type);
+        float ySpeed= helpz.Constants.Projectile.GetSpeed(type)-xSpeed;
+        if (t.getX()>e.getX()) 
+                xSpeed*=-1;
+        if (t.getY()>e.getY())
+                ySpeed*=-1;
+
+        float arcValue=(float)Math.atan(yDistance/(float) xDistance);
+        float rotate = (float) Math.toDegrees(arcValue);
+            if(xDistance < 0)
+                rotate+=180;
+    
+        projectiles.add(new Projectile(t.getX()+16,t.getY()+16,xSpeed,ySpeed,t.getDmg(),rotate,proj_id++,type,t.getTier()));
+        if (type == FIRE) {
+             playing.getGame().getAudioPlayer().playShootSfx("res/audio/fireShoot.wav");
+        } else if (type == ICE) {
+             playing.getGame().getAudioPlayer().playShootSfx("res/audio/iceShoot.wav");
+        } else if (type == ROCKET) {
+             playing.getGame().getAudioPlayer().playShootSfx("res/audio/rocketShoot.wav");
+}
+    }
+    public void update() {
+        for(Projectile p:projectiles){
+            if(p.isActive()){
+                p.move();
+                if(isProjHittingEnemy(p)){
+                    p.setActive(false);
+                    if(p.getProjectileType() == ROCKET){
+                       explosions.add(new Explosion(p.getPos()));
+                       explodeOnEnemies(p);
+                        
+                } 
+            }else if (isProjOutSideBounds(p)){
+                    p.setActive(false);
+            }
+        }
+    }
+        for(Explosion e : explosions)
+            if(e.getIndex() < 7)
+                e.update();
+    }
+
+    private boolean isProjOutSideBounds(Projectile p) {
+        if(p.getPos().x >= 0)
+            if(p.getPos().x <= 640)
+                if(p.getPos().y >= 0)
+                    if(p.getPos().y <= 800)
+                        return false;
+        return true;
+    }
+
+    private void explodeOnEnemies(Projectile p){
+        for(Enemy e:playing.getEnemyManager().getEnemies()){
+            if(e.isAlive()){
+            float radius = 40.0f;
+
+            float xDist = Math.abs(p.getPos().x - e.getX());
+            float yDist = Math.abs(p.getPos().y - e.getY());
+
+            float realDist  =  (float) Math.hypot(xDist, yDist);
+
+            if(realDist <= radius)
+                e.hurt(getFinalDamage(p,e));
+            }
+           
+        }
+    }
+
+    private boolean isProjHittingEnemy(Projectile p) {
+        for(Enemy e:playing.getEnemyManager().getEnemies()){
+            if(e.isAlive())
+                if(e.getBounds().contains(p.getPos())){
+                    e.hurt(getFinalDamage(p,e));
+                    if(p.getProjectileType() == ICE){
+                        if(p.getTowerTier() >= 3 && e.getEnemyType() != ENEMY4)
+                        e.freeze();
+                     else              
+                        e.slow();
+                    }
+                    return true;
+                }
+        }
+       return false;
+    }
+    private int getFinalDamage(Projectile p, Enemy e){
+    int damage = p.getDmg();
+
+    if(p.getProjectileType() == ROCKET && p.getTowerTier() >= 3 && e.getEnemyType() == ENEMY4){
+        damage *= 2;
+    }
+
+    return damage;
+}
+    public void draw(Graphics g) {
+        Graphics2D g2d = (Graphics2D) g;
+
+
+      
+
+        for(Projectile p:projectiles)
+            if(p.isActive()){
+            g2d.translate(p.getPos().x, p.getPos().y);
+            g2d.rotate(Math.toRadians(p.getRotation()));
+            g2d.drawImage(proj_imgs[p.getProjectileType()], -16, -16, null);
+            g2d.rotate(-Math.toRadians(p.getRotation()));
+            g2d.translate(-p.getPos().x, -p.getPos().y);
+            }
+        drawExplosion(g2d);
+
+    }
+
+    private void drawExplosion(Graphics2D g2d){
+       for(Explosion e : explosions)
+        if(e.getIndex() < 7)
+            g2d.drawImage(explo_imgs[e.getIndex()], (int)e.getPos().x - 16, (int)e.getPos().y -16, null);// x,y - 16 de ho up into left
+    }
+    private int getProjType(Tower t){
+        switch(t.getTowerType()){
+            case ICE_TOWER:
+                 return ICE;
+            case FIRE_TOWER: 
+                return FIRE;
+            case ROCKET_TOWER: 
+                return ROCKET;
+        }
+        return 0;
+    }
+
+    public class Explosion{
+
+        private Point2D.Float pos;
+        private int exploTick = 0, exploIndex = 0;
+        public Explosion(Point2D.Float pos){
+            this.pos = pos;
+        }
+        public void update(){
+             
+            exploTick++;
+            if(exploTick >= 12){
+                exploTick = 0;
+                exploIndex++;
+                
+                }
+            
+        }
+
+        public int getIndex(){
+            return exploIndex;
+        }
+        public Point2D.Float getPos(){
+            return pos;
+        }
+    }
+
+    public void reset(){
+        projectiles.clear();
+        explosions.clear();
+
+        proj_id = 0;
+    }
+}
