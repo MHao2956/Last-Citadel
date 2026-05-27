@@ -53,7 +53,7 @@ public class ActionBar extends Bar{
         int xOffset = (int)(w * 1.1f);
         for(int i = 0; i < towerButtons.length; i++){
             towerButtons[i] = new MyButton("" ,xStart + i * xOffset, yStart, w, h,i);
-        }
+    }
 
         //sellTower, upgradeTower
         sellTower = new MyButton("Sell", 440, 700, 50, 30);
@@ -259,7 +259,9 @@ public class ActionBar extends Bar{
     }
     public void drawDisplayedTowerRange(Graphics g){
         g.setColor(Color.white);
-        g.drawOval(displayedTower.getX() + 16 - ((int)displayedTower.getRange()*2)/2, displayedTower.getY() + 16 - ((int)displayedTower.getRange()*2)/2, (int)displayedTower.getRange()*2, (int)displayedTower.getRange()*2);
+        g.drawOval(displayedTower.getX() + 16 - ((int)displayedTower.getRange()*2)/2, 
+                    displayedTower.getY() + 16 - ((int)displayedTower.getRange()*2)/2, 
+                    (int)displayedTower.getRange()*2, (int)displayedTower.getRange()*2);
     }
     public void drawDisplayedTowerBorder(Graphics g){
         g.setColor(Color.CYAN);
@@ -320,7 +322,6 @@ public class ActionBar extends Bar{
 
             g.drawString("Time Left: " + formatedText, 425, 720);
         }
-
     }
 
     private void togglePause() {

@@ -50,54 +50,55 @@ public class Menu extends GameScene implements SceneMethods {
         bQuit.draw(g);
     }
 
-  @Override
-public void mouseClicked(int x, int y){
-    if(bPlaying.getBounds().contains(x, y))
-        SetGameState(PLAYING);
-    else if(bEdit.getBounds().contains(x, y))
-        SetGameState(EDIT);
-    else if (bSettings.getBounds().contains(x, y))
-        SetGameState(SETTINGS);
-    else if (bQuit.getBounds().contains(x, y)) {
-        game.getAudioPlayer().stopMusic();
-        System.exit(0);
+    @Override
+    public void mouseClicked(int x, int y){
+        if(bPlaying.getBounds().contains(x, y))
+            SetGameState(PLAYING);
+        else if(bEdit.getBounds().contains(x, y))
+            SetGameState(EDIT);
+        else if (bSettings.getBounds().contains(x, y))
+            SetGameState(SETTINGS);
+        else if (bQuit.getBounds().contains(x, y)) {
+            game.getAudioPlayer().stopMusic();
+            System.exit(0);
+        }
     }
-}
 
     @Override 
-public void mouseMoved(int x, int y){
+    public void mouseMoved(int x, int y){
 
-    boolean overPlay = bPlaying.getBounds().contains(x, y);
-    boolean overEdit = bEdit.getBounds().contains(x, y);
-    boolean overSettings = bSettings.getBounds().contains(x, y);
-    boolean overQuit = bQuit.getBounds().contains(x, y);
+        boolean overPlay = bPlaying.getBounds().contains(x, y);
+        boolean overEdit = bEdit.getBounds().contains(x, y);
+        boolean overSettings = bSettings.getBounds().contains(x, y);
+        boolean overQuit = bQuit.getBounds().contains(x, y);
 
-    bPlaying.setMouseOver(overPlay);
-    bEdit.setMouseOver(overEdit);
-    bSettings.setMouseOver(overSettings);
-    bQuit.setMouseOver(overQuit);
+        bPlaying.setMouseOver(overPlay);
+        bEdit.setMouseOver(overEdit);
+        bSettings.setMouseOver(overSettings);
+        bQuit.setMouseOver(overQuit);
 
-    if (overPlay && !wasOverPlay) {
-        audioPlayer.playSoundEffect("res/audio/hover.wav");
+        if (overPlay && !wasOverPlay) {
+            audioPlayer.playSoundEffect("res/audio/hover.wav");
+        }
+
+        if (overEdit && !wasOverEdit) {
+            audioPlayer.playSoundEffect("res/audio/hover.wav");
+        }
+
+        if (overSettings && !wasOverSettings) {
+            audioPlayer.playSoundEffect("res/audio/hover.wav");
+        }
+
+        if (overQuit && !wasOverQuit) {
+            audioPlayer.playSoundEffect("res/audio/hover.wav");
+        }
+
+        wasOverPlay = overPlay;
+        wasOverEdit = overEdit;
+        wasOverSettings = overSettings;
+        wasOverQuit = overQuit;
     }
-
-    if (overEdit && !wasOverEdit) {
-        audioPlayer.playSoundEffect("res/audio/hover.wav");
-    }
-
-    if (overSettings && !wasOverSettings) {
-        audioPlayer.playSoundEffect("res/audio/hover.wav");
-    }
-
-    if (overQuit && !wasOverQuit) {
-        audioPlayer.playSoundEffect("res/audio/hover.wav");
-    }
-
-    wasOverPlay = overPlay;
-    wasOverEdit = overEdit;
-    wasOverSettings = overSettings;
-    wasOverQuit = overQuit;
-}
+    
     @Override
     public void mousePressed(int x, int y){
         if(bPlaying.getBounds().contains(x, y))

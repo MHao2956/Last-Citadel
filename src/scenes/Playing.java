@@ -45,11 +45,9 @@ public class Playing extends GameScene implements SceneMethods {
         towerManager = new TowerManager(this);
         projManager = new ProjectileManager(this);
         waveManager = new WaveManager(this);
-
     }
 
     private void loadDefaultLevel(){
-
 
         lvl = LoadSave.GetLevelData("new_level");
          ArrayList<PathPoint> points = LoadSave.GetLevelPathPoints("new_level");
@@ -59,11 +57,11 @@ public class Playing extends GameScene implements SceneMethods {
     }
 
     public void setLevel(int[][] lvl, PathPoint start, PathPoint end){
-    this.lvl = lvl;
-    this.start = start;
-    this.end = end;
-    enemyManager = new EnemyManager(this, start, end);
-}
+        this.lvl = lvl;
+        this.start = start;
+        this.end = end;
+        enemyManager = new EnemyManager(this, start, end);
+    }
     public void update(){
 
         if(!gamePaused){
@@ -100,7 +98,6 @@ public class Playing extends GameScene implements SceneMethods {
             towerManager.update();
             projManager.update();
         }
-
     }
 
     private void updateCountdown() {

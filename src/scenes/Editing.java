@@ -31,7 +31,6 @@ public class Editing extends GameScene implements SceneMethods{
 
     private void loadDefaultLevel(){
 
-
         lvl = LoadSave.GetLevelData("new_level");
 
         if(lvl == null)
@@ -53,7 +52,6 @@ public class Editing extends GameScene implements SceneMethods{
 
     @Override
     public void render(Graphics g){
-        // updateTick();
 
         drawLevel(g);
         toolbar.draw(g);
@@ -99,10 +97,7 @@ public class Editing extends GameScene implements SceneMethods{
 
     public void saveLevel(){
 
-
-
         LoadSave.SaveLevel("new_level", lvl, start, end);
-
 
         game.getPlaying().setLevel(lvl, start, end);
     }

@@ -18,7 +18,6 @@ public class ImgFix {
         g2d.dispose();
 
         return newImg;
-
     }
 
     //Img layer build
