@@ -72,6 +72,7 @@ public class MyButton {
         }    
     }
 
+    // vẽ viền
     private void drawBorder(Graphics g){
         g.setColor(Color.BLACK);
         g.drawRect(x, y, width, height);
@@ -82,6 +83,7 @@ public class MyButton {
         }
     }
 
+    // vẽ phần thân/nền bên trong của button
     private void drawBody(Graphics g){
         if(mouseOver)
             g.setColor(Color.GRAY);
@@ -125,6 +127,7 @@ public class MyButton {
         return bounds;
     }
 
+    // Hàm này dùng để lấy id của button.
     public int getId(){
         return id;
     }

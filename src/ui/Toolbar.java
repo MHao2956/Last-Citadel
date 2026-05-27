@@ -35,12 +35,14 @@ public class Toolbar extends Bar{
     }
 
 
+    // lấy ảnh từ spriteatlas
     private void initPathImgs(){
         pathStart = LoadSave.getSpriteAtlas().getSubimage(7 * 32, 2 * 32, 32, 32);
         pathEnd = LoadSave.getSpriteAtlas().getSubimage(8 * 32, 2 * 32, 32, 32);
 
     }
 
+    // vẽ nút bấm bam đầu
     private void initButtons(){
         bMenu = new MyButton("Menu", 2, 642, 100, 30);
         bSave = new MyButton("Save", 2, 674, 100, 30);
@@ -68,8 +70,11 @@ public class Toolbar extends Bar{
 		bPathEnd = new MyButton("PathEnd", xStart + xOffset, yStart + xOffset, w, h, i++);
 	}
 
+    // dùng để tạo một nút chọn tile trên toolbar, rồi gắn nút đó với một danh sách tile
+    // ảnh hưởng trực tiếp đến các button Road trong Toolbar
 	private void initMapButton(MyButton b, ArrayList<Tile> list, int x, int y, int xOff, int w, int h, int id) {
 		b = new MyButton("", x + xOff * id, y, w, h, id);
+        // lưu vào map
 		map.put(b, list);
 	}
 

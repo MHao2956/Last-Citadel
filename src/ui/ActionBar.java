@@ -51,6 +51,8 @@ public class ActionBar extends Bar{
         int xStart = 110;
         int yStart = 650;
         int xOffset = (int)(w * 1.1f);
+        
+        // chạy qua từng vị trí trong mảng towerButtons và tạo ra một MyButton mới cho mỗi tower.
         for(int i = 0; i < towerButtons.length; i++){
             towerButtons[i] = new MyButton("" ,xStart + i * xOffset, yStart, w, h,i);
         }

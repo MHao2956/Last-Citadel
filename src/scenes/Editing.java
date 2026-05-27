@@ -100,7 +100,7 @@ public class Editing extends GameScene implements SceneMethods{
     public void saveLevel(){
 
 
-
+        // lưu dữ liệu map vào file new_level.txt
         LoadSave.SaveLevel("new_level", lvl, start, end);
 
 
