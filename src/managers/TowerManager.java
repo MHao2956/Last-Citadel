@@ -66,8 +66,7 @@ private void loadTowerImgs() {
          for(Tower t:towers){
              t.update();
             attackEnemies(t);
-        }
-       
+        }   
     }
     private void attackEnemies(Tower t) {
             for(Enemy e:playing.getEnemyManager().getEnemies()){
@@ -80,7 +79,6 @@ private void loadTowerImgs() {
                 }
             }
         }
-    
     private boolean isEnemiesInRange(Tower t, Enemy e) {
             int range =helpz.Utilz.GetHypotenuseDistance(t.getX(), t.getY(),e.getX(),e.getY());
                   return range <= t.getRange();

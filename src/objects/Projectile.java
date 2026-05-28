@@ -7,7 +7,8 @@ public class Projectile {
     private boolean active = true;
     private float xSpeed, ySpeed,rotation;
 
-    public Projectile(float x, float y, float xSpeed, float ySpeed, int dmg, float rotation, int id, int projectileType, int towerTier){
+    public Projectile(float x, float y, float xSpeed, float ySpeed, int dmg, 
+        float rotation, int id, int projectileType, int towerTier){
         pos = new Point2D.Float(x, y);
         this.xSpeed = xSpeed;
         this.ySpeed = ySpeed;

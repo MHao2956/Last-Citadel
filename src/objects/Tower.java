@@ -39,7 +39,7 @@ public class Tower{
                 range += 20;
                 cooldown -= 5;
             break;
-            }
+               }
     }
     public boolean isCooldownOver(){
         return cdTick >= cooldown;

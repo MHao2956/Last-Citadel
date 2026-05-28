@@ -8,11 +8,11 @@ public abstract class Enemy {
     
     protected EnemyManager enemyManager;
     protected float x,y;
-    protected Rectangle bounds; //latter on add hitbox
     protected int health;
     protected int maxHealth;
-    protected int ID;
     protected int enemyType;
+    protected int ID;
+    protected Rectangle bounds; //latter on add hitbox
     protected int lastDir;
     protected boolean alive = true;
     protected int effectType = 0;

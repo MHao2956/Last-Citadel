@@ -57,10 +57,7 @@ public class EnemyManager {
 }
 
     public void update(){
-
         updateWaveManager();
-
-
         for (Enemy e : enemies){
        if(e.isAlive())
            updateEnemyMoveNew(e);
@@ -182,12 +179,9 @@ public class EnemyManager {
     }
 
  public void addEnemy(int enemyType) {
-
     int x = start.getxCord() * 32;
     int y = start.getyCord() * 32;
-
     Enemy enemy = EnemyFactory.createEnemy(enemyType, x, y, this);
-
     if (enemy != null) {
         enemies.add(enemy);
     }
